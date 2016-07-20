@@ -6,8 +6,7 @@
  * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
- * Licensed under the MIT License:
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the MIT License
  * 
  * A Linux environmental probe.
  */
