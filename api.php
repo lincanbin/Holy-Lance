@@ -7,7 +7,7 @@
  * http://www.94cb.com/
  *
  * Licensed under the MIT License:
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://opensource.org/licenses/MIT
  * 
  * A Linux environmental probe.
  */
@@ -16,10 +16,17 @@ $system_info = array();
 $system_info['load'] = sys_getloadavg();
 
 // cpu
-$cpu_usage = array();
-exec("top -b -n2 | grep \"Cpu(s)\"|tail -n 1 | awk '{print $2 + $4}'", $cpu_usage);
-$system_info['cpu_usage'] = $cpu_usage[0];
-unset($cpu_usage);
+$cpu_usage1 = array();
+// exec("top -b -n2 | grep \"Cpu(s)\"|tail -n 1 | awk '{print $2 + $4}'", $cpu_usage);
+exec("grep 'cpu ' /proc/stat | awk '{usage=($2+$3+$4+$5+$6+$7+$8+$9+$10)} END {print usage\"\\n\"$5}'", $cpu_usage1);
+// delay 100ms
+usleep(100000);
+$cpu_usage2 = array();
+exec("grep 'cpu ' /proc/stat | awk '{usage=($2+$3+$4+$5+$6+$7+$8+$9+$10)} END {print usage\"\\n\"$5}'", $cpu_usage2);
+//var_dump(array_merge($cpu_usage1, $cpu_usage2));
+$system_info['cpu_usage'] = round((($cpu_usage2[0] - $cpu_usage1[0]) - ($cpu_usage2[1] - $cpu_usage1[1])) / ($cpu_usage2[0] - $cpu_usage1[0]) * 100, 1);
+unset($cpu_usage1);
+unset($cpu_usage2);
 
 // memory
 $memory_usage_total = array();
