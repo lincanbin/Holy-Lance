@@ -6,7 +6,8 @@
  * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
- * Licensed under the MIT License
+ * Licensed under the MIT License:
+ * https://opensource.org/licenses/MIT
  * 
  * A Linux environmental probe.
  */
@@ -23,11 +24,7 @@
 
 <body class="main">
 <div class="top-tab">
-<?php
-$output = null;
-exec('top -n 1', $output);
-var_dump($output);
-?>
+
 </div>
 
 <script type="text/javascript" src="static/js/jquery.min.js"></script>
