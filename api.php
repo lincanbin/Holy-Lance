@@ -15,8 +15,15 @@
 $system_info = array();
 $system_info['load'] = sys_getloadavg();
 
+//uptime
+$uptime = array();
+exec("uptime | awk -F ',' '{print $1 $2}' | awk -F 'up' '{print $2}'", $uptime);
+$system_info['uptime'] = $uptime[0];
+unset($uptime);
+
 // cpu
 $cpu_usage1 = array();
+// Deprecated Code: Low performance
 // exec("top -b -n2 | grep \"Cpu(s)\"|tail -n 1 | awk '{print $2 + $4}'", $cpu_usage);
 exec("grep 'cpu ' /proc/stat | awk '{usage=($2+$3+$4+$5+$6+$7+$8+$9+$10)} END {print usage\"\\n\"$5}'", $cpu_usage1);
 // delay 100ms
@@ -65,6 +72,7 @@ unset($memory_usage_swap_free);
 // process
 $process_list = array();
 exec("ps auxw --sort=time", $process_list);
+unset($process_list[0]);
 $process_map = array();
 foreach (array_reverse($process_list) as $key => $value) {
 	$process_map[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 11);
