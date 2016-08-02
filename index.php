@@ -21,10 +21,12 @@
 	<meta name="robots" content="noarchive">
 	<title>Carbon Probe</title>
 	<link href="static/css/style.css" rel="stylesheet"/>
-<!-- 	<script src="static/js/jquery.min.js"></script>
-	<script src="static/js/easyResponsiveTabs.js" type="text/javascript"></script> -->
-	<script src="http://webthemez.com/demo/easy-responsive-tabs/js/jquery-1.9.1.min.js"></script>
-    <script src="http://webthemez.com/demo/easy-responsive-tabs/js/easyResponsiveTabs.js"></script>
+	<script src="static/js/jquery.min.js"></script>
+	<script src="static/js/easyResponsiveTabs.js" type="text/javascript"></script>
+	<script src="static/js/echarts.min.js"></script>
+<!-- 	<script src="http://webthemez.com/demo/easy-responsive-tabs/js/jquery-1.9.1.min.js"></script>
+		<script src="http://webthemez.com/demo/easy-responsive-tabs/js/easyResponsiveTabs.js"></script>
+-->
 </head>
 
 <body>
@@ -47,7 +49,9 @@
 				</ul>
 				<div class="resp-tabs-container performance">
 					<div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nibh urna, euismod ut ornare non, volutpat vel tortor. Integer laoreet placerat suscipit. Sed sodales scelerisque commodo. Nam porta cursus lectus. Proin nunc erat, gravida a facilisis quis, ornare id lectus. Proin consectetur nibh quis urna gravida mollis.</p>
+						<p>
+							<div id="cpu_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+						</p>
 					</div>
 					<div>
 						<p>This tab has icon in it.</p>
@@ -58,7 +62,7 @@
 				</div>
 			</div>
 			</p>
-			<p>Child 1 Container</p>
+			<p>https://github.com/lincanbin/Carbon-Probe</p>
 		</div>
 		<div>
 			 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nibh urna, euismod ut ornare non, volutpat vel tortor. Integer laoreet placerat suscipit. Sed sodales scelerisque commodo. Nam porta cursus lectus. Proin nunc erat, gravida a facilisis quis, ornare id lectus. Proin consectetur nibh quis urna gravida mollis.<br><br>
@@ -71,31 +75,5 @@
 	</div>
 </div>
 </body>
-<script type="text/javascript">
-$(document).ready(function () {
-
-	$('#MainTab').easyResponsiveTabs({
-		type: 'default', //Types: default, vertical, accordion
-		width: 'auto', //auto or any width like 600px
-		fit: true, // 100% fit in a container
-		closed: 'accordion', // Start closed if in accordion view
-		tabidentify: 'main', // The tab groups identifier
-	    activate: function (event) { // Callback function if tab is switched
-            console.log(event);
-        }
-	});
-
-	$('#PerformanceTab').easyResponsiveTabs({
-		type: 'vertical',
-		width: 'auto',
-		fit: true,
-		tabidentify: 'performance', // The tab groups identifier
-		activetab_bg: '#fff', // background color for active tabs in this group
-		inactive_bg: '#F5F5F5', // background color for inactive tabs in this group
-		active_border_color: '#c1c1c1', // border color for active tabs heads in this group
-		active_content_border_color: '#5AB1D0' // border color for active tabs contect in this group so that it matches the tab head border
-	});
-
-});
-</script>
+<script src="static/js/common.js"></script>
 </html>
