@@ -56,7 +56,7 @@
 						<div id="memory_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
 					</div>
 					<div>
-						<p>Suspendisse blandit velit Integer laoreet placerat suscipit. Sed sodales scelerisque commodo. Nam porta cursus lectus. Proin nunc erat, gravida a facilisis quis, ornare id lectus. Proin consectetur nibh quis Integer laoreet placerat suscipit. Sed sodales scelerisque commodo. Nam porta cursus lectus. Proin nunc erat, gravida a facilisis quis, ornare id lectus. Proin consectetur nibh quis urna gravid urna gravid eget erat suscipit in malesuada odio venenatis.</p>
+						<p>TODO.</p>
 					</div>
 				</div>
 			</div>
@@ -64,11 +64,11 @@
 			<p>https://github.com/lincanbin/Carbon-Probe</p>
 		</div>
 		<div>
-			 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nibh urna, euismod ut ornare non, volutpat vel tortor. Integer laoreet placerat suscipit. Sed sodales scelerisque commodo. Nam porta cursus lectus. Proin nunc erat, gravida a facilisis quis, ornare id lectus. Proin consectetur nibh quis urna gravida mollis.<br><br>
+			 TODO.<br><br>
 			<p>Child 2 Container</p>
 		</div>
 		<div>
-			 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nibh urna, euismod ut ornare non, volutpat vel tortor. Integer laoreet placerat suscipit. Sed sodales scelerisque commodo. Nam porta cursus lectus. Proin nunc erat, gravida a facilisis quis, ornare id lectus. Proin consectetur nibh quis urna gravida mollis.<br><br>
+			 TODO.<br><br>
 			<p>Child 3 Container</p>
 		</div>
 	</div>
