@@ -43,18 +43,17 @@
 			<!--vertical Tabs-->
 			<div id="PerformanceTab">
 				<ul class="resp-tabs-list performance">
-					<li>CPU</li>
-					<li>内存</li>
+					<li>CPU<p><span class="tab-label" id="cpu_usage_label"></span></p></li>
+					<li>内存<p><span class="tab-label" id="memory_usage_label"></span></p></li>
 					<li>网络</li>
 				</ul>
 				<div class="resp-tabs-container performance">
 					<div>
-						<p>
-							<div id="cpu_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
-						</p>
+						<div id="cpu_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
 					</div>
 					<div>
-						<p>This tab has icon in it.</p>
+
+						<div id="memory_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
 					</div>
 					<div>
 						<p>Suspendisse blandit velit Integer laoreet placerat suscipit. Sed sodales scelerisque commodo. Nam porta cursus lectus. Proin nunc erat, gravida a facilisis quis, ornare id lectus. Proin consectetur nibh quis Integer laoreet placerat suscipit. Sed sodales scelerisque commodo. Nam porta cursus lectus. Proin nunc erat, gravida a facilisis quis, ornare id lectus. Proin consectetur nibh quis urna gravid urna gravid eget erat suscipit in malesuada odio venenatis.</p>
