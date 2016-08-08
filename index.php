@@ -21,9 +21,9 @@
 	<meta name="robots" content="noarchive">
 	<title>Carbon Probe</title>
 	<link href="static/css/style.css" rel="stylesheet"/>
-	<script src="static/js/jquery.min.js"></script>
+	<script src="static/js/jquery.min.js" type="text/javascript"></script>
 	<script src="static/js/easyResponsiveTabs.js" type="text/javascript"></script>
-	<script src="static/js/echarts.min.js"></script>
+	<script src="static/js/echarts.min.js" type="text/javascript"></script>
 <!-- 	<script src="http://webthemez.com/demo/easy-responsive-tabs/js/jquery-1.9.1.min.js"></script>
 		<script src="http://webthemez.com/demo/easy-responsive-tabs/js/easyResponsiveTabs.js"></script>
 -->
@@ -60,7 +60,6 @@
 					</div>
 				</div>
 			</div>
-			</p>
 			<p>https://github.com/lincanbin/Carbon-Probe</p>
 		</div>
 		<div>
@@ -73,6 +72,6 @@
 		</div>
 	</div>
 </div>
+<script src="static/js/common.js" type="text/javascript"></script>
 </body>
-<script src="static/js/common.js"></script>
 </html>
