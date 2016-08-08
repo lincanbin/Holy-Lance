@@ -21,7 +21,7 @@ exec("uptime | awk -F ',' '{print $1 $2}' | awk -F 'up' '{print $2}'", $uptime);
 $system_info['uptime'] = $uptime[0];
 unset($uptime);
 
-// cpu
+// cpu: %
 $cpu_usage1 = array();
 // Deprecated Code: Low performance
 // exec("top -b -n2 | grep \"Cpu(s)\"|tail -n 1 | awk '{print $2 + $4}'", $cpu_usage);
@@ -35,7 +35,7 @@ $system_info['cpu_usage'] = round((($cpu_usage2[0] - $cpu_usage1[0]) - ($cpu_usa
 unset($cpu_usage1);
 unset($cpu_usage2);
 
-// memory
+// memory: KiB
 $memory_usage_total = array();
 exec("free | grep \"Mem\" | awk '{print $2}'", $memory_usage_total);
 $system_info['memory_usage_total'] = $memory_usage_total[0];
@@ -68,6 +68,18 @@ unset($memory_usage_swap_free);
 // disk
 
 // network
+$network_status = array();
+$network_usage = array();
+exec("cat /proc/net/dev | grep \":\" | awk '{print $1 $2 \":\"  $3 \":\" $10 \":\" $11}'", $network_status);
+foreach ($network_status as $eth) {
+	$eth = explode(":", $eth);
+	$network_card_name = $eth[0];
+	unset($eth[0]);
+	$network_usage[$network_card_name] = $eth;
+}
+$system_info['network'] = $network_usage;
+unset($network_status);
+unset($network_usage);
 
 // process
 $process_list = array();
