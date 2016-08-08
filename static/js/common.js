@@ -38,18 +38,18 @@ function refreshChart() {
 			cpuUsageChart.setOption(cpuUsageChartoption);
 			// Memory
 			$("#memory_usage_label").text(KibibytesToSize(data.memory_usage_used) + "/" + KibibytesToSize(data.memory_usage_total));
-			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total/1024);
+			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
 			memoryUsageChartoption.series[0].data.shift();
-			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used/1024));
+			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used / 1024));
 			memoryUsageChartoption.xAxis.data.shift();
 			memoryUsageChartoption.xAxis.data.push(axisData);
 			memoryUsageChart.setOption(memoryUsageChartoption);
 			// Callback
-			setTimeout("refreshChart()",2000);
+			setTimeout("refreshChart()", 2000);
 		},
 		error: function (data, e) {
 			// Callback
-			setTimeout("refreshChart()",2000);
+			setTimeout("refreshChart()", 2000);
 		}
 	});
 }
@@ -71,7 +71,11 @@ $(document).ready(function () {
 		activetab_bg: '#fff', // background color for active tabs in this group
 		inactive_bg: '#F5F5F5', // background color for inactive tabs in this group
 		active_border_color: '#c1c1c1', // border color for active tabs heads in this group
-		active_content_border_color: '#5AB1D0' // border color for active tabs contect in this group so that it matches the tab head border
+		active_content_border_color: '#5AB1D0', // border color for active tabs contect in this group so that it matches the tab head border
+		activate: function() {
+			window.cpuUsageChart.resize();
+			window.memoryUsageChart.resize();
+		}  // Callback function, gets called if tab is switched
 	});
 
 	window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
@@ -84,7 +88,7 @@ $(document).ready(function () {
 			data: (function (){
 					var res = [];
 					var len = 1;
-					while (len <= 60) {
+					while (len <= 240) {
 						res.push((new Date()).toLocaleTimeString().replace(/^\D*/,''));
 						len++;
 					}
@@ -106,7 +110,7 @@ $(document).ready(function () {
 				data:(function (){
 					var res = [];
 					var len = 1;
-					while (len <= 60) {
+					while (len <= 240) {
 						res.push(0);
 						len++;
 					}
@@ -123,7 +127,7 @@ $(document).ready(function () {
 			data: (function (){
 					var res = [];
 					var len = 1;
-					while (len <= 60) {
+					while (len <= 240) {
 						res.push((new Date()).toLocaleTimeString().replace(/^\D*/,''));
 						len++;
 					}
@@ -145,7 +149,7 @@ $(document).ready(function () {
 				data:(function (){
 					var res = [];
 					var len = 1;
-					while (len <= 60) {
+					while (len <= 240) {
 						res.push(0);
 						len++;
 					}
