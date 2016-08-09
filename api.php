@@ -50,6 +50,11 @@ usleep(SAMPLING_TIME);
 exec("cat /proc/diskstats | grep \"da\" | head -n1 | awk -F 'da' '{print $2}' | awk '{print $3 \"\\n\" $4 \"\\n\" $7 \"\\n\" $8}'", $disk_usage2);
 exec("grep 'cpu ' /proc/stat | awk '{usage=($2+$3+$4+$5+$6+$7+$8+$9+$10)} END {print usage\"\\n\"$5}'", $cpu_usage2);
 $system_info['cpu_usage'] = round((($cpu_usage2[0] - $cpu_usage1[0]) - ($cpu_usage2[1] - $cpu_usage1[1])) / ($cpu_usage2[0] - $cpu_usage1[0]) * 100, 1);
+//KiB per second
+$system_info['disk_read_speed'] = round(($disk_usage2[0] - $disk_usage1[0]) / 2 / (SAMPLING_TIME / 1000000), 1);
+$system_info['disk_read_active_time'] = round(($disk_usage2[1] - $disk_usage1[1]) / (SAMPLING_TIME / 1000000), 1);
+$system_info['disk_write_speed'] = round(($disk_usage2[2] - $disk_usage1[2]) / 2 / (SAMPLING_TIME / 1000000), 1);
+$system_info['disk_write_active_time'] = round(($disk_usage2[3] - $disk_usage1[3]) / (SAMPLING_TIME / 1000000), 1);
 unset($cpu_usage1);
 unset($cpu_usage2);
 unset($disk_usage1);
