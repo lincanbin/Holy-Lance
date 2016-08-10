@@ -11,10 +11,13 @@
  * 
  * A Linux environmental probe.
  */
-define('SAMPLING_TIME', 200000); // 200ms
+define('SAMPLING_TIME', 250000); // 250ms
 
 // load
-$system_info = array();
+$system_info = array(
+	"load" => array(0, 0, 0),
+	'uptime' => '0',
+);
 $system_info['load'] = sys_getloadavg();
 
 //uptime
