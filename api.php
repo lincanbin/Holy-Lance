@@ -11,6 +11,9 @@
  * 
  * A Linux environmental probe.
  */
+error_reporting(E_ALL); 
+ini_set('display_errors', 'On');
+
 define('SAMPLING_TIME', 250000); // 250ms
 
 // load
@@ -21,10 +24,15 @@ $system_info = array(
 $system_info['load'] = sys_getloadavg();
 
 //uptime
-$uptime = array();
-exec("uptime | awk -F ',' '{print $1 $2}' | awk -F 'up' '{print $2}'", $uptime);
-$system_info['uptime'] = $uptime[0];
-unset($uptime);
+try {
+	$uptime = array();
+	exec("uptime | awk -F ',' '{print $1 $2}' | awk -F 'up' '{print $2}'", $uptime);
+	$system_info['uptime'] = $uptime[0];
+	unset($uptime);
+} catch (Exception $e) {
+	
+}
+
 
 // network
 $network_status = array();
@@ -47,12 +55,14 @@ $disk_usage1 = array();
 $disk_usage2 = array();
 // Deprecated Code: Low performance
 // exec("top -b -n2 | grep \"Cpu(s)\"|tail -n 1 | awk '{print $2 + $4}'", $cpu_usage);
-exec("grep 'cpu ' /proc/stat | awk '{usage=($2+$3+$4+$5+$6+$7+$8+$9+$10)} END {print usage\"\\n\"$5}'", $cpu_usage1);
+exec("grep 'cpu' /proc/stat | awk '{print $2+$3+$4+$5+$6+$7+$8+$9+$10\"\\n\" $5}'", $cpu_usage1);
 exec("cat /proc/diskstats | grep \"da\" | head -n1 | awk -F 'da' '{print $2}' | awk '{print $3 \"\\n\" $4 \"\\n\" $7 \"\\n\" $8}'", $disk_usage1);
 usleep(SAMPLING_TIME);
 exec("cat /proc/diskstats | grep \"da\" | head -n1 | awk -F 'da' '{print $2}' | awk '{print $3 \"\\n\" $4 \"\\n\" $7 \"\\n\" $8}'", $disk_usage2);
-exec("grep 'cpu ' /proc/stat | awk '{usage=($2+$3+$4+$5+$6+$7+$8+$9+$10)} END {print usage\"\\n\"$5}'", $cpu_usage2);
-$system_info['cpu_usage'] = round((($cpu_usage2[0] - $cpu_usage1[0]) - ($cpu_usage2[1] - $cpu_usage1[1])) / ($cpu_usage2[0] - $cpu_usage1[0]) * 100, 1);
+exec("grep 'cpu' /proc/stat | awk '{print $2+$3+$4+$5+$6+$7+$8+$9+$10\"\\n\" $5}'", $cpu_usage2);
+foreach (range(0, count($cpu_usage1) / 2 - 1) as $offset) {
+	$system_info['cpu_usage' . ($offset === 0 ? '' : $offset - 1)] = round((($cpu_usage2[0 + $offset * 2] - $cpu_usage1[0 + $offset * 2]) - ($cpu_usage2[1 + $offset * 2] - $cpu_usage1[1 + $offset * 2])) / ($cpu_usage2[0 + $offset * 2] - $cpu_usage1[0 + $offset * 2]) * 100, 1);
+}
 //KiB per second
 $system_info['disk_read_speed'] = round(($disk_usage2[0] - $disk_usage1[0]) / 2 / (SAMPLING_TIME / 1000000), 1);
 $system_info['disk_read_active_time'] = round(($disk_usage2[1] - $disk_usage1[1]) / (SAMPLING_TIME / 1000000), 1);
