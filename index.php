@@ -45,6 +45,7 @@
 				<ul class="resp-tabs-list performance">
 					<li>CPU<p><span class="tab-label" id="cpu_usage_label"></span></p></li>
 					<li>内存<p><span class="tab-label" id="memory_usage_label"></span></p></li>
+					<li>磁盘<p><span class="tab-label" id="disk_usage_label"></span></p></li>
 					<li>网络</li>
 				</ul>
 				<div class="resp-tabs-container performance">
@@ -54,6 +55,10 @@
 					<div>
 
 						<div id="memory_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+					</div>
+					<div>
+
+						<div id="disk_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
 					</div>
 					<div>
 						<p>TODO.</p>
