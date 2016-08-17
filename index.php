@@ -24,9 +24,6 @@
 	<script src="static/js/jquery.min.js" type="text/javascript"></script>
 	<script src="static/js/easyResponsiveTabs.js" type="text/javascript"></script>
 	<script src="static/js/echarts.min.js" type="text/javascript"></script>
-<!-- 	<script src="http://webthemez.com/demo/easy-responsive-tabs/js/jquery-1.9.1.min.js"></script>
-		<script src="http://webthemez.com/demo/easy-responsive-tabs/js/easyResponsiveTabs.js"></script>
--->
 </head>
 
 <body>
