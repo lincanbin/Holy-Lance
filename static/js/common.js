@@ -11,12 +11,46 @@
  * A Linux environmental probe.
  */
 
+function cloneObject(obj) {
+    var copy;
+
+    // Handle the 3 simple types, and null or undefined
+    if (null === obj || "object" != typeof obj) return obj;
+
+    // Handle Date
+    if (obj instanceof Date) {
+        copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+
+    // Handle Array
+    if (obj instanceof Array) {
+        copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = cloneObject(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = cloneObject(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+}
+
 function KibibytesToSize(bytes) {
 	if (bytes === 0) return '0 B';
-	var k = 1024, // or 1000
+	var kibi = 1024, // or 1000
 		sizes = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'],
-		i = Math.floor(Math.log(bytes) / Math.log(k));
-	return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+		i = Math.floor(Math.log(bytes) / Math.log(kibi));
+	return (bytes / Math.pow(kibi, i)).toPrecision(3) + ' ' + sizes[i];
 }
 
 function refreshChart() {
@@ -44,12 +78,20 @@ function refreshChart() {
 			memoryUsageChartoption.xAxis.data.shift();
 			memoryUsageChartoption.xAxis.data.push(axisData);
 			memoryUsageChart.setOption(memoryUsageChartoption);
+			// Disk
+			var disk_usage_percent = Math.min((data.disk_read_active_time + data.disk_write_active_time) / 10, 100);
+			$("#disk_usage_label").text(disk_usage_percent);
+			diskUsageChartoption.series[0].data.shift();
+			diskUsageChartoption.series[0].data.push(disk_usage_percent);
+			diskUsageChartoption.xAxis.data.shift();
+			diskUsageChartoption.xAxis.data.push(axisData);
+			diskUsageChart.setOption(diskUsageChartoption);
 			// Callback
-			setTimeout("refreshChart()", 2000);
+			setTimeout(function(){refreshChart();}, 3000);
 		},
 		error: function (data, e) {
 			// Callback
-			setTimeout("refreshChart()", 2000);
+			setTimeout(function(){refreshChart();}, 3000);
 		}
 	});
 }
@@ -75,12 +117,13 @@ $(document).ready(function () {
 		activate: function() {
 			window.cpuUsageChart.resize();
 			window.memoryUsageChart.resize();
+			window.diskUsageChart.resize();
 		}  // Callback function, gets called if tab is switched
 	});
 
 	window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 	window.memoryUsageChart = echarts.init(document.getElementById('memory_usage'));
-
+	window.diskUsageChart = echarts.init(document.getElementById('disk_usage'));
 	window.cpuUsageChartoption = {
 		title: {},
 		tooltip: {},
@@ -120,44 +163,15 @@ $(document).ready(function () {
 		]
 	};
 
-	window.memoryUsageChartoption = {
-		title: {},
-		tooltip: {},
-		xAxis: {
-			data: (function (){
-					var res = [];
-					var len = 1;
-					while (len <= 240) {
-						res.push((new Date()).toLocaleTimeString().replace(/^\D*/,''));
-						len++;
-					}
-					return res;
-				})()
-		},
-		yAxis: {
-			type: 'value',
-			name: '内存使用量',
-			max: 100,
-			min: 0
-		},
-		color: ['#8B12AE'],
-		series: [
-			{
-				name:'Memory Usage',
-				type:'line',
-				areaStyle: {normal: {}},
-				data:(function (){
-					var res = [];
-					var len = 1;
-					while (len <= 240) {
-						res.push(0);
-						len++;
-					}
-					return res;
-				})()
-			}
-		]
-	};
+	window.memoryUsageChartoption = cloneObject(window.cpuUsageChartoption);
+	memoryUsageChartoption.yAxis.name = '内存使用量 MiB';
+	memoryUsageChartoption.color = ['#8B12AE'];
+	memoryUsageChartoption.series[0].name = 'Memory Usage';
+
+	window.diskUsageChartoption = cloneObject(window.cpuUsageChartoption);
+	diskUsageChartoption.yAxis.name = '活动时间 %';
+	diskUsageChartoption.color = ['#4DA60C'];
+	diskUsageChartoption.series[0].name = 'Disk Usage';
 
 	refreshChart();
 });
