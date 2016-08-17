@@ -10,6 +10,10 @@
  * 
  * A Linux environmental probe.
  */
+var numberOfRecords  = 360; // points
+var intervalTime = 3000; // ms
+var password = 12345678; // ms
+
 
 function cloneObject(obj) {
     var copy;
@@ -58,7 +62,7 @@ function refreshChart() {
 		type: "POST",
 		url: "api.php",
 		data: {
-			password: '12345678'
+			password: password
 		},
 		dataType: "json",
 		success: function(data){
@@ -87,11 +91,11 @@ function refreshChart() {
 			diskUsageChartoption.xAxis.data.push(axisData);
 			diskUsageChart.setOption(diskUsageChartoption);
 			// Callback
-			setTimeout(function(){refreshChart();}, 3000);
+			setTimeout(function(){refreshChart();}, intervalTime);
 		},
 		error: function (data, e) {
 			// Callback
-			setTimeout(function(){refreshChart();}, 3000);
+			setTimeout(function(){refreshChart();}, intervalTime);
 		}
 	});
 }
@@ -131,7 +135,7 @@ $(document).ready(function () {
 			data: (function (){
 					var res = [];
 					var len = 1;
-					while (len <= 240) {
+					while (len <= numberOfRecords) {
 						res.push((new Date()).toLocaleTimeString().replace(/^\D*/,''));
 						len++;
 					}
@@ -153,7 +157,7 @@ $(document).ready(function () {
 				data:(function (){
 					var res = [];
 					var len = 1;
-					while (len <= 240) {
+					while (len <= numberOfRecords) {
 						res.push(0);
 						len++;
 					}
