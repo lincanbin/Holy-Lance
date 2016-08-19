@@ -17,17 +17,14 @@ var password = 12345678; // ms
 
 function cloneObject(obj) {
 	var copy;
-
 	// Handle the 3 simple types, and null or undefined
 	if (null === obj || "object" != typeof obj) return obj;
-
 	// Handle Date
 	if (obj instanceof Date) {
 		copy = new Date();
 		copy.setTime(obj.getTime());
 		return copy;
 	}
-
 	// Handle Array
 	if (obj instanceof Array) {
 		copy = [];
@@ -36,7 +33,6 @@ function cloneObject(obj) {
 		}
 		return copy;
 	}
-
 	// Handle Object
 	if (obj instanceof Object) {
 		copy = {};
@@ -45,11 +41,25 @@ function cloneObject(obj) {
 		}
 		return copy;
 	}
-
 	throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 
-function KibibytesToSize(bytes) {
+function listSort(arr, field, order){ 
+    var refer = [], result = [], index; 
+    order = order == 'asc' ? 'asc' : 'desc';
+    for(i=0; i<arr.length; i++){ 
+        refer[i] = arr[i][field]+':'+i; 
+    } 
+    refer.sort(); 
+    if(order=='desc') refer.reverse(); 
+    for(i=0;i<refer.length;i++){ 
+        index = refer[i].split(':')[1]; 
+        result[i] = arr[index]; 
+    } 
+    return result; 
+}
+
+function kibiBytesToSize(bytes) {
 	if (bytes === 0) return '0 B';
 	var kibi = 1024, // or 1000
 		sizes = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'],
@@ -57,50 +67,13 @@ function KibibytesToSize(bytes) {
 	return (bytes / Math.pow(kibi, i)).toPrecision(3) + ' ' + sizes[i];
 }
 
-function refreshChart() {
-	$.ajax({
-		type: "POST",
-		url: "api.php",
-		data: {
-			password: password
-		},
-		dataType: "json",
-		success: function(data){
-			axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
-			// CPU
-			$("#cpu_usage_label").text(data.cpu_usage + "%");
-			cpuUsageChartoption.series[0].data.shift();
-			cpuUsageChartoption.series[0].data.push(data.cpu_usage);
-			cpuUsageChartoption.xAxis.data.shift();
-			cpuUsageChartoption.xAxis.data.push(axisData);
-			cpuUsageChart.setOption(cpuUsageChartoption);
-			// Memory
-			$("#memory_usage_label").text(KibibytesToSize(data.memory_usage_used) + "/" + KibibytesToSize(data.memory_usage_total));
-			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
-			memoryUsageChartoption.series[0].data.shift();
-			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used / 1024));
-			memoryUsageChartoption.xAxis.data.shift();
-			memoryUsageChartoption.xAxis.data.push(axisData);
-			memoryUsageChart.setOption(memoryUsageChartoption);
-			// Disk
-			var disk_usage_percent = Math.min((data.disk_read_active_time + data.disk_write_active_time) / 10, 100);
-			$("#disk_usage_label").text(disk_usage_percent);
-			diskUsageChartoption.series[0].data.shift();
-			diskUsageChartoption.series[0].data.push(disk_usage_percent);
-			diskUsageChartoption.xAxis.data.shift();
-			diskUsageChartoption.xAxis.data.push(axisData);
-			diskUsageChart.setOption(diskUsageChartoption);
-			// Callback
-			setTimeout(function(){refreshChart();}, intervalTime);
-		},
-		error: function (data, e) {
-			// Callback
-			setTimeout(function(){refreshChart();}, intervalTime);
-		}
-	});
+function resizeChart() {
+	window.cpuUsageChart.resize();
+	window.memoryUsageChart.resize();
+	window.diskUsageChart.resize();
 }
 
-$(document).ready(function () {
+function init(data) {
 	$('#MainTab').easyResponsiveTabs({
 		type: 'default', //Types: default, vertical, accordion
 		width: 'auto', //auto or any width like 600px
@@ -119,9 +92,7 @@ $(document).ready(function () {
 		active_border_color: '#c1c1c1', // border color for active tabs heads in this group
 		active_content_border_color: '#5AB1D0', // border color for active tabs contect in this group so that it matches the tab head border
 		activate: function() {
-			window.cpuUsageChart.resize();
-			window.memoryUsageChart.resize();
-			window.diskUsageChart.resize();
+			resizeChart();
 		}  // Callback function, gets called if tab is switched
 	});
 
@@ -178,4 +149,62 @@ $(document).ready(function () {
 	diskUsageChartoption.series[0].name = 'Disk Usage';
 
 	refreshChart();
+}
+
+
+function refreshChart() {
+	$.ajax({
+		type: "POST",
+		url: "api.php",
+		data: {
+			password: password
+		},
+		dataType: "json",
+		success: function(data){
+			axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
+			// CPU
+			$("#cpu_usage_label").text(data.cpu_usage + "%");
+			cpuUsageChartoption.series[0].data.shift();
+			cpuUsageChartoption.series[0].data.push(data.cpu_usage);
+			cpuUsageChartoption.xAxis.data.shift();
+			cpuUsageChartoption.xAxis.data.push(axisData);
+			cpuUsageChart.setOption(cpuUsageChartoption);
+			// Memory
+			$("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + "/" + kibiBytesToSize(data.memory_usage_total));
+			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
+			memoryUsageChartoption.series[0].data.shift();
+			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used / 1024));
+			memoryUsageChartoption.xAxis.data.shift();
+			memoryUsageChartoption.xAxis.data.push(axisData);
+			memoryUsageChart.setOption(memoryUsageChartoption);
+			// Disk
+			var disk_usage_percent = Math.min((data.disk_read_active_time + data.disk_write_active_time) / 10, 100);
+			$("#disk_usage_label").text(disk_usage_percent);
+			diskUsageChartoption.series[0].data.shift();
+			diskUsageChartoption.series[0].data.push(disk_usage_percent);
+			diskUsageChartoption.xAxis.data.shift();
+			diskUsageChartoption.xAxis.data.push(axisData);
+			diskUsageChart.setOption(diskUsageChartoption);
+			// Callback
+			setTimeout(function(){refreshChart();}, intervalTime);
+		},
+		error: function (data, e) {
+			// Callback
+			setTimeout(function(){refreshChart();}, intervalTime);
+		}
+	});
+}
+
+$(document).ready(function () {
+	$.ajax({
+		type: "POST",
+		url: "init.php",
+		data: {
+			password: password
+		},
+		dataType: "json",
+		success: function(data){
+			init(data);
+		}
+	});
 });
