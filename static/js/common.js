@@ -74,6 +74,11 @@ function resizeChart() {
 }
 
 function init(data) {
+	window.env = data;
+	for (var eth in data.network) {
+		$(".resp-tabs-list .performance").append('<li>' + eth + '<p><span class="tab-label" id="network_' + eth + '_usage_label"></span></p></li>');
+		$(".resp-tabs-container .performance").append('<div><div id="network_' + eth + '_usage" style="width: 100%; height:100%; min-height: 460px;"></div></div>');
+	}
 	$('#MainTab').easyResponsiveTabs({
 		type: 'default', //Types: default, vertical, accordion
 		width: 'auto', //auto or any width like 600px
