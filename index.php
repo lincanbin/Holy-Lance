@@ -23,6 +23,7 @@
 	<link href="static/css/style.css" rel="stylesheet"/>
 	<script src="static/js/jquery.min.js" type="text/javascript"></script>
 	<script src="static/js/easyResponsiveTabs.js" type="text/javascript"></script>
+	<script src="static/js/jquery.jsontotable.min.js" type="text/javascript"></script>
 	<script src="static/js/echarts.min.js" type="text/javascript"></script>
 </head>
 
