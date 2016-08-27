@@ -64,6 +64,7 @@ function kibiBytesToSize(bytes) {
 	var kibi = 1024, // or 1000
 		sizes = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'],
 		i = Math.floor(Math.log(bytes) / Math.log(kibi));
+	sizes[-1] = 'B';
 	return (bytes / Math.pow(kibi, i)).toPrecision(3) + ' ' + sizes[i];
 }
 
@@ -71,13 +72,17 @@ function resizeChart() {
 	window.cpuUsageChart.resize();
 	window.memoryUsageChart.resize();
 	window.diskUsageChart.resize();
+	for (var eth in window.env.network) {
+		window.networkUsageChart[window.env.network[eth]].resize();
+	}
 }
 
 function init(data) {
 	window.env = data;
+	console.log(data);
 	for (var eth in data.network) {
-		$(".resp-tabs-list .performance").append('<li>' + eth + '<p><span class="tab-label" id="network_' + eth + '_usage_label"></span></p></li>');
-		$(".resp-tabs-container .performance").append('<div><div id="network_' + eth + '_usage" style="width: 100%; height:100%; min-height: 460px;"></div></div>');
+		$("#PerformanceList").append('<li>网卡' + data.network[eth] + '<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
+		$("#PerformanceContainer").append('<div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 460px;"></div></div>');
 	}
 	$('#MainTab').easyResponsiveTabs({
 		type: 'default', //Types: default, vertical, accordion
@@ -102,8 +107,6 @@ function init(data) {
 	});
 
 	window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
-	window.memoryUsageChart = echarts.init(document.getElementById('memory_usage'));
-	window.diskUsageChart = echarts.init(document.getElementById('disk_usage'));
 	window.cpuUsageChartoption = {
 		title: {},
 		tooltip: {},
@@ -143,15 +146,30 @@ function init(data) {
 		]
 	};
 
+	window.memoryUsageChart = echarts.init(document.getElementById('memory_usage'));
 	window.memoryUsageChartoption = cloneObject(window.cpuUsageChartoption);
 	memoryUsageChartoption.yAxis.name = '内存使用量 MiB';
 	memoryUsageChartoption.color = ['#8B12AE'];
 	memoryUsageChartoption.series[0].name = 'Memory Usage';
 
+
+	window.diskUsageChart = echarts.init(document.getElementById('disk_usage'));
 	window.diskUsageChartoption = cloneObject(window.cpuUsageChartoption);
 	diskUsageChartoption.yAxis.name = '活动时间 %';
 	diskUsageChartoption.color = ['#4DA60C'];
 	diskUsageChartoption.series[0].name = 'Disk Usage';
+
+	window.networkUsageChart = [];
+	window.networkUsageChartoption = [];
+	for (var eth in data.network) {
+		window.networkUsageChart[data.network[eth]] = echarts.init(document.getElementById('network_' + data.network[eth] + '_usage'));
+		window.networkUsageChartoption[data.network[eth]] = cloneObject(window.cpuUsageChartoption);
+		networkUsageChartoption[data.network[eth]].yAxis.name = '吞吐量 KiB/s';
+		networkUsageChartoption[data.network[eth]].yAxis.max = null;
+		networkUsageChartoption[data.network[eth]].color = ['#A74F01', '#FCF3EB'];
+		networkUsageChartoption[data.network[eth]].series[0].name = 'Network Usage In';
+		networkUsageChartoption[data.network[eth]].series[1] = cloneObject(networkUsageChartoption[data.network[eth]].series[0]);
+	}
 
 	refreshChart();
 }
@@ -176,20 +194,32 @@ function refreshChart() {
 			cpuUsageChart.setOption(cpuUsageChartoption);
 			// Memory
 			$("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + "/" + kibiBytesToSize(data.memory_usage_total));
-			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
+			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total);
 			memoryUsageChartoption.series[0].data.shift();
-			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used / 1024));
+			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used));
 			memoryUsageChartoption.xAxis.data.shift();
 			memoryUsageChartoption.xAxis.data.push(axisData);
 			memoryUsageChart.setOption(memoryUsageChartoption);
 			// Disk
 			var disk_usage_percent = Math.min((data.disk_read_active_time + data.disk_write_active_time) / 10, 100);
-			$("#disk_usage_label").text(disk_usage_percent);
+			$("#disk_usage_label").text(disk_usage_percent + "%");
 			diskUsageChartoption.series[0].data.shift();
 			diskUsageChartoption.series[0].data.push(disk_usage_percent);
 			diskUsageChartoption.xAxis.data.shift();
 			diskUsageChartoption.xAxis.data.push(axisData);
 			diskUsageChart.setOption(diskUsageChartoption);
+			// Network
+			for (var eth in window.env.network) {
+				$("#network_" + window.env.network[eth] + "_usage_label").text("发送：" + kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + "/s 接收：" + kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + "/s");
+				// networkUsageChartoption[window.env.network[eth]].yAxis.max = Math.max(data.network[window.env.network[eth]].transmit_speed, data.network[window.env.network[eth]].receive_speed / 1024);
+				networkUsageChartoption[window.env.network[eth]].series[0].data.shift();
+				networkUsageChartoption[window.env.network[eth]].series[0].data.push(Math.round(data.network[window.env.network[eth]].receive_speed / 1024));
+				networkUsageChartoption[window.env.network[eth]].series[1].data.shift();
+				networkUsageChartoption[window.env.network[eth]].series[1].data.push(Math.round(data.network[window.env.network[eth]].transmit_speed / 1024));
+				networkUsageChartoption[window.env.network[eth]].xAxis.data.shift();
+				networkUsageChartoption[window.env.network[eth]].xAxis.data.push(axisData);
+				window.networkUsageChart[window.env.network[eth]].setOption(networkUsageChartoption[window.env.network[eth]]);
+			}
 			// Callback
 			setTimeout(function(){refreshChart();}, intervalTime);
 		},
