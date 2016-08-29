@@ -89,7 +89,10 @@ function init(data) {
 		width: 'auto', //auto or any width like 600px
 		fit: true, // 100% fit in a container
 		closed: 'accordion', // Start closed if in accordion view
-		tabidentify: 'main' // The tab groups identifier
+		tabidentify: 'main', // The tab groups identifier
+		activate: function() {
+			resizeChart();
+		}
 	});
 
 	$('#PerformanceTab').easyResponsiveTabs({
