@@ -220,6 +220,9 @@ function refreshChart() {
 				networkUsageChartoption[window.env.network[eth]].xAxis.data.push(axisData);
 				window.networkUsageChart[window.env.network[eth]].setOption(networkUsageChartoption[window.env.network[eth]]);
 			}
+			// Process
+			$("#Process").empty();
+			$.jsontotable(data.process, { id: '#Process', header: false });
 			// Callback
 			setTimeout(function(){refreshChart();}, intervalTime);
 		},
