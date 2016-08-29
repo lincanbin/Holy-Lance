@@ -47,15 +47,15 @@
 				</ul>
 				<div class="resp-tabs-container performance" id="PerformanceContainer">
 					<div>
-						<div id="cpu_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+						<div id="cpu_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 					</div>
 					<div>
 
-						<div id="memory_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+						<div id="memory_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 					</div>
 					<div>
 
-						<div id="disk_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+						<div id="disk_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 					</div>
 				</div>
 			</div>

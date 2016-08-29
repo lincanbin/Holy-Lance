@@ -82,7 +82,7 @@ function init(data) {
 	console.log(data);
 	for (var eth in data.network) {
 		$("#PerformanceList").append('<li>网卡' + data.network[eth] + '<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
-		$("#PerformanceContainer").append('<div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 460px;"></div></div>');
+		$("#PerformanceContainer").append('<div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 760px;"></div></div>');
 	}
 	$('#MainTab').easyResponsiveTabs({
 		type: 'default', //Types: default, vertical, accordion
@@ -167,9 +167,10 @@ function init(data) {
 	for (var eth in data.network) {
 		window.networkUsageChart[data.network[eth]] = echarts.init(document.getElementById('network_' + data.network[eth] + '_usage'));
 		window.networkUsageChartoption[data.network[eth]] = cloneObject(window.cpuUsageChartoption);
-		networkUsageChartoption[data.network[eth]].yAxis.name = '吞吐量 KiB/s';
+		networkUsageChartoption[data.network[eth]].yAxis.name = '吞吐量 out(+) / in(-) KiB/s';
 		networkUsageChartoption[data.network[eth]].yAxis.max = null;
-		networkUsageChartoption[data.network[eth]].color = ['#A74F01', '#FCF3EB'];
+		networkUsageChartoption[data.network[eth]].yAxis.min = null;
+		networkUsageChartoption[data.network[eth]].color = ['#A74F01'];
 		networkUsageChartoption[data.network[eth]].series[0].name = 'Network Usage In';
 		networkUsageChartoption[data.network[eth]].series[1] = cloneObject(networkUsageChartoption[data.network[eth]].series[0]);
 	}
@@ -197,9 +198,9 @@ function refreshChart() {
 			cpuUsageChart.setOption(cpuUsageChartoption);
 			// Memory
 			$("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + "/" + kibiBytesToSize(data.memory_usage_total));
-			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total);
+			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
 			memoryUsageChartoption.series[0].data.shift();
-			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used));
+			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used / 1024));
 			memoryUsageChartoption.xAxis.data.shift();
 			memoryUsageChartoption.xAxis.data.push(axisData);
 			memoryUsageChart.setOption(memoryUsageChartoption);
@@ -216,7 +217,7 @@ function refreshChart() {
 				$("#network_" + window.env.network[eth] + "_usage_label").text("发送：" + kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + "/s 接收：" + kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + "/s");
 				// networkUsageChartoption[window.env.network[eth]].yAxis.max = Math.max(data.network[window.env.network[eth]].transmit_speed, data.network[window.env.network[eth]].receive_speed / 1024);
 				networkUsageChartoption[window.env.network[eth]].series[0].data.shift();
-				networkUsageChartoption[window.env.network[eth]].series[0].data.push(Math.round(data.network[window.env.network[eth]].receive_speed / 1024));
+				networkUsageChartoption[window.env.network[eth]].series[0].data.push(-Math.round(data.network[window.env.network[eth]].receive_speed / 1024));
 				networkUsageChartoption[window.env.network[eth]].series[1].data.shift();
 				networkUsageChartoption[window.env.network[eth]].series[1].data.push(Math.round(data.network[window.env.network[eth]].transmit_speed / 1024));
 				networkUsageChartoption[window.env.network[eth]].xAxis.data.shift();
