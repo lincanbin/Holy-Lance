@@ -8,20 +8,20 @@ body {
 	background: #f5f5f5;
 	font-family: 'Segoe UI';
 }
-table { 
-	width: 100%; 
-	border-collapse: collapse; 
+table {
+	width: 100%;
+	border-collapse: collapse;
 	margin:10px auto;
 }
-tr:nth-of-type(odd) { 
-	background: #eee; 
+tr:nth-of-type(odd) {
+	background: #eee;
 }
-th { 
-	background: #3498db; 
-	color: white; 
+th {
+	background: #3498db;
+	color: white;
 	font-weight: bold;
 	cursor: pointer;
-	max-width: 400px; 
+	max-width: 400px;
 }
 .selected-col-desc:after {
 	content: "▼";
@@ -31,14 +31,13 @@ th {
 	content: "▲";
 	float: right;
 }
-td, th { 
-	padding: 10px; 
-	border: 1px solid #ccc; 
-	text-align: left; 
+td, th {
+	padding: 10px;
+	border: 1px solid #ccc;
+	text-align: left;
 	font-size: 18px;
 	max-width: 400px;
 }
-
 ul.resp-tabs-list, p {
 	margin: 0;
 	padding: 0;
@@ -106,7 +105,7 @@ h2.resp-tab-title:last-child {
 	background: blue;
 }
 /*-----------Vertical tabs-----------*/
-.resp-vtabs ul.resp-tabs-list {
+	.resp-vtabs ul.resp-tabs-list {
 	float: left;
 	width: 15%;
 	min-width: 150px;
