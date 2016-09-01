@@ -47,20 +47,22 @@ function cloneObject(obj) {
 function listSort(arr, field, order){ 
     var refer = [], result = [], index; 
     order = order == 'asc' ? 'asc' : 'desc';
-    for(i=0; i<arr.length; i++){ 
-        refer[i] = arr[i][field]+':'+i; 
+    for(i = 0; i < arr.length; i++){ 
+        refer[i] = arr[i][field] + '|' + i; 
     } 
-    refer.sort(); 
+    refer = refer.sort(function(a, b) {
+		return +/\d+/.exec(a)[0] - +/\d+/.exec(b)[0];
+	}); 
     if(order=='desc') refer.reverse(); 
-    for(i=0;i<refer.length;i++){ 
-        index = refer[i].split(':')[1]; 
+    for(i = 0;i < refer.length;i++){ 
+        index = refer[i].split('|')[1]; 
         result[i] = arr[index]; 
     } 
     return result; 
 }
 
 function kibiBytesToSize(bytes) {
-	if (bytes === 0) return '0 B';
+	if (bytes == 0) return '0 B';
 	var kibi = 1024, // or 1000
 		sizes = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'],
 		i = Math.floor(Math.log(bytes) / Math.log(kibi));
@@ -79,6 +81,8 @@ function resizeChart() {
 
 function init(data) {
 	window.env = data;
+	window.processSortedBy = 2;
+	window.processOrder = 'desc';
 	console.log(data);
 	for (var eth in data.network) {
 		$("#PerformanceList").append('<li>网卡' + data.network[eth] + '<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
@@ -178,6 +182,49 @@ function init(data) {
 	refreshChart();
 }
 
+function drawProcessTable(processData, formatData) {
+	// Process
+	$("#Process").empty();
+	processData = listSort(processData, window.processSortedBy, window.processOrder);
+	if (formatData) {
+		for (var key in processData) {
+			processData[key][2] = processData[key][2] + "%";
+			processData[key][3] = processData[key][3] + "%";
+			processData[key][4] = kibiBytesToSize(processData[key][4]);
+			processData[key][5] = kibiBytesToSize(processData[key][5]);
+		}	
+	}
+	processData.unshift([
+		"用户",
+		"进程ID",
+		"CPU",
+		"内存",
+		"虚拟内存",
+		"常驻内存",
+		"终端位置",
+		"状态",
+		"启动时间",
+		"使用的CPU时间",
+		"命令"
+	]);
+	$.jsontotable(processData, { id: '#Process', header: true });
+	$("th").each(function(key){
+		$(this).attr("data-code", key);
+	});
+	$("th").bind("click", function() {
+		var tempProcessSortedBy = $(this).attr("data-code");
+		if (tempProcessSortedBy == window.processSortedBy) {
+			window.processOrder = window.processOrder == "desc" ? "asc" : "desc";
+		} else {
+			window.processSortedBy = tempProcessSortedBy;
+			window.processOrder = "desc";
+		}
+		processData.shift();
+		$("th").unbind("click");
+		drawProcessTable(processData ,false);
+	});
+	$("th:eq(" + window.processSortedBy + ")").attr("class", "selected-col-" + window.processOrder);
+}
 
 function refreshChart() {
 	$.ajax({
@@ -225,8 +272,7 @@ function refreshChart() {
 				window.networkUsageChart[window.env.network[eth]].setOption(networkUsageChartoption[window.env.network[eth]]);
 			}
 			// Process
-			$("#Process").empty();
-			$.jsontotable(data.process, { id: '#Process', header: false });
+			drawProcessTable(data.process, true);
 			// Callback
 			setTimeout(function(){refreshChart();}, intervalTime);
 		},
