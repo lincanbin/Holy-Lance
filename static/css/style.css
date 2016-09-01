@@ -11,7 +11,7 @@ body {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	margin:10px auto;
+	margin: 0 auto;
 }
 tr:nth-of-type(odd) {
 	background: #eee;
