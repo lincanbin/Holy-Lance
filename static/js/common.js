@@ -192,6 +192,29 @@ function drawProcessTable(processData, formatData) {
 			processData[key][3] = processData[key][3] + "%";
 			processData[key][4] = kibiBytesToSize(processData[key][4]);
 			processData[key][5] = kibiBytesToSize(processData[key][5]);
+			processData[key][6] = processData[key][6].replace("?", "").replace("tty", "终端");
+			processData[key][7] = processData[key][7].split("");
+			var tempState = processData[key][7];
+			var tempStateList = [];
+			var stateDict = {
+				"D": "正在等待磁盘",
+				"R": "正在运行",
+				"S": "处于休眠状态",
+				"T": "正在被跟踪或被停止",
+				"W": "进入内存交换",
+				"X": "进程已退出",
+				"Z": "僵进程", // 进程已终止, 但进程描述符存在
+				"<": "高优先级",
+				"N": "低优先级",
+				"L": "有些页面被锁在内存中",
+				"s": "主进程",
+				"l": "多线程进程",
+				"+": "前台进程"
+			};
+			for (var i = 0; i < tempState.length; i++) {
+				tempStateList.push(stateDict[tempState[i]]);
+			}
+			processData[key][7] = tempStateList.join("<br />");
 		}	
 	}
 	processData.unshift([
