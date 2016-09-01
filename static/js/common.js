@@ -74,6 +74,7 @@ function resizeChart() {
 	window.cpuUsageChart.resize();
 	window.memoryUsageChart.resize();
 	window.diskUsageChart.resize();
+	window.diskSpeedChart.resize();
 	for (var eth in window.env.network) {
 		window.networkUsageChart[window.env.network[eth]].resize();
 	}
@@ -166,6 +167,15 @@ function init(data) {
 	diskUsageChartoption.color = ['#4DA60C'];
 	diskUsageChartoption.series[0].name = 'Disk Usage';
 
+	window.diskSpeedChart = echarts.init(document.getElementById('disk_speed'));
+	window.diskSpeedChartoption = cloneObject(window.cpuUsageChartoption);
+	diskSpeedChartoption.yAxis.name = '磁盘传输速率  read(+) / write(-) KiB/s';
+	diskSpeedChartoption.yAxis.max = null;
+	diskSpeedChartoption.yAxis.min = null;
+	diskSpeedChartoption.color = ['#4DA60C'];
+	diskSpeedChartoption.series[0].name = 'Disk Speed';
+	diskSpeedChartoption.series[1] = cloneObject(diskSpeedChartoption.series[0]);
+
 	window.networkUsageChart = [];
 	window.networkUsageChartoption = [];
 	for (var eth in data.network) {
@@ -175,7 +185,7 @@ function init(data) {
 		networkUsageChartoption[data.network[eth]].yAxis.max = null;
 		networkUsageChartoption[data.network[eth]].yAxis.min = null;
 		networkUsageChartoption[data.network[eth]].color = ['#A74F01'];
-		networkUsageChartoption[data.network[eth]].series[0].name = 'Network Usage In';
+		networkUsageChartoption[data.network[eth]].series[0].name = 'Network Usage';
 		networkUsageChartoption[data.network[eth]].series[1] = cloneObject(networkUsageChartoption[data.network[eth]].series[0]);
 	}
 
@@ -274,7 +284,7 @@ function refreshChart() {
 			memoryUsageChartoption.xAxis.data.shift();
 			memoryUsageChartoption.xAxis.data.push(axisData);
 			memoryUsageChart.setOption(memoryUsageChartoption);
-			// Disk
+			// Disk Usage
 			var disk_usage_percent = Math.min((data.disk_read_active_time + data.disk_write_active_time) / 10, 100);
 			$("#disk_usage_label").text(disk_usage_percent + "%");
 			diskUsageChartoption.series[0].data.shift();
@@ -282,6 +292,14 @@ function refreshChart() {
 			diskUsageChartoption.xAxis.data.shift();
 			diskUsageChartoption.xAxis.data.push(axisData);
 			diskUsageChart.setOption(diskUsageChartoption);
+			// Disk Speed
+			diskSpeedChartoption.series[0].data.shift();
+			diskSpeedChartoption.series[0].data.push(data.disk_read_speed);
+			diskSpeedChartoption.series[1].data.shift();
+			diskSpeedChartoption.series[1].data.push(-data.disk_write_speed);
+			diskSpeedChartoption.xAxis.data.shift();
+			diskSpeedChartoption.xAxis.data.push(axisData);
+			diskSpeedChart.setOption(diskSpeedChartoption);
 			// Network
 			for (var eth in window.env.network) {
 				$("#network_" + window.env.network[eth] + "_usage_label").text("发送：" + kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + "/s 接收：" + kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + "/s");
