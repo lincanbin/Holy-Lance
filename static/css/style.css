@@ -46,7 +46,7 @@ ul.resp-tabs-list, p {
 	font-weight: 600;
 	font-size: 13px;
 	display: inline-block;
-	padding: 13px 15px;
+	padding: 20px 145px;
 	margin: 0 4px 0 0;
 	list-style: none;
 	cursor: pointer;
@@ -73,7 +73,7 @@ h2.resp-accordion {
 	border: 1px solid #5AB1D0 !important;
 	border-bottom: none;
 	margin-bottom: -1px !important;
-	padding: 12px 14px 14px 14px !important;
+	padding: 19px 144px 21px 144px !important;
 	border-top: 4px solid #5AB1D0 !important;
 	border-bottom: 0 #fff solid !important;
 }
