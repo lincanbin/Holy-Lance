@@ -21,6 +21,7 @@ function add_file_to_buffer($file_name)
 			foreach ($old_file_name_list as $file_name_key => $old_file_name_value) {
 				$file_buffer[$old_file_name]['content'] = str_replace($old_file_name_value, $new_file_name_list[$file_name_key], $file_buffer[$old_file_name]['content']);
 			}
+			$file_buffer[$old_file_name]['content'] = str_replace("	", "", $file_buffer[$old_file_name]['content']);
 	}
 }
 
@@ -74,6 +75,9 @@ if (!empty($_GET["file"]) && $_GET["file"] == "' . $file_name . '"):
 ');
 	if ($file['extension'] == 'css') {
 		fwrite($fp, 'header("Content-type: text/css");');
+	}
+	if ($file['extension'] == 'js') {
+		fwrite($fp, 'header("Content-type: text/javascript");');
 	}
 	fwrite($fp, '?>');
 	fwrite($fp, $file['content']);
