@@ -11,8 +11,7 @@
  * 
  * A Linux environmental probe.
  */
-error_reporting(E_ALL); 
-ini_set('display_errors', 'On');
+header('Content-type: application/json');
 
 exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $network_cards);
 

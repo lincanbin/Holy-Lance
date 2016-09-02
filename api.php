@@ -11,8 +11,7 @@
  * 
  * A Linux environmental probe.
  */
-error_reporting(E_ALL); 
-ini_set('display_errors', 'On');
+header('Content-type: application/json');
 
 define('SAMPLING_TIME', 250000); // 250ms
 
