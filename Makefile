@@ -1,4 +1,14 @@
 <?php
+define("BUILD_FILE_NAME", "tz.php");
+$file_buffer = [];
+$ignore_dir = [".git"];
+
+function add_file_to_buffer($file_name, $old_file_name, $new_file_name)
+{
+	global $file_buffer;
+	$file_buffer[] = str_replace($old_file_name, $new_file_name, file_get_contents($file_name));
+}
+
 function listDir($dir, $ignore_dir)
 {
 	if (is_dir($dir)) {
@@ -11,7 +21,11 @@ function listDir($dir, $ignore_dir)
 					}
 				} else {
 					if ($file != "." && $file != "..") {
-						echo str_replace("./", "", $dir . $file) . "\n";
+						$file_name = $dir . $file;
+						$old_file_name = str_replace("./", "", $file_name);
+						$new_file_name = BUILD_FILE_NAME . "?file=" . urlencode($old_file_name);
+						add_file_to_buffer($file_name, $old_file_name, $new_file_name);
+						echo $old_file_name . "\n";
 					}
 				}
 			}
@@ -19,6 +33,9 @@ function listDir($dir, $ignore_dir)
 		}
 	}
 }
-$ignore_dir = [".git"];
+
 //开始运行
+if (!is_dir("./build")) {
+	mkdir("./build");
+}
 listDir("./", $ignore_dir);
