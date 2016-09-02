@@ -277,7 +277,7 @@ function refreshChart() {
 			cpuUsageChartoption.xAxis.data.push(axisData);
 			cpuUsageChart.setOption(cpuUsageChartoption);
 			// Memory
-			$("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + "/" + kibiBytesToSize(data.memory_usage_total));
+			$("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + " / " + kibiBytesToSize(data.memory_usage_total) + " (" + Math.round(data.memory_usage_used * 100 / data.memory_usage_total) + "%)");
 			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
 			memoryUsageChartoption.series[0].data.shift();
 			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used / 1024));
