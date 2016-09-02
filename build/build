@@ -1,5 +1,5 @@
 <?php
-define("BUILD_FILE_NAME", "tz.php");
+define("BUILD_FILE_NAME", "probe.php");
 define("ENTER_FILE_NAME", "index.php");
 $file_buffer = [];
 $ignore_dir = [".git", "build"];
