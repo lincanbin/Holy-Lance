@@ -142,3 +142,4 @@ if (!empty($process_list)) {
 unset($process_list);
 
 echo json_encode($system_info, JSON_PRETTY_PRINT);
+?>

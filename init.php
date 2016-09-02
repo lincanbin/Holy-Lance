@@ -22,3 +22,4 @@ $system_env = array(
 	'network' => $network_cards
 );
 echo json_encode($system_env, JSON_PRETTY_PRINT);
+?>
