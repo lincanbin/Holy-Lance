@@ -3,7 +3,7 @@ define("BUILD_FILE_NAME", "tz.php");
 define("ENTER_FILE_NAME", "index.php");
 $file_buffer = [];
 $ignore_dir = [".git", "build"];
-$ignore_file = ["./Makefile"];
+$ignore_file = ["../build/build"];
 $build_extension = ["php", "css", "js"];
 $old_file_name_list = [];
 $new_file_name_list = [];
@@ -40,7 +40,7 @@ function listDir($dir)
 					if ($file != "." && $file != "..") {
 						$file_name = $dir . $file;
 						if (!in_array($file_name, $ignore_file)) {
-							$old_file_name_list[$file_name] = str_replace("./", "", $file_name);
+							$old_file_name_list[$file_name] = str_replace("../", "", $file_name);
 							$new_file_name_list[$file_name] = BUILD_FILE_NAME . "?file=" . urlencode($old_file_name_list[$file_name]);
 							echo $file_name . "\n";
 						}
@@ -52,17 +52,14 @@ function listDir($dir)
 	}
 }
 
-if (!is_dir("./build")) {
-	mkdir("./build");
-}
 
-listDir("./");
+listDir("../");
 
 foreach ($old_file_name_list as $file_name => $old_file_name) {
 	add_file_to_buffer($file_name);
 }
 
-$fp = fopen("./build/" . BUILD_FILE_NAME, 'w');
+$fp = fopen(BUILD_FILE_NAME, 'w');
 $entry_file = !empty($file_buffer[ENTER_FILE_NAME]) ? $file_buffer[ENTER_FILE_NAME] : '';
 if (!$entry_file) {
 	echo 'Entry file not found! ';
