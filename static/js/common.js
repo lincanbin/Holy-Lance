@@ -45,20 +45,20 @@ function cloneObject(obj) {
 }
 
 function listSort(arr, field, order){ 
-    var refer = [], result = [], index; 
-    order = order == 'asc' ? 'asc' : 'desc';
-    for(i = 0; i < arr.length; i++){ 
-        refer[i] = arr[i][field] + '|' + i; 
-    } 
-    refer = refer.sort(function(a, b) {
+	var refer = [], result = [], index; 
+	order = order == 'asc' ? 'asc' : 'desc';
+	for(i = 0; i < arr.length; i++){ 
+		refer[i] = arr[i][field] + '|' + i; 
+	} 
+	refer = refer.sort(function(a, b) {
 		return +/\d+/.exec(a)[0] - +/\d+/.exec(b)[0];
 	}); 
-    if(order=='desc') refer.reverse(); 
-    for(i = 0;i < refer.length;i++){ 
-        index = refer[i].split('|')[1]; 
-        result[i] = arr[index]; 
-    } 
-    return result; 
+	if(order=='desc') refer.reverse(); 
+	for(i = 0;i < refer.length;i++){ 
+		index = refer[i].split('|')[1]; 
+		result[i] = arr[index]; 
+	} 
+	return result; 
 }
 
 function kibiBytesToSize(bytes) {
