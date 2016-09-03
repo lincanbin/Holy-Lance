@@ -18,6 +18,7 @@ before_script:
 
 script:
   - php build
-  - php -S 0.0.0.0:8080 &
-  - curl -s http://localhost:8080/probe.php?file=init.php
-  - curl -s http://localhost:8080/probe.php?file=api.php
+  # - php -S 0.0.0.0:8080 &
+  # - curl -s http://localhost:8080/probe.php?file=init.php
+  # - curl -s http://localhost:8080/probe.php?file=api.php
+  - php -l probe.php
