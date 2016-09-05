@@ -129,7 +129,7 @@ unset($memory_usage_swap_free);
 
 // process
 $process_list = array();
-exec("ps auxw --sort=time", $process_list);
+exec("ps auxw", $process_list); //  --sort=time
 if (!empty($process_list)) {
 	unset($process_list[0]);
 	$process_map = array();
