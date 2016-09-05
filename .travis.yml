@@ -5,11 +5,11 @@ php:
   - '5.6'
   - '7.0'
   - nightly
-  - hhvm
+#   - hhvm
 
-matrix:
-  allow_failures:
-    - php: hhvm
+# matrix:
+#   allow_failures:
+#     - php: hhvm
 
 before_script:
   - chmod 777 -R ./
