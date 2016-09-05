@@ -16,6 +16,7 @@ header('Content-type: application/json');
 exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $network_cards);
 
 $system_env = array(
+	'version' => 1,
 	'cpu' => [],
 	'memory' => [],
 	'network' => $network_cards
