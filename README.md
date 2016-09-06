@@ -9,7 +9,7 @@ A Linux Resource / Performance Monitor based on PHP.
 
 ## Requirements
 
-* PHP version 5.4.0 or higher.
+* PHP version 5.2.0 or higher.
 
 ## Install
 
