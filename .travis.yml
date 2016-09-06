@@ -18,9 +18,9 @@ before_script:
 
 script:
   - php build
-  - php -l probe.php
+  - php -l holy_lance.php
   # - php -S 0.0.0.0:8080 &
-  # - curl -s http://localhost:8080/probe.php?file=init.php
-  # - curl -s http://localhost:8080/probe.php?file=api.php
-  - php-cgi -f probe.php file=init.php
-  - php-cgi -f probe.php file=api.php
+  # - curl -s http://localhost:8080/holy_lance.php?file=init.php
+  # - curl -s http://localhost:8080/holy_lance.php?file=api.php
+  - php-cgi -f holy_lance.php file=init.php
+  - php-cgi -f holy_lance.php file=api.php
