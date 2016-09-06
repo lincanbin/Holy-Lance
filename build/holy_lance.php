@@ -11,7 +11,7 @@ if (!empty($_GET["file"]) && $_GET["file"] == "api.php"):
  * Licensed under the MIT License:
  * https://opensource.org/licenses/MIT
  * 
- * A Linux environmental probe.
+ * A Linux Resource / Performance Monitor based on PHP. 
  */
 header('Content-type: application/json');
 
@@ -159,7 +159,7 @@ if (!empty($_GET["file"]) && $_GET["file"] == "init.php"):
  * Licensed under the MIT License:
  * https://opensource.org/licenses/MIT
  * 
- * A Linux environmental probe.
+ * A Linux Resource / Performance Monitor based on PHP. 
  */
 header('Content-type: application/json');
 
@@ -187,7 +187,7 @@ header("Content-type: text/css");?>﻿/*
  * Licensed under the MIT License:
  * https://opensource.org/licenses/MIT
  * 
- * A Linux environmental probe.
+ * A Linux Resource / Performance Monitor based on PHP. 
  */
 html, #MainTab {
 height:100%;
@@ -413,7 +413,7 @@ header("Content-type: text/javascript");?>/*
  * Licensed under the MIT License:
  * https://opensource.org/licenses/MIT
  * 
- * A Linux environmental probe.
+ * A Linux Resource / Performance Monitor based on PHP. 
  */
 var numberOfRecords  = 360; // points
 var intervalTime = 3000; // ms
@@ -1017,7 +1017,7 @@ endif;
  * Licensed under the MIT License:
  * https://opensource.org/licenses/MIT
  * 
- * A Linux environmental probe.
+ * A Linux Resource / Performance Monitor based on PHP. 
  */
 ?>
 

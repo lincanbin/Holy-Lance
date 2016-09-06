@@ -13,12 +13,12 @@
  */
 define("BUILD_FILE_NAME", "holy_lance.php");
 define("ENTER_FILE_NAME", "index.php");
-$file_buffer = [];
-$ignore_dir = [".git", "build"];
-$ignore_file = ["../build/build"];
-$build_extension = ["php", "css", "js"];
-$old_file_name_list = [];
-$new_file_name_list = [];
+$file_buffer = array();
+$ignore_dir = array(".git", "build");
+$ignore_file = array("../build/build");
+$build_extension = array("php", "css", "js");
+$old_file_name_list = array();
+$new_file_name_list = array();
 
 function add_file_to_buffer($file_name)
 {
