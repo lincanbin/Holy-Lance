@@ -13,7 +13,7 @@ A Linux environmental probe.
 
 ## Install
 
-1. upload `build/probe.php` to your server.
+1. upload `build/holy_lance.php` to your server.
 
 ## Screenshot
 
