@@ -2,8 +2,8 @@
 if (!empty($_GET["file"]) && $_GET["file"] == "api.php"):
 ?><?php
 /*
- * Carbon-Probe
- * https://github.com/lincanbin/Carbon-Probe
+ * Holy Lance
+ * https://github.com/lincanbin/Holy-Lance
  *
  * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
@@ -150,8 +150,8 @@ endif;
 if (!empty($_GET["file"]) && $_GET["file"] == "init.php"):
 ?><?php
 /*
- * Carbon-Probe
- * https://github.com/lincanbin/Carbon-Probe
+ * Holy Lance
+ * https://github.com/lincanbin/Holy-Lance
  *
  * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
@@ -177,7 +177,19 @@ exit();
 endif;
 ?><?php
 if (!empty($_GET["file"]) && $_GET["file"] == "static/css/style.css"):
-header("Content-type: text/css");?>﻿html, #MainTab {
+header("Content-type: text/css");?>﻿/*
+ * Holy Lance
+ * https://github.com/lincanbin/Holy-Lance
+ *
+ * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
+ * http://www.94cb.com/
+ *
+ * Licensed under the MIT License:
+ * https://opensource.org/licenses/MIT
+ * 
+ * A Linux environmental probe.
+ */
+html, #MainTab {
 height:100%;
 }
 body {
@@ -392,8 +404,8 @@ endif;
 ?><?php
 if (!empty($_GET["file"]) && $_GET["file"] == "static/js/common.js"):
 header("Content-type: text/javascript");?>/*
- * Carbon-Probe
- * https://github.com/lincanbin/Carbon-Probe
+ * Holy Lance
+ * https://github.com/lincanbin/Holy-Lance
  *
  * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
@@ -655,7 +667,7 @@ $("th:eq(" + window.processSortedBy + ")").attr("class", "selected-col-" + windo
 function refreshChart() {
 $.ajax({
 type: "POST",
-url: "probe.php?file=api.php",
+url: "holy_lance.php?file=api.php",
 data: {
 password: password
 },
@@ -720,7 +732,7 @@ setTimeout(function(){refreshChart();}, intervalTime);
 $(document).ready(function () {
 $.ajax({
 type: "POST",
-url: "probe.php?file=init.php",
+url: "holy_lance.php?file=init.php",
 data: {
 password: password
 },
@@ -996,8 +1008,8 @@ exit();
 endif;
 ?><?php
 /*
- * Carbon-Probe
- * https://github.com/lincanbin/Carbon-Probe
+ * Holy Lance
+ * https://github.com/lincanbin/Holy-Lance
  *
  * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
@@ -1016,11 +1028,11 @@ endif;
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="robots" content="noarchive">
 <title>Carbon Probe</title>
-<link href="probe.php?file=static%2Fcss%2Fstyle.css" rel="stylesheet"/>
-<script src="probe.php?file=static%2Fjs%2Fjquery.min.js" type="text/javascript"></script>
-<script src="probe.php?file=static%2Fjs%2FeasyResponsiveTabs.js" type="text/javascript"></script>
-<script src="probe.php?file=static%2Fjs%2Fjquery.jsontotable.min.js" type="text/javascript"></script>
-<script src="probe.php?file=static%2Fjs%2Fecharts.min.js" type="text/javascript"></script>
+<link href="holy_lance.php?file=static%2Fcss%2Fstyle.css" rel="stylesheet"/>
+<script src="holy_lance.php?file=static%2Fjs%2Fjquery.min.js" type="text/javascript"></script>
+<script src="holy_lance.php?file=static%2Fjs%2FeasyResponsiveTabs.js" type="text/javascript"></script>
+<script src="holy_lance.php?file=static%2Fjs%2Fjquery.jsontotable.min.js" type="text/javascript"></script>
+<script src="holy_lance.php?file=static%2Fjs%2Fecharts.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -1063,6 +1075,6 @@ endif;
 </div>
 </div>
 </div>
-<script src="probe.php?file=static%2Fjs%2Fcommon.js" type="text/javascript"></script>
+<script src="holy_lance.php?file=static%2Fjs%2Fcommon.js" type="text/javascript"></script>
 </body>
 </html>

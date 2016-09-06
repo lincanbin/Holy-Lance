@@ -1,4 +1,16 @@
-﻿html, #MainTab {
+﻿/*
+ * Holy Lance
+ * https://github.com/lincanbin/Holy-Lance
+ *
+ * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
+ * http://www.94cb.com/
+ *
+ * Licensed under the MIT License:
+ * https://opensource.org/licenses/MIT
+ * 
+ * A Linux environmental probe.
+ */
+html, #MainTab {
 	height:100%;
 }
 body {

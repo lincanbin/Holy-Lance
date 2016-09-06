@@ -1,6 +1,6 @@
 /*
- * Carbon-Probe
- * https://github.com/lincanbin/Carbon-Probe
+ * Holy Lance
+ * https://github.com/lincanbin/Holy-Lance
  *
  * Copyright 2016 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/

@@ -1,9 +1,9 @@
-# Carbon-Probe    [![Build Status](https://travis-ci.org/lincanbin/Carbon-Probe.svg?branch=master)](https://travis-ci.org/lincanbin/Carbon-Probe)
+# Holy Lance    [![Build Status](https://travis-ci.org/lincanbin/Holy-Lance.svg?branch=master)](https://travis-ci.org/lincanbin/Holy-Lance)
 A Linux environmental probe. 
 
 ## Demo/Official Website
 
-* [Demo](http://ipv4.94cb.com/Carbon-Probe)
+* [Demo](http://ipv4.94cb.com/Holy-Lance)
 * [官方支持论坛](https://www.94cb.com)
 * [Official support forum](https://en.94cb.com)
 
