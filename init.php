@@ -17,8 +17,8 @@ exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $net
 
 $system_env = array(
 	'version' => 1,
-	'cpu' => [],
-	'memory' => [],
+	'cpu' => array(),
+	'memory' => array(),
 	'network' => $network_cards
 );
 echo json_encode($system_env, JSON_PRETTY_PRINT);
