@@ -8,7 +8,7 @@
  * Licensed under the MIT License:
  * https://opensource.org/licenses/MIT
  * 
- * A Linux environmental probe.
+ * A Linux Resource / Performance Monitor based on PHP. 
  */
 var numberOfRecords  = 360; // points
 var intervalTime = 3000; // ms

@@ -9,7 +9,7 @@
  * Licensed under the MIT License:
  * https://opensource.org/licenses/MIT
  * 
- * A Linux environmental probe.
+ * A Linux Resource / Performance Monitor based on PHP. 
  */
 ?>
 
