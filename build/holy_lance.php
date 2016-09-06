@@ -141,7 +141,7 @@ $process_map[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 11);
 $system_info['process'] = $process_map;
 }
 unset($process_list);
-if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 echo json_encode($system_info);
 } else {
 echo json_encode($system_info, JSON_PRETTY_PRINT);
@@ -174,7 +174,7 @@ $system_env = array(
 'memory' => array(),
 'network' => $network_cards
 );
-if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 echo json_encode($system_env);
 } else {
 echo json_encode($system_env, JSON_PRETTY_PRINT);
