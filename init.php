@@ -21,5 +21,9 @@ $system_env = array(
 	'memory' => array(),
 	'network' => $network_cards
 );
-echo json_encode($system_env, JSON_PRETTY_PRINT);
+if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+	echo json_encode($system_env);
+} else {
+	echo json_encode($system_env, JSON_PRETTY_PRINT);
+}
 ?>

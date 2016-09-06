@@ -139,6 +139,9 @@ if (!empty($process_list)) {
 	$system_info['process'] = $process_map;
 }
 unset($process_list);
-
-echo json_encode($system_info, JSON_PRETTY_PRINT);
+if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+	echo json_encode($system_info);
+} else {
+	echo json_encode($system_info, JSON_PRETTY_PRINT);
+}
 ?>
