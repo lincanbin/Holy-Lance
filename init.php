@@ -11,13 +11,24 @@
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
+function get_cpu_info_map($cpu_info_val)
+{
+	$result = array();
+	foreach (explode("\n", $cpu_info_val) as $value) {
+		if ($value) {
+			$item = array_map("trim", explode(":", $value));
+			$result[$item[0]] = $item[1];
+		}
+	}
+	return $result;
+}
 header('Content-type: application/json');
 
 exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $network_cards);
-
+$cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents("/proc/cpuinfo"))));
 $system_env = array(
 	'version' => 1,
-	'cpu' => array(),
+	'cpu' => $cpu_info,
 	'memory' => array(),
 	'network' => $network_cards
 );
