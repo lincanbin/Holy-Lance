@@ -17,7 +17,7 @@ function get_cpu_info_map($cpu_info_val)
 	foreach (explode("\n", $cpu_info_val) as $value) {
 		if ($value) {
 			$item = array_map("trim", explode(":", $value));
-			$result[$item[0]] = $item[1];
+			$result[str_replace(" ", "_", $item[0])] = $item[1];
 		}
 	}
 	return $result;
