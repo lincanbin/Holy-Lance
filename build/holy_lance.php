@@ -1034,7 +1034,7 @@ endif;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="robots" content="noarchive">
-<title>Carbon Probe</title>
+<title>Holy Lance</title>
 <link href="holy_lance.php?file=static%2Fcss%2Fstyle.css" rel="stylesheet"/>
 <script src="holy_lance.php?file=static%2Fjs%2Fjquery.min.js" type="text/javascript"></script>
 <script src="holy_lance.php?file=static%2Fjs%2FeasyResponsiveTabs.js" type="text/javascript"></script>
@@ -1073,7 +1073,8 @@ endif;
 </div>
 </div>
 </div>
-<p>https://github.com/lincanbin/Carbon-Probe</p>
+<p></p>
+<p><a href="https://github.com/lincanbin/Holy-Lance" target="_blank">尝试获取更新：https://github.com/lincanbin/Holy-Lance</p>
 </div>
 <div id="Process"></div>
 <div>
