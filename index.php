@@ -58,8 +58,8 @@
 					</div>
 				</div>
 			</div>
-			<p></p>
-			<p><a href="https://github.com/lincanbin/Holy-Lance" target="_blank">尝试获取更新：https://github.com/lincanbin/Holy-Lance</p>
+			<p>
+			<br /><a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a></p>
 		</div>
 		<div id="Process"></div>
 		<div>
