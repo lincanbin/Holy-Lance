@@ -47,12 +47,24 @@
 				</ul>
 				<div class="resp-tabs-container performance" id="PerformanceContainer">
 					<div>
+						<div class="chart-title-set">
+							<h2 class="chart-title">CPU</h2>
+							<span class="chart-sub-title" id="cpu_model_name">Loading</span>
+						</div>
 						<div id="cpu_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 					</div>
 					<div>
+						<div class="chart-title-set">
+							<h2 class="chart-title">内存</h2>
+							<span class="chart-sub-title" id="total_memory"></span>
+						</div>
 						<div id="memory_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 					</div>
 					<div>
+						<div class="chart-title-set">
+							<h2 class="chart-title">磁盘</h2>
+							<span class="chart-sub-title" id="disk_size"></span>
+						</div>
 						<div id="disk_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 						<div id="disk_speed" style="width: 100%; height:100%; min-height: 360px;"></div>
 					</div>

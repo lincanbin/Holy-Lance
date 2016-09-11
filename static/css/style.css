@@ -220,3 +220,24 @@ h2.resp-accordion {
 	border-bottom: 1px solid #c1c1c1 !important;
 }
 }
+
+.chart-title-set {
+	width: 85%;
+	margin: 0 auto;
+	margin-top: 10px;
+	position:relative;
+}
+
+.chart-title {
+    display: inline;
+    font-size: 35px;
+    font-weight: 400;
+}
+
+.chart-sub-title {
+	font-size: 25px;
+	float: right;
+	position: absolute;
+	bottom: 0;
+	right: 20px;
+}

@@ -87,7 +87,7 @@ function init(data) {
 	console.log(data);
 	for (var eth in data.network) {
 		$("#PerformanceList").append('<li>网卡' + data.network[eth] + '<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
-		$("#PerformanceContainer").append('<div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 760px;"></div></div>');
+		$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">网卡' + data.network[eth] + '</h2><span class="chart-sub-title" id="eth_name_' + data.network[eth] + '"></span></div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 760px;"></div></div>');
 	}
 	$('#MainTab').easyResponsiveTabs({
 		type: 'default', //Types: default, vertical, accordion
@@ -113,7 +113,8 @@ function init(data) {
 			resizeChart();
 		}  // Callback function, gets called if tab is switched
 	});
-
+	$('#cpu_model_name').text(data.cpu[0].model_name);
+	$('#total_memory').text(kibiBytesToSize(data.memory.MemTotal));
 	window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 	window.cpuUsageChartoption = {
 		title: {},

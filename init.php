@@ -22,14 +22,27 @@ function get_cpu_info_map($cpu_info_val)
 	}
 	return $result;
 }
+
+function get_mem_info_map($mem_info)
+{
+	$result = array();
+	foreach ($mem_info as $value) {
+		$value = str_ireplace(")", "", str_ireplace("(", "_", str_ireplace("kB", "", $value)));
+		$item = array_map("trim", explode(":", $value));
+		$result[str_replace(" ", "_", $item[0])] = $item[1];
+	}
+	return $result;
+}
+
 header('Content-type: application/json');
 
 exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $network_cards);
 $cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents("/proc/cpuinfo"))));
+$memory_info = get_mem_info_map(explode("\n", trim(file_get_contents("/proc/meminfo"))));
 $system_env = array(
 	'version' => 1,
 	'cpu' => $cpu_info,
-	'memory' => array(),
+	'memory' => $memory_info,
 	'network' => $network_cards
 );
 if (version_compare(PHP_VERSION, '5.4.0') < 0) {

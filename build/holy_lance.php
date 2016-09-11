@@ -164,14 +164,38 @@ if (!empty($_GET["file"]) && $_GET["file"] == "init.php"):
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
+function get_cpu_info_map($cpu_info_val)
+{
+$result = array();
+foreach (explode("\n", $cpu_info_val) as $value) {
+if ($value) {
+$item = array_map("trim", explode(":", $value));
+$result[str_replace(" ", "_", $item[0])] = $item[1];
+}
+}
+return $result;
+}
+
+function get_mem_info_map($mem_info)
+{
+$result = array();
+foreach ($mem_info as $value) {
+$value = str_ireplace(")", "", str_ireplace("(", "_", str_ireplace("kB", "", $value)));
+$item = array_map("trim", explode(":", $value));
+$result[str_replace(" ", "_", $item[0])] = $item[1];
+}
+return $result;
+}
+
 header('Content-type: application/json');
 
 exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $network_cards);
-
+$cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents("/proc/cpuinfo"))));
+$memory_info = get_mem_info_map(explode("\n", trim(file_get_contents("/proc/meminfo"))));
 $system_env = array(
 'version' => 1,
-'cpu' => array(),
-'memory' => array(),
+'cpu' => $cpu_info,
+'memory' => $memory_info,
 'network' => $network_cards
 );
 if (version_compare(PHP_VERSION, '5.4.0') < 0) {
@@ -405,6 +429,27 @@ display: none !important;
 .resp-vtabs .resp-tab-content:last-child {
 border-bottom: 1px solid #c1c1c1 !important;
 }
+}
+
+.chart-title-set {
+width: 85%;
+margin: 0 auto;
+margin-top: 10px;
+position:relative;
+}
+
+.chart-title {
+    display: inline;
+    font-size: 35px;
+    font-weight: 400;
+}
+
+.chart-sub-title {
+font-size: 25px;
+float: right;
+position: absolute;
+bottom: 0;
+right: 20px;
 }<?php
 exit();
 endif;
@@ -499,7 +544,7 @@ window.processOrder = 'desc';
 console.log(data);
 for (var eth in data.network) {
 $("#PerformanceList").append('<li>网卡' + data.network[eth] + '<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
-$("#PerformanceContainer").append('<div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 760px;"></div></div>');
+$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">网卡' + data.network[eth] + '</h2><span class="chart-sub-title" id="eth_name_' + data.network[eth] + '"></span></div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 760px;"></div></div>');
 }
 $('#MainTab').easyResponsiveTabs({
 type: 'default', //Types: default, vertical, accordion
@@ -525,7 +570,8 @@ activate: function() {
 resizeChart();
 }  // Callback function, gets called if tab is switched
 });
-
+$('#cpu_model_name').text(data.cpu[0].model_name);
+$('#total_memory').text(kibiBytesToSize(data.memory.MemTotal));
 window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 window.cpuUsageChartoption = {
 title: {},
@@ -1062,19 +1108,31 @@ endif;
 </ul>
 <div class="resp-tabs-container performance" id="PerformanceContainer">
 <div>
+<div class="chart-title-set">
+<h2 class="chart-title">CPU</h2>
+<span class="chart-sub-title" id="cpu_model_name">Loading</span>
+</div>
 <div id="cpu_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 </div>
 <div>
+<div class="chart-title-set">
+<h2 class="chart-title">内存</h2>
+<span class="chart-sub-title" id="total_memory"></span>
+</div>
 <div id="memory_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 </div>
 <div>
+<div class="chart-title-set">
+<h2 class="chart-title">磁盘</h2>
+<span class="chart-sub-title" id="disk_size"></span>
+</div>
 <div id="disk_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
 <div id="disk_speed" style="width: 100%; height:100%; min-height: 360px;"></div>
 </div>
 </div>
 </div>
-<p></p>
-<p><a href="https://github.com/lincanbin/Holy-Lance" target="_blank">尝试获取更新：https://github.com/lincanbin/Holy-Lance</p>
+<p>
+<br /><a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a></p>
 </div>
 <div id="Process"></div>
 <div>
