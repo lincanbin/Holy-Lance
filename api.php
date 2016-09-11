@@ -17,6 +17,7 @@ define('SAMPLING_TIME', 250000); // 250ms
 
 // load
 $system_info = array(
+	'status' => 1,
 	'load' => array(0, 0, 0),
 	'uptime' => '0',
 	'cpu_usage' => 0,
@@ -128,6 +129,11 @@ $system_info['memory_usage_swap_free'] = $memory_usage_swap_free[0];
 unset($memory_usage_swap_free);
 
 // process
+$process_number = array();
+exec("ps -ef|wc -l", $process_number);
+$system_info['process_number'] = $process_number[0];
+unset($process_number);
+
 $process_list = array();
 exec("ps auxw", $process_list); //  --sort=time
 if (!empty($process_list)) {

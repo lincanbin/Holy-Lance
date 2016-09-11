@@ -52,6 +52,45 @@
 							<span class="chart-sub-title" id="cpu_model_name">Loading</span>
 						</div>
 						<div id="cpu_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
+						<div class="info_block_container">
+							<div class="info_block">
+								<div class="info">
+									<span class="info-label">利用率</span>
+									<span class="info-content" id="cpu_usage_info_label">0%</span>
+								</div>
+								<div class="info">
+									<span class="info-label">速度</span>
+									<span class="info-content" id="cpu_frequency">0 GHz</span>
+								</div>
+								<div class="info-clear"></div>
+								<div class="info">
+									<span class="info-label">进程</span>
+									<span class="info-content" id="process_number">0</span>
+								</div>
+								<div class="info-clear"></div>
+								<div class="info">
+									<span class="info-label">运行时间</span>
+									<span class="info-content" id="uptime">0</span>
+								</div>
+							</div>
+
+							<div class="info_block">
+								<div class="info-inline">
+									<span class="info-inline-label">最大速度</span>
+									<span class="info-inline-content" id="cpu_max_frequency">0 GHz</span>
+								</div>
+								<div class="info-inline">
+									<span class="info-inline-label">逻辑处理器</span>
+									<span class="info-inline-content" id="">1</span>
+								</div>
+								<div class="info-inline">
+									<span class="info-inline-label">缓存</span>
+									<span class="info-inline-content" id="cpu_cache_size">0 MiB</span>
+								</div>
+							</div>
+
+							<div class="info_block"></div>
+						</div>
 					</div>
 					<div>
 						<div class="chart-title-set">

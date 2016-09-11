@@ -221,7 +221,7 @@ h2.resp-accordion {
 }
 }
 
-.chart-title-set {
+.chart-title-set{
 	width: 85%;
 	margin: 0 auto;
 	margin-top: 10px;
@@ -229,9 +229,9 @@ h2.resp-accordion {
 }
 
 .chart-title {
-    display: inline;
-    font-size: 35px;
-    font-weight: 400;
+	display: inline;
+	font-size: 35px;
+	font-weight: 400;
 }
 
 .chart-sub-title {
@@ -240,4 +240,48 @@ h2.resp-accordion {
 	position: absolute;
 	bottom: 0;
 	right: 20px;
+}
+
+.info_block_container {
+	width: 85%;
+	margin: 0 auto;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.info_block {
+	display: inline;
+	float: left;
+}
+
+.info {
+	display: block;
+	float: left;
+	margin: 15px 30px;
+}
+
+.info-clear{
+	clear: both;
+}
+
+.info-label {
+	display: block;
+}
+
+.info-content {
+	display: block;
+}
+
+
+.info-inline {
+	display: block;
+	margin: 10px 10px;
+}
+
+.info-inline-label {
+	display: inline;
+}
+
+.info-inline-content {
+	display: inline;
 }

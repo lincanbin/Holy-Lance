@@ -19,6 +19,7 @@ define('SAMPLING_TIME', 250000); // 250ms
 
 // load
 $system_info = array(
+'status' => 1,
 'load' => array(0, 0, 0),
 'uptime' => '0',
 'cpu_usage' => 0,
@@ -130,6 +131,11 @@ $system_info['memory_usage_swap_free'] = $memory_usage_swap_free[0];
 unset($memory_usage_swap_free);
 
 // process
+$process_number = array();
+exec("ps -ef|wc -l", $process_number);
+$system_info['process_number'] = $process_number[0];
+unset($process_number);
+
 $process_list = array();
 exec("ps auxw", $process_list); //  --sort=time
 if (!empty($process_list)) {
@@ -194,10 +200,12 @@ $cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents
 $memory_info = get_mem_info_map(explode("\n", trim(file_get_contents("/proc/meminfo"))));
 $system_env = array(
 'version' => 1,
+'psssword_require' => false,
 'cpu' => $cpu_info,
 'memory' => $memory_info,
 'network' => $network_cards
 );
+
 if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 echo json_encode($system_env);
 } else {
@@ -431,7 +439,7 @@ border-bottom: 1px solid #c1c1c1 !important;
 }
 }
 
-.chart-title-set {
+.chart-title-set{
 width: 85%;
 margin: 0 auto;
 margin-top: 10px;
@@ -439,9 +447,9 @@ position:relative;
 }
 
 .chart-title {
-    display: inline;
-    font-size: 35px;
-    font-weight: 400;
+display: inline;
+font-size: 35px;
+font-weight: 400;
 }
 
 .chart-sub-title {
@@ -450,7 +458,52 @@ float: right;
 position: absolute;
 bottom: 0;
 right: 20px;
-}<?php
+}
+
+.info_block_container {
+width: 85%;
+margin: 0 auto;
+margin-top: 10px;
+margin-bottom: 20px;
+}
+
+.info_block {
+display: inline;
+float: left;
+}
+
+.info {
+display: block;
+float: left;
+margin: 15px 30px;
+}
+
+.info-clear{
+clear: both;
+}
+
+.info-label {
+display: block;
+}
+
+.info-content {
+display: block;
+}
+
+
+.info-inline {
+display: block;
+margin: 10px 10px;
+}
+
+.info-inline-label {
+display: inline;
+}
+
+.info-inline-content {
+display: inline;
+}
+<?php
 exit();
 endif;
 ?><?php
@@ -1113,6 +1166,45 @@ endif;
 <span class="chart-sub-title" id="cpu_model_name">Loading</span>
 </div>
 <div id="cpu_usage" style="width: 100%; height:100%; min-height: 760px;"></div>
+<div class="info_block_container">
+<div class="info_block">
+<div class="info">
+<span class="info-label">利用率</span>
+<span class="info-content" id="cpu_usage_info_label">0%</span>
+</div>
+<div class="info">
+<span class="info-label">速度</span>
+<span class="info-content" id="cpu_frequency">0 GHz</span>
+</div>
+<div class="info-clear"></div>
+<div class="info">
+<span class="info-label">进程</span>
+<span class="info-content" id="process_number">0</span>
+</div>
+<div class="info-clear"></div>
+<div class="info">
+<span class="info-label">运行时间</span>
+<span class="info-content" id="uptime">0</span>
+</div>
+</div>
+
+<div class="info_block">
+<div class="info-inline">
+<span class="info-inline-label">最大速度</span>
+<span class="info-inline-content" id="cpu_max_frequency">0 GHz</span>
+</div>
+<div class="info-inline">
+<span class="info-inline-label">逻辑处理器</span>
+<span class="info-inline-content" id="">1</span>
+</div>
+<div class="info-inline">
+<span class="info-inline-label">缓存</span>
+<span class="info-inline-content" id="cpu_cache_size">0 MiB</span>
+</div>
+</div>
+
+<div class="info_block"></div>
+</div>
 </div>
 <div>
 <div class="chart-title-set">

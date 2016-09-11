@@ -41,10 +41,12 @@ $cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents
 $memory_info = get_mem_info_map(explode("\n", trim(file_get_contents("/proc/meminfo"))));
 $system_env = array(
 	'version' => 1,
+	'psssword_require' => false,
 	'cpu' => $cpu_info,
 	'memory' => $memory_info,
 	'network' => $network_cards
 );
+
 if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 	echo json_encode($system_env);
 } else {
