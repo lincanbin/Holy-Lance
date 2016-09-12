@@ -18,6 +18,12 @@ function exec_command($command)
 	return $temp[0];
 }
 
+function exec_command_all($command)
+{
+	exec($command, $temp);
+	return implode("\n", $temp);
+}
+
 function get_cpu_info_map($cpu_info_val)
 {
 	$result = array();
@@ -51,8 +57,8 @@ $cpu_info = array(
 	'cpu_processor_num' => exec_command('cat /proc/cpuinfo | grep "processor" | wc -l'), // CPU逻辑处理器个数
 	'cpu_frequency' => exec_command('cat /proc/cpuinfo | grep MHz | uniq | awk -F ":" \'{print $2}\''), // CPU 频率
 );
-$all_cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents("/proc/cpuinfo"))));
-$memory_info = get_mem_info_map(explode("\n", trim(file_get_contents("/proc/meminfo"))));
+$all_cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(exec_command_all('cat /proc/cpuinfo'))));
+$memory_info = get_mem_info_map(explode("\n", trim(exec_command_all('cat /proc/meminfo'))));
 $system_env = array(
 	'version' => 1,
 	'psssword_require' => false,
