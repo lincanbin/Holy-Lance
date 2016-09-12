@@ -246,7 +246,7 @@ h2.resp-accordion {
 	width: 85%;
 	margin: 0 auto;
 	margin-top: 10px;
-	margin-bottom: 20px;
+	margin-bottom: 200px;
 }
 
 .info_block {
@@ -257,7 +257,7 @@ h2.resp-accordion {
 .info {
 	display: block;
 	float: left;
-	margin: 15px 30px;
+	margin: 5px 30px;
 }
 
 .info-clear{
@@ -265,21 +265,28 @@ h2.resp-accordion {
 }
 
 .info-label {
+	color: #707070;
+	font-size: 12px;
 	display: block;
 }
 
 .info-content {
+	font-size: 22px;
+	font-weight: 500;
 	display: block;
 }
 
 
 .info-inline {
+	font-size: 12px;
 	display: block;
-	margin: 10px 10px;
+	margin: 7px 10px;
 }
 
 .info-inline-label {
-	display: inline;
+	width: 120px;
+	color: #707070;
+	display: inline-block;
 }
 
 .info-inline-content {

@@ -76,15 +76,15 @@
 
 							<div class="info_block">
 								<div class="info-inline">
-									<span class="info-inline-label">最大速度</span>
+									<span class="info-inline-label">最大速度:</span>
 									<span class="info-inline-content" id="cpu_max_frequency">0 GHz</span>
 								</div>
 								<div class="info-inline">
-									<span class="info-inline-label">逻辑处理器</span>
+									<span class="info-inline-label">逻辑处理器:</span>
 									<span class="info-inline-content" id="">1</span>
 								</div>
 								<div class="info-inline">
-									<span class="info-inline-label">缓存</span>
+									<span class="info-inline-label">缓存:</span>
 									<span class="info-inline-content" id="cpu_cache_size">0 MiB</span>
 								</div>
 							</div>

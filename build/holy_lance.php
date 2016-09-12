@@ -464,7 +464,7 @@ right: 20px;
 width: 85%;
 margin: 0 auto;
 margin-top: 10px;
-margin-bottom: 20px;
+margin-bottom: 200px;
 }
 
 .info_block {
@@ -475,7 +475,7 @@ float: left;
 .info {
 display: block;
 float: left;
-margin: 15px 30px;
+margin: 5px 30px;
 }
 
 .info-clear{
@@ -483,21 +483,28 @@ clear: both;
 }
 
 .info-label {
+color: #707070;
+font-size: 12px;
 display: block;
 }
 
 .info-content {
+font-size: 22px;
+font-weight: 500;
 display: block;
 }
 
 
 .info-inline {
+font-size: 12px;
 display: block;
-margin: 10px 10px;
+margin: 7px 10px;
 }
 
 .info-inline-label {
-display: inline;
+width: 120px;
+color: #707070;
+display: inline-block;
 }
 
 .info-inline-content {
@@ -1190,15 +1197,15 @@ endif;
 
 <div class="info_block">
 <div class="info-inline">
-<span class="info-inline-label">最大速度</span>
+<span class="info-inline-label">最大速度:</span>
 <span class="info-inline-content" id="cpu_max_frequency">0 GHz</span>
 </div>
 <div class="info-inline">
-<span class="info-inline-label">逻辑处理器</span>
+<span class="info-inline-label">逻辑处理器:</span>
 <span class="info-inline-content" id="">1</span>
 </div>
 <div class="info-inline">
-<span class="info-inline-label">缓存</span>
+<span class="info-inline-label">缓存:</span>
 <span class="info-inline-content" id="cpu_cache_size">0 MiB</span>
 </div>
 </div>
