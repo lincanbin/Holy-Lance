@@ -207,8 +207,8 @@ exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $net
 $cpu_info = array(
 'cpu_name' => exec_command('cat /proc/cpuinfo | grep name | cut -f2 -d: | head -1'), // CPU名称
 'cpu_num' => exec_command('cat /proc/cpuinfo | grep "physical id"| sort | uniq | wc -l'), // CPU个数（X路CPU）
-'cpu_processor_num' => exec_command('cat /proc/cpuinfo | grep "processor" | wc -l'), // CPU逻辑处理器个数
 'cpu_core_num' => exec_command('cat /proc/cpuinfo | grep "cores" | uniq | awk -F ":" \'{print $2}\''), // CPU核心数
+'cpu_processor_num' => exec_command('cat /proc/cpuinfo | grep "processor" | wc -l'), // CPU逻辑处理器个数
 'cpu_frequency' => exec_command('cat /proc/cpuinfo | grep MHz | uniq | awk -F ":" \'{print $2}\''), // CPU 频率
 );
 $all_cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents("/proc/cpuinfo"))));
