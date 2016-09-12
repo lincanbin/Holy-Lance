@@ -80,8 +80,16 @@
 									<span class="info-inline-content" id="cpu_max_frequency">0 GHz</span>
 								</div>
 								<div class="info-inline">
+									<span class="info-inline-label">插槽:</span>
+									<span class="info-inline-content" id="cpu_num">1</span>
+								</div>
+								<div class="info-inline">
+									<span class="info-inline-label">内核:</span>
+									<span class="info-inline-content" id="cpu_core_num">1</span>
+								</div>
+								<div class="info-inline">
 									<span class="info-inline-label">逻辑处理器:</span>
-									<span class="info-inline-content" id="">1</span>
+									<span class="info-inline-content" id="cpu_processor_num">1</span>
 								</div>
 								<div class="info-inline">
 									<span class="info-inline-label">缓存:</span>

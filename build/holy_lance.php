@@ -171,6 +171,13 @@ if (!empty($_GET["file"]) && $_GET["file"] == "init.php"):
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
+
+function exec_command($command)
+{
+exec($command, $temp);
+return $temp[0];
+}
+
 function get_cpu_info_map($cpu_info_val)
 {
 $result = array();
@@ -197,12 +204,20 @@ return $result;
 header('Content-type: application/json');
 
 exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $network_cards);
-$cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents("/proc/cpuinfo"))));
+$cpu_info = array(
+'cpu_name' => exec_command('cat /proc/cpuinfo | grep name | cut -f2 -d: | head -1'), // CPU名称
+'cpu_num' => exec_command('cat /proc/cpuinfo | grep "physical id"| sort | uniq | wc -l'), // CPU个数（X路CPU）
+'cpu_processor_num' => exec_command('cat /proc/cpuinfo | grep "processor" | wc -l'), // CPU逻辑处理器个数
+'cpu_core_num' => exec_command('cat /proc/cpuinfo | grep "cores" | uniq | awk -F ":" \'{print $2}\''), // CPU核心数
+'cpu_frequency' => exec_command('cat /proc/cpuinfo | grep MHz | uniq | awk -F ":" \'{print $2}\''), // CPU 频率
+);
+$all_cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(file_get_contents("/proc/cpuinfo"))));
 $memory_info = get_mem_info_map(explode("\n", trim(file_get_contents("/proc/meminfo"))));
 $system_env = array(
 'version' => 1,
 'psssword_require' => false,
-'cpu' => $cpu_info,
+'cpu_info' => $cpu_info,
+'cpu' => $all_cpu_info,
 'memory' => $memory_info,
 'network' => $network_cards
 );
@@ -602,7 +617,7 @@ function init(data) {
 window.env = data;
 window.processSortedBy = 2;
 window.processOrder = 'desc';
-console.log(data);
+// console.log(data);
 for (var eth in data.network) {
 $("#PerformanceList").append('<li>网卡' + data.network[eth] + '<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
 $("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">网卡' + data.network[eth] + '</h2><span class="chart-sub-title" id="eth_name_' + data.network[eth] + '"></span></div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 760px;"></div></div>');
@@ -631,8 +646,15 @@ activate: function() {
 resizeChart();
 }  // Callback function, gets called if tab is switched
 });
-$('#cpu_model_name').text(data.cpu[0].model_name);
+$('#cpu_model_name').text(data.cpu_info.cpu_name);
 $('#total_memory').text(kibiBytesToSize(data.memory.MemTotal));
+$('#cpu_max_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
+$('#cpu_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
+$('#cpu_num').text(data.cpu_info.cpu_num);
+$('#cpu_processor_num').text(data.cpu_info.cpu_processor_num);
+$('#cpu_core_num').text(data.cpu_info.cpu_core_num);
+$('#cpu_cache_size').text(data.cpu[0].cache_size.replace("KB", "KiB"));
+
 window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 window.cpuUsageChartoption = {
 title: {},
@@ -1206,8 +1228,16 @@ endif;
 <span class="info-inline-content" id="cpu_max_frequency">0 GHz</span>
 </div>
 <div class="info-inline">
+<span class="info-inline-label">插槽:</span>
+<span class="info-inline-content" id="cpu_num">1</span>
+</div>
+<div class="info-inline">
+<span class="info-inline-label">内核:</span>
+<span class="info-inline-content" id="cpu_core_num">1</span>
+</div>
+<div class="info-inline">
 <span class="info-inline-label">逻辑处理器:</span>
-<span class="info-inline-content" id="">1</span>
+<span class="info-inline-content" id="cpu_processor_num">1</span>
 </div>
 <div class="info-inline">
 <span class="info-inline-label">缓存:</span>
