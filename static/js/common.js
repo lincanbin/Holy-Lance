@@ -269,6 +269,10 @@ function refreshChart() {
 		},
 		dataType: "json",
 		success: function(data){
+			$("#cpu_usage_info_label").text(data.cpu_usage + "%");
+			$("#process_number").text(data.process_number);
+			$("#uptime").text(data.uptime);
+
 			axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
 			// CPU
 			$("#cpu_usage_label").text(data.cpu_usage + "%");

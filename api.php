@@ -27,9 +27,10 @@ $system_info['load'] = sys_getloadavg();
 
 //uptime
 $uptime = array();
-exec("uptime | awk -F ',' '{print $1 $2}' | awk -F 'up' '{print $2}'", $uptime);
+exec("cat /proc/uptime | awk '{print $1}'", $uptime);
 if (!empty($uptime)){
-	$system_info['uptime'] = $uptime[0];
+	$uptime[0] = intval($uptime[0]);
+	$system_info['uptime'] = intval($uptime[0] / 86400) . ":" . sprintf("%02d", $uptime[0] % 86400 / 3600) . ":" . sprintf("%02d", $uptime[0] % 3600 / 60) . ":" . sprintf("%02d", $uptime[0] % 60);
 }
 unset($uptime);
 
