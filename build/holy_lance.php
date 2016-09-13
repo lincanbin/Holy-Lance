@@ -13,6 +13,13 @@ if (!empty($_GET["file"]) && $_GET["file"] == "api.php"):
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
+
+function api_exec_command($command)
+{
+exec($command, $temp);
+return $temp[0];
+}
+
 header('Content-type: application/json');
 
 define('SAMPLING_TIME', 250000); // 250ms
@@ -101,35 +108,16 @@ unset($network_status2);
 unset($network_usage);
 
 // memory: KiB
-$memory_usage_total = array();
-exec("free | grep \"Mem\" | awk '{print $2}'", $memory_usage_total);
-$system_info['memory_usage_total'] = $memory_usage_total[0];
-unset($memory_usage_total);
+$system_info['memory_usage_total'] = api_exec_command("free | grep \"Mem\" | awk '{print $2}'");
+$system_info['memory_usage_used'] = api_exec_command("free | grep \"Mem\" | awk '{print $3}'");
+$system_info['memory_usage_free'] = api_exec_command("free | grep \"Mem\" | awk '{print $4}'");
+$system_info['memory_usage_buff'] = api_exec_command("cat /proc/meminfo | grep Buffers: | awk '{print $2}'");
+$system_info['memory_usage_cache'] = api_exec_command("cat /proc/meminfo | grep Cached: | awk '{print $2}'");
+$system_info['memory_usage_available'] = api_exec_command("cat /proc/meminfo | grep MemAvailable: | awk '{print $2}'");
 
-$memory_usage_used = array();
-exec("free | grep \"Mem\" | awk '{print $3}'", $memory_usage_used);
-$system_info['memory_usage_used'] = $memory_usage_used[0];
-unset($memory_usage_used);
-
-$memory_usage_free = array();
-exec("free | grep \"Mem\" | awk '{print $4}'", $memory_usage_free);
-$system_info['memory_usage_free'] = $memory_usage_free[0];
-unset($memory_usage_free);
-
-$memory_usage_swap_total = array();
-exec("free | grep \"Swap\" | awk '{print $2}'", $memory_usage_swap_total);
-$system_info['memory_usage_swap_total'] = $memory_usage_swap_total[0];
-unset($memory_usage_swap_total);
-
-$memory_usage_swap_used = array();
-exec("free | grep \"Swap\" | awk '{print $3}'", $memory_usage_swap_used);
-$system_info['memory_usage_swap_used'] = $memory_usage_swap_used[0];
-unset($memory_usage_swap_used);
-
-$memory_usage_swap_free = array();
-exec("free | grep \"Swap\" | awk '{print $4}'", $memory_usage_swap_free);
-$system_info['memory_usage_swap_free'] = $memory_usage_swap_free[0];
-unset($memory_usage_swap_free);
+$system_info['memory_usage_swap_total'] = api_exec_command("free | grep \"Swap\" | awk '{print $2}'");
+$system_info['memory_usage_swap_used'] = api_exec_command("free | grep \"Swap\" | awk '{print $3}'");
+$system_info['memory_usage_swap_free'] = api_exec_command("free | grep \"Swap\" | awk '{print $4}'");
 
 // process
 $process_number = array();
@@ -219,13 +207,18 @@ $cpu_info = array(
 );
 $all_cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(exec_command_all('cat /proc/cpuinfo'))));
 $memory_info = get_mem_info_map(explode("\n", trim(exec_command_all('cat /proc/meminfo'))));
+$network_info = array();
+foreach ($network_cards as $eth) {
+$network_info[$eth]['ip'] = explode("\n", exec_command_all("ifconfig " . $eth . " | grep 'inet' | awk '{ print $2}'"));
+}
 $system_env = array(
 'version' => 1,
 'psssword_require' => false,
 'cpu_info' => $cpu_info,
 'cpu' => $all_cpu_info,
 'memory' => $memory_info,
-'network' => $network_cards
+'network' => $network_cards,
+'network_info' => $network_info
 );
 
 if (version_compare(PHP_VERSION, '5.4.0') < 0) {
@@ -816,7 +809,7 @@ password: password
 },
 dataType: "json",
 success: function(data){
-$("#cpu_usage_info_label").text(data.cpu_usage + "%");
+$("#cpu_usage").text(data.cpu_usage + "%");
 $("#process_number").text(data.process_number);
 $("#uptime").text(data.uptime);
 
@@ -1211,7 +1204,7 @@ endif;
 <div class="info_block">
 <div class="info">
 <span class="info-label">利用率</span>
-<span class="info-content" id="cpu_usage_info_label">0%</span>
+<span class="info-content" id="cpu_usage_info">0%</span>
 </div>
 <div class="info">
 <span class="info-label">速度</span>
@@ -1261,6 +1254,36 @@ endif;
 <span class="chart-sub-title" id="total_memory"></span>
 </div>
 <div id="memory_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+<div class="info_block_container">
+<div class="info_block">
+<div class="info">
+<span class="info-label">使用中</span>
+<span class="info-content" id="memory_usage_used">0 MiB</span>
+</div>
+<div class="info">
+<span class="info-label">可用</span>
+<span class="info-content" id="memory_usage_available">0 MiB</span>
+</div>
+<div class="info-clear"></div>
+<div class="info">
+<span class="info-label">Swap使用中</span>
+<span class="info-content" id="memory_usage_swap_used">0 MiB</span>
+</div>
+<div class="info">
+<span class="info-label">Swap可用</span>
+<span class="info-content" id="memory_usage_swap_free">0 MiB</span>
+</div>
+<div class="info-clear"></div>
+<div class="info">
+<span class="info-label">已提交</span>
+<span class="info-content" id="memory_submit">0 MiB</span>
+</div>
+<div class="info">
+<span class="info-label">已缓存</span>
+<span class="info-content" id="memory_usage_cache">0 MiB</span>
+</div>
+</div>
+</div>
 </div>
 <div>
 <div class="chart-title-set">

@@ -59,13 +59,18 @@ $cpu_info = array(
 );
 $all_cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(exec_command_all('cat /proc/cpuinfo'))));
 $memory_info = get_mem_info_map(explode("\n", trim(exec_command_all('cat /proc/meminfo'))));
+$network_info = array();
+foreach ($network_cards as $eth) {
+	$network_info[$eth]['ip'] = explode("\n", exec_command_all("ifconfig " . $eth . " | grep 'inet' | awk '{ print $2}'"));
+}
 $system_env = array(
 	'version' => 1,
 	'psssword_require' => false,
 	'cpu_info' => $cpu_info,
 	'cpu' => $all_cpu_info,
 	'memory' => $memory_info,
-	'network' => $network_cards
+	'network' => $network_cards,
+	'network_info' => $network_info
 );
 
 if (version_compare(PHP_VERSION, '5.4.0') < 0) {
