@@ -11,6 +11,13 @@
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
+
+function api_exec_command($command)
+{
+	exec($command, $temp);
+	return $temp[0];
+}
+
 header('Content-type: application/json');
 
 define('SAMPLING_TIME', 250000); // 250ms
@@ -99,35 +106,16 @@ unset($network_status2);
 unset($network_usage);
 
 // memory: KiB
-$memory_usage_total = array();
-exec("free | grep \"Mem\" | awk '{print $2}'", $memory_usage_total);
-$system_info['memory_usage_total'] = $memory_usage_total[0];
-unset($memory_usage_total);
+$system_info['memory_usage_total'] = api_exec_command("free | grep \"Mem\" | awk '{print $2}'");
+$system_info['memory_usage_used'] = api_exec_command("free | grep \"Mem\" | awk '{print $3}'");
+$system_info['memory_usage_free'] = api_exec_command("free | grep \"Mem\" | awk '{print $4}'");
+$system_info['memory_usage_buff'] = api_exec_command("cat /proc/meminfo | grep Buffers: | awk '{print $2}'");
+$system_info['memory_usage_cache'] = api_exec_command("cat /proc/meminfo | grep Cached: | awk '{print $2}'");
+$system_info['memory_usage_available'] = api_exec_command("cat /proc/meminfo | grep MemAvailable: | awk '{print $2}'");
 
-$memory_usage_used = array();
-exec("free | grep \"Mem\" | awk '{print $3}'", $memory_usage_used);
-$system_info['memory_usage_used'] = $memory_usage_used[0];
-unset($memory_usage_used);
-
-$memory_usage_free = array();
-exec("free | grep \"Mem\" | awk '{print $4}'", $memory_usage_free);
-$system_info['memory_usage_free'] = $memory_usage_free[0];
-unset($memory_usage_free);
-
-$memory_usage_swap_total = array();
-exec("free | grep \"Swap\" | awk '{print $2}'", $memory_usage_swap_total);
-$system_info['memory_usage_swap_total'] = $memory_usage_swap_total[0];
-unset($memory_usage_swap_total);
-
-$memory_usage_swap_used = array();
-exec("free | grep \"Swap\" | awk '{print $3}'", $memory_usage_swap_used);
-$system_info['memory_usage_swap_used'] = $memory_usage_swap_used[0];
-unset($memory_usage_swap_used);
-
-$memory_usage_swap_free = array();
-exec("free | grep \"Swap\" | awk '{print $4}'", $memory_usage_swap_free);
-$system_info['memory_usage_swap_free'] = $memory_usage_swap_free[0];
-unset($memory_usage_swap_free);
+$system_info['memory_usage_swap_total'] = api_exec_command("free | grep \"Swap\" | awk '{print $2}'");
+$system_info['memory_usage_swap_used'] = api_exec_command("free | grep \"Swap\" | awk '{print $3}'");
+$system_info['memory_usage_swap_free'] = api_exec_command("free | grep \"Swap\" | awk '{print $4}'");
 
 // process
 $process_number = array();

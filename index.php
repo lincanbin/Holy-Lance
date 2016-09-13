@@ -56,7 +56,7 @@
 							<div class="info_block">
 								<div class="info">
 									<span class="info-label">利用率</span>
-									<span class="info-content" id="cpu_usage_info_label">0%</span>
+									<span class="info-content" id="cpu_usage_info">0%</span>
 								</div>
 								<div class="info">
 									<span class="info-label">速度</span>
@@ -106,6 +106,36 @@
 							<span class="chart-sub-title" id="total_memory"></span>
 						</div>
 						<div id="memory_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+						<div class="info_block_container">
+							<div class="info_block">
+								<div class="info">
+									<span class="info-label">使用中</span>
+									<span class="info-content" id="memory_usage_used">0 MiB</span>
+								</div>
+								<div class="info">
+									<span class="info-label">可用</span>
+									<span class="info-content" id="memory_usage_available">0 MiB</span>
+								</div>
+								<div class="info-clear"></div>
+								<div class="info">
+									<span class="info-label">Swap使用中</span>
+									<span class="info-content" id="memory_usage_swap_used">0 MiB</span>
+								</div>
+								<div class="info">
+									<span class="info-label">Swap可用</span>
+									<span class="info-content" id="memory_usage_swap_free">0 MiB</span>
+								</div>
+								<div class="info-clear"></div>
+								<div class="info">
+									<span class="info-label">已提交</span>
+									<span class="info-content" id="memory_submit">0 MiB</span>
+								</div>
+								<div class="info">
+									<span class="info-label">已缓存</span>
+									<span class="info-content" id="memory_usage_cache">0 MiB</span>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div>
 						<div class="chart-title-set">

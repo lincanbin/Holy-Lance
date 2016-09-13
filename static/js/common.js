@@ -86,8 +86,15 @@ function init(data) {
 	window.processOrder = 'desc';
 	// console.log(data);
 	for (var eth in data.network) {
-		$("#PerformanceList").append('<li>网卡' + data.network[eth] + '<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
-		$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">网卡' + data.network[eth] + '</h2><span class="chart-sub-title" id="eth_name_' + data.network[eth] + '"></span></div><div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 460px;"></div></div>');
+		$("#PerformanceList").append('<li>网卡' + 
+			data.network[eth] + 
+			'<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
+		$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">网卡' + 
+			data.network[eth] + 
+			'</h2><span class="chart-sub-title" id="eth_name_' + data.network[eth] + '"></span></div>' + 
+			'<div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 460px;"></div>' +
+			
+			'</div>');
 	}
 	$('#MainTab').easyResponsiveTabs({
 		type: 'default', //Types: default, vertical, accordion
@@ -276,9 +283,18 @@ function refreshChart() {
 		},
 		dataType: "json",
 		success: function(data){
-			$("#cpu_usage_info_label").text(data.cpu_usage + "%");
+			$("#cpu_usage_info").text(data.cpu_usage + "%");
 			$("#process_number").text(data.process_number);
 			$("#uptime").text(data.uptime);
+
+			$("#memory_usage_used").text(kibiBytesToSize(data.memory_usage_used));
+			$("#memory_usage_available").text(kibiBytesToSize(parseInt(data.memory_usage_total) - parseInt(data.memory_usage_used)));
+			
+			$("#memory_usage_swap_used").text(kibiBytesToSize(data.memory_usage_swap_used));
+			$("#memory_usage_swap_free").text(kibiBytesToSize(data.memory_usage_swap_free));
+
+			$("#memory_submit").text(kibiBytesToSize(parseInt(data.memory_usage_used) + parseInt(data.memory_usage_swap_used)) + " / " + kibiBytesToSize(parseInt(data.memory_usage_total) + parseInt(data.memory_usage_swap_total)));
+			$("#memory_usage_cache").text(kibiBytesToSize(data.memory_usage_cache));
 
 			axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
 			// CPU
