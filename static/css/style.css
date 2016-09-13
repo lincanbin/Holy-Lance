@@ -17,7 +17,7 @@ body {
 	height:100%;
 	margin: 0;
 	padding: 0;
-	background: #f5f5f5;
+	background: #FFF;
 	font-family: 'Segoe UI';
 }
 table {
@@ -81,6 +81,14 @@ h2.resp-accordion {
 	display: none;
 	padding: 15px;
 }
+.resp-tab-item .main {
+	border: 1px solid #F5F5F5 !important;
+	border-bottom: none;
+	margin-bottom: -1px !important;
+	padding: 19px 144px 21px 144px !important;
+	border-top: 4px solid #F5F5F5 !important;
+	border-bottom: 0 #fff solid !important;
+}
 .resp-tab-active {
 	border: 1px solid #5AB1D0 !important;
 	border-bottom: none;
@@ -97,7 +105,7 @@ h2.resp-accordion {
 	display: block;
 }
 .resp-tab-content {
-	border: 1px solid #c1c1c1;
+	/*border: 1px solid #c1c1c1;*/
 	border-top-color: #5AB1D0;
 }
 h2.resp-accordion {
@@ -132,7 +140,7 @@ h2.resp-tab-title:last-child {
 .resp-vtabs .resp-tabs-container {
 	padding: 0;
 	background-color: #fff;
-	border: 1px solid #c1c1c1;
+	/*border: 1px solid #c1c1c1;*/
 	float: left;
 	width: 83%;
 	min-height: 460px;
