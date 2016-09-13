@@ -73,10 +73,12 @@ function kibiBytesToSize(bytes) {
 function resizeChart() {
 	window.cpuUsageChart.resize();
 	window.memoryUsageChart.resize();
-	window.diskUsageChart.resize();
-	window.diskSpeedChart.resize();
-	for (var eth in window.env.network) {
-		window.networkUsageChart[window.env.network[eth]].resize();
+	for (var offset in window.env.network) {
+		window.networkUsageChart[window.env.network[offset]].resize();
+	}
+	for (var offset in window.env.disk) {
+		window.diskUsageChart[window.env.disk[offset]].resize();
+		window.diskSpeedChart[window.env.disk[offset]].resize();
 	}
 }
 
@@ -84,18 +86,31 @@ function init(data) {
 	window.env = data;
 	window.processSortedBy = 2;
 	window.processOrder = 'desc';
-	// console.log(data);
-	for (var eth in data.network) {
-		$("#PerformanceList").append('<li>网卡' + 
-			data.network[eth] + 
-			'<p><span class="tab-label" id="network_' + data.network[eth] + '_usage_label"></span></p></li>');
-		$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">网卡' + 
-			data.network[eth] + 
-			'</h2><span class="chart-sub-title" id="eth_name_' + data.network[eth] + '"></span></div>' + 
-			'<div id="network_' + data.network[eth] + '_usage" style="width: 100%; height:100%; min-height: 460px;"></div>' +
-			
+	console.log(data);
+	for (var offset in data.disk) {
+		$("#PerformanceList").append('<li>磁盘' + 
+			data.disk[offset] + 
+			'<p><span class="tab-label" id="disk_' + data.disk[offset] + '_usage_label"></span></p></li>');
+		$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">磁盘' + 
+			data.disk[offset] + 
+			'</h2><span class="chart-sub-title" id="disk_' + data.disk[offset] + '_size"></span></div>' + 
+			'<div id="disk_' + data.disk[offset] + '_usage" style="width: 100%; height: 460px;"></div>' +
+			'<div id="disk_' + data.disk[offset] + '_speed" style="width: 100%; height: 360px;"></div>' +
 			'</div>');
 	}
+
+	for (var offset in data.network) {
+		$("#PerformanceList").append('<li>网卡' + 
+			data.network[offset] + 
+			'<p><span class="tab-label" id="network_' + data.network[offset] + '_usage_label"></span></p></li>');
+		$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">网卡' + 
+			data.network[offset] + 
+			'</h2><span class="chart-sub-title" id="eth_name_' + data.network[offset] + '"></span></div>' + 
+			'<div id="network_' + data.network[offset] + '_usage" style="width: 100%; height: 460px;"></div>' +
+
+			'</div>');
+	}
+
 	$('#MainTab').easyResponsiveTabs({
 		type: 'default', //Types: default, vertical, accordion
 		width: 'auto', //auto or any width like 600px
@@ -112,10 +127,10 @@ function init(data) {
 		width: 'auto',
 		fit: true,
 		tabidentify: 'performance', // The tab groups identifier
-		activetab_bg: '#fff', // background color for active tabs in this group
-		inactive_bg: '#F5F5F5', // background color for inactive tabs in this group
-		active_border_color: '#c1c1c1', // border color for active tabs heads in this group
-		active_content_border_color: '#5AB1D0', // border color for active tabs contect in this group so that it matches the tab head border
+		// activetab_bg: '#FFFFFF', // background color for active tabs in this group
+		// inactive_bg: '#F5F5F5', // background color for inactive tabs in this group
+		// active_border_color: '#C1C1C1', // border color for active tabs heads in this group
+		// active_content_border_color: '#5AB1D0', // border color for active tabs contect in this group so that it matches the tab head border
 		activate: function() {
 			resizeChart();
 		}  // Callback function, gets called if tab is switched
@@ -175,33 +190,37 @@ function init(data) {
 	memoryUsageChartoption.color = ['#8B12AE'];
 	memoryUsageChartoption.series[0].name = 'Memory Usage';
 
+	window.diskUsageChart = [];
+	window.diskUsageChartoption = [];
+	window.diskSpeedChart = [];
+	window.diskSpeedChartoption = [];
+	for (var offset in data.disk) {
+		window.diskUsageChart[data.disk[offset]] = echarts.init(document.getElementById('disk_' + data.disk[offset] + '_usage'));
+		window.diskUsageChartoption[data.disk[offset]] = cloneObject(window.cpuUsageChartoption);
+		diskUsageChartoption[data.disk[offset]].yAxis.name = '活动时间 %';
+		diskUsageChartoption[data.disk[offset]].color = ['#4DA60C'];
+		diskUsageChartoption[data.disk[offset]].series[0].name = 'Disk Usage';
 
-	window.diskUsageChart = echarts.init(document.getElementById('disk_usage'));
-	window.diskUsageChartoption = cloneObject(window.cpuUsageChartoption);
-	diskUsageChartoption.yAxis.name = '活动时间 %';
-	diskUsageChartoption.color = ['#4DA60C'];
-	diskUsageChartoption.series[0].name = 'Disk Usage';
-
-	window.diskSpeedChart = echarts.init(document.getElementById('disk_speed'));
-	window.diskSpeedChartoption = cloneObject(window.cpuUsageChartoption);
-	diskSpeedChartoption.yAxis.name = '磁盘传输速率  read(+) / write(-) KiB/s';
-	diskSpeedChartoption.yAxis.max = null;
-	diskSpeedChartoption.yAxis.min = null;
-	diskSpeedChartoption.color = ['#4DA60C'];
-	diskSpeedChartoption.series[0].name = 'Disk Speed';
-	diskSpeedChartoption.series[1] = cloneObject(diskSpeedChartoption.series[0]);
-
+		window.diskSpeedChart[data.disk[offset]] = echarts.init(document.getElementById('disk_' + data.disk[offset] + '_speed'));
+		window.diskSpeedChartoption[data.disk[offset]] = cloneObject(window.cpuUsageChartoption);
+		diskSpeedChartoption[data.disk[offset]].yAxis.name = '磁盘传输速率  read(+) / write(-) KiB/s';
+		diskSpeedChartoption[data.disk[offset]].yAxis.max = null;
+		diskSpeedChartoption[data.disk[offset]].yAxis.min = null;
+		diskSpeedChartoption[data.disk[offset]].color = ['#4DA60C'];
+		diskSpeedChartoption[data.disk[offset]].series[0].name = 'Disk Speed';
+		diskSpeedChartoption[data.disk[offset]].series[1] = cloneObject(diskSpeedChartoption[data.disk[offset]].series[0]);
+	}
 	window.networkUsageChart = [];
 	window.networkUsageChartoption = [];
-	for (var eth in data.network) {
-		window.networkUsageChart[data.network[eth]] = echarts.init(document.getElementById('network_' + data.network[eth] + '_usage'));
-		window.networkUsageChartoption[data.network[eth]] = cloneObject(window.cpuUsageChartoption);
-		networkUsageChartoption[data.network[eth]].yAxis.name = '吞吐量 out(+) / in(-) KiB/s';
-		networkUsageChartoption[data.network[eth]].yAxis.max = null;
-		networkUsageChartoption[data.network[eth]].yAxis.min = null;
-		networkUsageChartoption[data.network[eth]].color = ['#A74F01'];
-		networkUsageChartoption[data.network[eth]].series[0].name = 'Network Usage';
-		networkUsageChartoption[data.network[eth]].series[1] = cloneObject(networkUsageChartoption[data.network[eth]].series[0]);
+	for (var offset in data.network) {
+		window.networkUsageChart[data.network[offset]] = echarts.init(document.getElementById('network_' + data.network[offset] + '_usage'));
+		window.networkUsageChartoption[data.network[offset]] = cloneObject(window.cpuUsageChartoption);
+		networkUsageChartoption[data.network[offset]].yAxis.name = '吞吐量 out(+) / in(-) KiB/s';
+		networkUsageChartoption[data.network[offset]].yAxis.max = null;
+		networkUsageChartoption[data.network[offset]].yAxis.min = null;
+		networkUsageChartoption[data.network[offset]].color = ['#A74F01'];
+		networkUsageChartoption[data.network[offset]].series[0].name = 'Network Usage';
+		networkUsageChartoption[data.network[offset]].series[1] = cloneObject(networkUsageChartoption[data.network[offset]].series[0]);
 	}
 
 	refreshChart();
@@ -312,22 +331,28 @@ function refreshChart() {
 			memoryUsageChartoption.xAxis.data.shift();
 			memoryUsageChartoption.xAxis.data.push(axisData);
 			memoryUsageChart.setOption(memoryUsageChartoption);
-			// Disk Usage
-			var disk_usage_percent = Math.min((data.disk_read_active_time + data.disk_write_active_time) / 10, 100);
-			$("#disk_usage_label").text(disk_usage_percent + "%");
-			diskUsageChartoption.series[0].data.shift();
-			diskUsageChartoption.series[0].data.push(disk_usage_percent);
-			diskUsageChartoption.xAxis.data.shift();
-			diskUsageChartoption.xAxis.data.push(axisData);
-			diskUsageChart.setOption(diskUsageChartoption);
-			// Disk Speed
-			diskSpeedChartoption.series[0].data.shift();
-			diskSpeedChartoption.series[0].data.push(data.disk_read_speed);
-			diskSpeedChartoption.series[1].data.shift();
-			diskSpeedChartoption.series[1].data.push(-data.disk_write_speed);
-			diskSpeedChartoption.xAxis.data.shift();
-			diskSpeedChartoption.xAxis.data.push(axisData);
-			diskSpeedChart.setOption(diskSpeedChartoption);
+			// Disk
+			for (var offset in window.env.disk) {
+				// console.log(window.env.disk[offset]);
+				// console.log(data.disk[window.env.disk[offset]]);
+				// Disk Usage
+				var disk_usage_percent = Math.min((data.disk[window.env.disk[offset]].disk_read_active_time + data.disk[window.env.disk[offset]].disk_write_active_time) / 10, 100);
+				$("#disk_" + window.env.disk[offset] + "_usage_label").text(disk_usage_percent + "%");
+				diskUsageChartoption[window.env.disk[offset]].series[0].data.shift();
+				diskUsageChartoption[window.env.disk[offset]].series[0].data.push(disk_usage_percent);
+				diskUsageChartoption[window.env.disk[offset]].xAxis.data.shift();
+				diskUsageChartoption[window.env.disk[offset]].xAxis.data.push(axisData);
+				window.diskUsageChart[window.env.disk[offset]].setOption(diskUsageChartoption[window.env.disk[offset]]);
+				// console.log(window.diskUsageChart[window.env.disk[offset]].isDisposed);
+				// Disk Speed
+				diskSpeedChartoption[window.env.disk[offset]].series[0].data.shift();
+				diskSpeedChartoption[window.env.disk[offset]].series[0].data.push(data.disk[window.env.disk[offset]].disk_read_speed);
+				diskSpeedChartoption[window.env.disk[offset]].series[1].data.shift();
+				diskSpeedChartoption[window.env.disk[offset]].series[1].data.push(-data.disk[window.env.disk[offset]].disk_write_speed);
+				diskSpeedChartoption[window.env.disk[offset]].xAxis.data.shift();
+				diskSpeedChartoption[window.env.disk[offset]].xAxis.data.push(axisData);
+				window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[window.env.disk[offset]]);
+			}
 			// Network
 			for (var eth in window.env.network) {
 				$("#network_" + window.env.network[eth] + "_usage_label").text("发送：" + kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + "/s 接收：" + kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + "/s");

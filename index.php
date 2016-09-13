@@ -34,6 +34,7 @@
 		<li>性能</li>
 		<li>进程</li>
 		<li>环境</li>
+		<li>关于</li>
 	</ul>
 	<div class="resp-tabs-container main">
 		<div>
@@ -43,7 +44,6 @@
 				<ul class="resp-tabs-list performance" id="PerformanceList">
 					<li>CPU<p><span class="tab-label" id="cpu_usage_label"></span></p></li>
 					<li>内存<p><span class="tab-label" id="memory_usage_label"></span></p></li>
-					<li>磁盘<p><span class="tab-label" id="disk_usage_label"></span></p></li>
 				</ul>
 				<div class="resp-tabs-container performance" id="PerformanceContainer">
 					<div>
@@ -51,7 +51,7 @@
 							<h2 class="chart-title">CPU</h2>
 							<span class="chart-sub-title" id="cpu_model_name">Loading</span>
 						</div>
-						<div id="cpu_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+						<div id="cpu_usage" style="width: 100%; height: 460px;"></div>
 						<div class="info_block_container">
 							<div class="info_block">
 								<div class="info">
@@ -105,7 +105,7 @@
 							<h2 class="chart-title">内存</h2>
 							<span class="chart-sub-title" id="total_memory"></span>
 						</div>
-						<div id="memory_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
+						<div id="memory_usage" style="width: 100%; height: 460px;"></div>
 						<div class="info_block_container">
 							<div class="info_block">
 								<div class="info">
@@ -137,23 +137,24 @@
 							</div>
 						</div>
 					</div>
-					<div>
-						<div class="chart-title-set">
-							<h2 class="chart-title">磁盘</h2>
-							<span class="chart-sub-title" id="disk_size"></span>
-						</div>
-						<div id="disk_usage" style="width: 100%; height:100%; min-height: 460px;"></div>
-						<div id="disk_speed" style="width: 100%; height:100%; min-height: 360px;"></div>
-					</div>
 				</div>
 			</div>
-			<p>
-			<br /><a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a></p>
+			
 		</div>
 		<div id="Process"></div>
 		<div>
-			 TODO.<br><br>
-			<p>Child 3 Container</p>
+			<div class="info_block_container">
+				<p>
+				<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
+				</p>
+			</div>
+		</div>
+		<div>
+			<div class="info_block_container">
+				<p>
+				<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
+				</p>
+			</div>
 		</div>
 	</div>
 </div>
