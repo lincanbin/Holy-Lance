@@ -50,6 +50,7 @@ function get_mem_info_map($mem_info)
 header('Content-type: application/json');
 
 exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $network_cards);
+exec("cat /proc/diskstats | awk '{print $3}'", $disk);
 $cpu_info = array(
 	'cpu_name' => exec_command('cat /proc/cpuinfo | grep name | cut -f2 -d: | head -1'), // CPU名称
 	'cpu_num' => exec_command('cat /proc/cpuinfo | grep "physical id"| sort | uniq | wc -l'), // CPU个数（X路CPU）
@@ -68,6 +69,7 @@ $system_env = array(
 	'psssword_require' => false,
 	'cpu_info' => $cpu_info,
 	'cpu' => $all_cpu_info,
+	'disk' => $disk,
 	'memory' => $memory_info,
 	'network' => $network_cards,
 	'network_info' => $network_info
