@@ -316,15 +316,10 @@ display: none;
 }
 .resp-tab-content {
 display: none;
-padding: 15px;
+padding: 15px 0;
 }
 .resp-tab-item .main {
-border: 1px solid #F5F5F5 !important;
-border-bottom: none;
-margin-bottom: -1px !important;
-padding: 19px 144px 21px 144px !important;
-border-top: 4px solid #F5F5F5 !important;
-border-bottom: 0 #fff solid !important;
+border-top: 4px solid #C1C1C1 !important;
 }
 .resp-tab-active {
 border: 1px solid #5AB1D0 !important;
@@ -441,7 +436,7 @@ border-top: 1px solid #c1c1c1;
 /* !important;*/
 }
 /*Here your can change the breakpoint to set the accordion, when screen resolution changed*/
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1300px) {
 ul.resp-tabs-list {
 display: none;
 }
@@ -662,6 +657,7 @@ width: 'auto', //auto or any width like 600px
 fit: true, // 100% fit in a container
 closed: 'accordion', // Start closed if in accordion view
 tabidentify: 'main', // The tab groups identifier
+inactive_bg: '#F5F5F5', // background color for inactive 
 activate: function() {
 resizeChart();
 }
@@ -1342,13 +1338,66 @@ endif;
 </div>
 
 </div>
-<div id="Process"></div>
+<div id="Process">
+</div>
 <div>
 <div class="info_block_container">
-<p>
-<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
-</p>
+<div class="info_block">
+<div class="info">
+<span class="info-label">系统类型</span>
+<span class="info-content"><?php echo php_uname('s'); ?></span>
 </div>
+<div class="info">
+<span class="info-label">系统版本</span>
+<span class="info-content"><?php echo php_uname('r'); ?></span>
+</div>
+<div class="info">
+<span class="info-label">系统语言</span>
+<span class="info-content"><?php echo $_SERVER['HTTP_ACCEPT_LANGUAGE']; ?></span>
+</div>
+<div class="info-clear"></div>
+
+<div class="info">
+<span class="info-label">PHP版本</span>
+<span class="info-content"><?php echo phpversion(); ?></span>
+</div>
+<div class="info">
+<span class="info-label">MySQL客户端版本</span>
+<span class="info-content"><?php echo mysqli_get_client_version(); ?></span>
+</div>
+<div class="info">
+<span class="info-label">Zend引擎版本</span>
+<span class="info-content"><?php echo zend_version(); ?></span>
+</div>
+<div class="info">
+<span class="info-label">服务器解析引擎</span>
+<span class="info-content"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></span>
+</div>
+<div class="info-clear"></div>
+
+<div class="info">
+<span class="info-label">服务器接口类型</span>
+<span class="info-content"><?php echo php_sapi_name(); ?></span>
+</div>
+<div class="info">
+<span class="info-label">服务器IP</span>
+<span class="info-content"><?php echo GetHostByName($_SERVER['SERVER_NAME']); ?></span>
+</div>
+<div class="info">
+<span class="info-label">服务器端口</span>
+<span class="info-content"><?php echo $_SERVER['SERVER_PORT']; ?></span>
+</div>
+</div>
+<div class="info_block">
+<?php foreach(get_loaded_extensions() as $extension): ?>
+<div class="info-inline">
+<span class="info-inline-label">已编译扩展: </span>
+<span class="info-inline-content" id="cpu_max_frequency"><?php echo $extension; ?></span>
+</div>
+<?php endforeach; ?>
+</div>
+</div>
+
 </div>
 <div>
 <div class="info_block_container">

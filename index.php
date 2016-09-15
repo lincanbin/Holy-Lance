@@ -141,13 +141,66 @@
 			</div>
 			
 		</div>
-		<div id="Process"></div>
+		<div id="Process">
+		</div>
 		<div>
 			<div class="info_block_container">
-				<p>
-				<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
-				</p>
+				<div class="info_block">
+					<div class="info">
+						<span class="info-label">系统类型</span>
+						<span class="info-content"><?php echo php_uname('s'); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">系统版本</span>
+						<span class="info-content"><?php echo php_uname('r'); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">系统语言</span>
+						<span class="info-content"><?php echo $_SERVER['HTTP_ACCEPT_LANGUAGE']; ?></span>
+					</div>
+					<div class="info-clear"></div>
+
+					<div class="info">
+						<span class="info-label">PHP版本</span>
+						<span class="info-content"><?php echo phpversion(); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">MySQL客户端版本</span>
+						<span class="info-content"><?php echo mysqli_get_client_version(); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">Zend引擎版本</span>
+						<span class="info-content"><?php echo zend_version(); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">服务器解析引擎</span>
+						<span class="info-content"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></span>
+					</div>
+					<div class="info-clear"></div>
+
+					<div class="info">
+						<span class="info-label">服务器接口类型</span>
+						<span class="info-content"><?php echo php_sapi_name(); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">服务器IP</span>
+						<span class="info-content"><?php echo GetHostByName($_SERVER['SERVER_NAME']); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">服务器端口</span>
+						<span class="info-content"><?php echo $_SERVER['SERVER_PORT']; ?></span>
+					</div>
+				</div>
+				<div class="info_block">
+				<?php foreach(get_loaded_extensions() as $extension): ?>
+					<div class="info-inline">
+						<span class="info-inline-label">已编译扩展: </span>
+						<span class="info-inline-content" id="cpu_max_frequency"><?php echo $extension; ?></span>
+					</div>
+				<?php endforeach; ?>
+				</div>
 			</div>
+
 		</div>
 		<div>
 			<div class="info_block_container">

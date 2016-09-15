@@ -117,6 +117,7 @@ function init(data) {
 		fit: true, // 100% fit in a container
 		closed: 'accordion', // Start closed if in accordion view
 		tabidentify: 'main', // The tab groups identifier
+		inactive_bg: '#F5F5F5', // background color for inactive 
 		activate: function() {
 			resizeChart();
 		}
