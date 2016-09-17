@@ -94,8 +94,33 @@ function init(data) {
 		$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">磁盘' + 
 			data.disk[offset] + 
 			'</h2><span class="chart-sub-title" id="disk_' + data.disk[offset] + '_size"></span></div>' + 
-			'<div id="disk_' + data.disk[offset] + '_usage" style="width: 100%; height: 460px;"></div>' +
-			'<div id="disk_' + data.disk[offset] + '_speed" style="width: 100%; height: 360px;"></div>' +
+			'	<div id="disk_' + data.disk[offset] + '_usage" style="width: 100%; height: 460px;"></div>' +
+			'	<div id="disk_' + data.disk[offset] + '_speed" style="width: 100%; height: 360px;"></div>' +
+			'	<div class="info_block_container">' +
+			'		<div class="info_block">' +
+			'			<div class="info">' +
+			'				<span class="info-label">活动时间</span>' +
+			'				<span class="info-content" id="disk_' + data.disk[offset] + '_usage_info">0 %</span>' +
+			'			</div>' +
+			'			<div class="info">' +
+			'				<span class="info-label">平均读取响应时间</span>' +
+			'				<span class="info-content" id="disk_' + data.disk[offset] + '_read_active_time">0 毫秒</span>' +
+			'			</div>' +
+			'			<div class="info">' +
+			'				<span class="info-label">平均写入响应时间</span>' +
+			'				<span class="info-content" id="disk_' + data.disk[offset] + '_write_active_time">0 毫秒</span>' +
+			'			</div>' +
+			'			<div class="info-clear"></div>' +
+			'			<div class="info">' +
+			'				<span class="info-label">读取速度</span>' +
+			'				<span class="info-content" id="disk_' + data.disk[offset] + '_read_speed">0 KiB / 秒</span>' +
+			'			</div>' +
+			'			<div class="info">' +
+			'				<span class="info-label">写入速度</span>' +
+			'				<span class="info-content" id="disk_' + data.disk[offset] + '_write_speed">0 KiB / 秒</span>' +
+			'			</div>' +
+			'		</div>' +
+			'	</div>' +
 			'</div>');
 	}
 
@@ -339,6 +364,11 @@ function refreshChart() {
 				// Disk Usage
 				var disk_usage_percent = Math.min((data.disk[window.env.disk[offset]].disk_read_active_time + data.disk[window.env.disk[offset]].disk_write_active_time) / 10, 100);
 				$("#disk_" + window.env.disk[offset] + "_usage_label").text(disk_usage_percent + "%");
+				$("#disk_" + window.env.disk[offset] + "_usage_info").text(disk_usage_percent + "%");
+				$("#disk_" + window.env.disk[offset] + "_read_active_time").text(data.disk[window.env.disk[offset]].disk_read_active_time + " 毫秒");
+				$("#disk_" + window.env.disk[offset] + "_write_active_time").text(data.disk[window.env.disk[offset]].disk_write_active_time + " 毫秒");
+				$("#disk_" + window.env.disk[offset] + "_read_speed").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_read_speed) + " / 秒");
+				$("#disk_" + window.env.disk[offset] + "_write_speed").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_write_speed) + " / 秒");
 				diskUsageChartoption[window.env.disk[offset]].series[0].data.shift();
 				diskUsageChartoption[window.env.disk[offset]].series[0].data.push(disk_usage_percent);
 				diskUsageChartoption[window.env.disk[offset]].xAxis.data.shift();
