@@ -74,8 +74,10 @@ if (!empty($disk_usage1)) {
 	foreach (range(0, count($disk_usage1) / 5 - 1) as $offset) {
 		$system_info['disk'][$disk_usage2[0 + $offset * 5]]['disk_read_speed'] = round(($disk_usage2[1 + $offset * 5] - $disk_usage1[1 + $offset * 5]) / 2 / (SAMPLING_TIME / 1000000), 1);
 		$system_info['disk'][$disk_usage2[0 + $offset * 5]]['disk_read_active_time'] = round(($disk_usage2[2 + $offset * 5] - $disk_usage1[2 + $offset * 5]) / (SAMPLING_TIME / 1000000), 1);
+		$system_info['disk'][$disk_usage2[0 + $offset * 5]]['disk_read_kibibytes'] = round($disk_usage2[1 + $offset * 5] / 2);
 		$system_info['disk'][$disk_usage2[0 + $offset * 5]]['disk_write_speed'] = round(($disk_usage2[3 + $offset * 5] - $disk_usage1[3 + $offset * 5]) / 2 / (SAMPLING_TIME / 1000000), 1);
 		$system_info['disk'][$disk_usage2[0 + $offset * 5]]['disk_write_active_time'] = round(($disk_usage2[4 + $offset * 5] - $disk_usage1[4 + $offset * 5]) / (SAMPLING_TIME / 1000000), 1);
+		$system_info['disk'][$disk_usage2[0 + $offset * 5]]['disk_write_kibibytes'] = round($disk_usage2[3 + $offset * 5] / 2);
 	}
 }
 unset($cpu_usage1);
