@@ -190,22 +190,49 @@
 						<span class="info-label">服务器端口</span>
 						<span class="info-content"><?php echo $_SERVER['SERVER_PORT']; ?></span>
 					</div>
-				</div>
-				<div class="info_block">
+				
+					<div class="info-clear"></div>
 				<?php foreach(get_loaded_extensions() as $extension): ?>
-					<div class="info-inline">
-						<span class="info-inline-label">已编译扩展: </span>
-						<span class="info-inline-content" id="cpu_max_frequency"><?php echo $extension; ?></span>
+					<div class="info">
+						<span class="info-label">已编译扩展: </span>
+						<span class="info-content" id="cpu_max_frequency"><?php echo $extension; ?></span>
 					</div>
 				<?php endforeach; ?>
+				</div>
+				<div class="info_block">
+
 				</div>
 			</div>
 
 		</div>
 		<div>
 			<div class="info_block_container">
+				<p><pre>
+					MIT License
+
+Copyright (c) 2016 Canbin Lin (lincanbin@hotmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+				</pre></p>
 				<p>
-				<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
+				GitHub地址：<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
 				</p>
 			</div>
 		</div>
