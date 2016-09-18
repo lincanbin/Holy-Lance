@@ -212,6 +212,7 @@ function init(data) {
 			resizeChart();
 		}  // Callback function, gets called if tab is switched
 	});
+	$('#system_name').text(data.system_name);
 	$('#cpu_model_name').text(data.cpu_info.cpu_name);
 	$('#total_memory').text(kibiBytesToSize(data.memory.MemTotal));
 	$('#cpu_max_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");

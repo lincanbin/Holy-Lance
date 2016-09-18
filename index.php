@@ -151,6 +151,10 @@
 						<span class="info-content"><?php echo php_uname('s'); ?></span>
 					</div>
 					<div class="info">
+						<span class="info-label">发行版信息</span>
+						<span class="info-content" id="system_name"></span>
+					</div>
+					<div class="info">
 						<span class="info-label">系统版本</span>
 						<span class="info-content"><?php echo php_uname('r'); ?></span>
 					</div>
@@ -233,6 +237,9 @@ SOFTWARE.
 				</pre></p>
 				<p>
 				GitHub地址：<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
+				</p>
+				<p>
+				
 				</p>
 			</div>
 		</div>
