@@ -112,6 +112,15 @@ function init(data) {
 			'			</div>' +
 			'			<div class="info-clear"></div>' +
 			'			<div class="info">' +
+			'				<span class="info-label">总读取字节</span>' +
+			'				<span class="info-content" id="disk_' + data.disk[offset] + '_read_kibibytes">0 KiB</span>' +
+			'			</div>' +
+			'			<div class="info">' +
+			'				<span class="info-label">总写入字节</span>' +
+			'				<span class="info-content" id="disk_' + data.disk[offset] + '_write_kibibytes">0 KiB</span>' +
+			'			</div>' +
+			'			<div class="info-clear"></div>' +
+			'			<div class="info">' +
 			'				<span class="info-label">读取速度</span>' +
 			'				<span class="info-content" id="disk_' + data.disk[offset] + '_read_speed">0 KiB / 秒</span>' +
 			'			</div>' +
@@ -369,6 +378,8 @@ function refreshChart() {
 				$("#disk_" + window.env.disk[offset] + "_write_active_time").text(data.disk[window.env.disk[offset]].disk_write_active_time + " 毫秒");
 				$("#disk_" + window.env.disk[offset] + "_read_speed").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_read_speed) + " / 秒");
 				$("#disk_" + window.env.disk[offset] + "_write_speed").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_write_speed) + " / 秒");
+				$("#disk_" + window.env.disk[offset] + "_read_kibibytes").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_read_kibibytes));
+				$("#disk_" + window.env.disk[offset] + "_write_kibibytes").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_write_kibibytes));
 				diskUsageChartoption[window.env.disk[offset]].series[0].data.shift();
 				diskUsageChartoption[window.env.disk[offset]].series[0].data.push(disk_usage_percent);
 				diskUsageChartoption[window.env.disk[offset]].xAxis.data.shift();
