@@ -217,6 +217,7 @@ $network_info[$eth]['ip'] = explode("\n", exec_command_all("ifconfig " . $eth . 
 }
 $system_env = array(
 'version' => 1,
+'system_name' => exec_command('cat /etc/*-release | head -n1'),
 'psssword_require' => false,
 'cpu_info' => $cpu_info,
 'cpu' => $all_cpu_info,
@@ -753,6 +754,7 @@ activate: function() {
 resizeChart();
 }  // Callback function, gets called if tab is switched
 });
+$('#system_name').text(data.system_name);
 $('#cpu_model_name').text(data.cpu_info.cpu_name);
 $('#total_memory').text(kibiBytesToSize(data.memory.MemTotal));
 $('#cpu_max_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
@@ -1440,6 +1442,10 @@ endif;
 <span class="info-content"><?php echo php_uname('s'); ?></span>
 </div>
 <div class="info">
+<span class="info-label">发行版信息</span>
+<span class="info-content" id="system_name"></span>
+</div>
+<div class="info">
 <span class="info-label">系统版本</span>
 <span class="info-content"><?php echo php_uname('r'); ?></span>
 </div>
@@ -1522,6 +1528,9 @@ SOFTWARE.
 </pre></p>
 <p>
 GitHub地址：<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
+</p>
+<p>
+
 </p>
 </div>
 </div>
