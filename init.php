@@ -15,7 +15,7 @@
 function exec_command($command)
 {
 	exec($command, $temp);
-	return $temp[0];
+	return empty($temp) ? "" : $temp[0];
 }
 
 function exec_command_all($command)

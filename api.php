@@ -15,7 +15,7 @@
 function api_exec_command($command)
 {
 	exec($command, $temp);
-	return $temp[0];
+	return empty($temp) ? "" : $temp[0];
 }
 
 header('Content-type: application/json');
@@ -115,7 +115,6 @@ $system_info['memory_usage_used'] = api_exec_command("free | grep \"Mem\" | awk 
 $system_info['memory_usage_free'] = api_exec_command("free | grep \"Mem\" | awk '{print $4}'");
 $system_info['memory_usage_buff'] = api_exec_command("cat /proc/meminfo | grep Buffers: | awk '{print $2}'");
 $system_info['memory_usage_cache'] = api_exec_command("cat /proc/meminfo | grep Cached: | awk '{print $2}'");
-$system_info['memory_usage_available'] = api_exec_command("cat /proc/meminfo | grep MemAvailable: | awk '{print $2}'");
 
 $system_info['memory_usage_swap_total'] = api_exec_command("free | grep \"Swap\" | awk '{print $2}'");
 $system_info['memory_usage_swap_used'] = api_exec_command("free | grep \"Swap\" | awk '{print $3}'");
