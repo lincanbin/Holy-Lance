@@ -66,6 +66,7 @@ foreach ($network_cards as $eth) {
 }
 $system_env = array(
 	'version' => 1,
+	'system_name' => exec_command('cat /etc/*-release | head -n1'),
 	'psssword_require' => false,
 	'cpu_info' => $cpu_info,
 	'cpu' => $all_cpu_info,
