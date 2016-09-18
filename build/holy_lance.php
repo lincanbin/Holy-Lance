@@ -496,7 +496,7 @@ float: left;
 }
 
 .info {
-min-width: 65px;
+min-width: 130px;
 display: block;
 float: left;
 margin: 5px 30px;
@@ -608,7 +608,7 @@ var kibi = 1024, // or 1000
 sizes = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'],
 i = Math.floor(Math.log(bytes) / Math.log(kibi));
 sizes[-1] = 'B';
-return (bytes / Math.pow(kibi, i)).toPrecision(3) + ' ' + sizes[i];
+return (bytes / Math.pow(kibi, i)).toFixed(2) + ' ' + sizes[i];
 }
 
 function resizeChart() {
@@ -678,12 +678,53 @@ for (var offset in data.network) {
 $("#PerformanceList").append('<li>网卡' + 
 data.network[offset] + 
 '<p><span class="tab-label" id="network_' + data.network[offset] + '_usage_label"></span></p></li>');
-$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">网卡' + 
+var temp = '<div><div class="chart-title-set"><h2 class="chart-title">网卡' + 
 data.network[offset] + 
 '</h2><span class="chart-sub-title" id="eth_name_' + data.network[offset] + '"></span></div>' + 
 '<div id="network_' + data.network[offset] + '_usage" style="width: 100%; height: 460px;"></div>' +
-
-'</div>');
+'<div class="info_block_container">' +
+'<div class="info_block">' +
+'<div class="info">' +
+'<span class="info-label">发送速率</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_transmit_speed">0 KiB / 秒</span>' +
+'</div>' +
+'<div class="info">' +
+'<span class="info-label">已发送字节</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_transmit_bytes">0 KiB</span>' +
+'</div>' +
+'<div class="info">' +
+'<span class="info-label">已发送包</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_transmit_packets">0</span>' +
+'</div>' +
+'<div class="info-clear"></div>' +
+'<div class="info">' +
+'<span class="info-label">接收速率</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_receive_speed">0 KiB / 秒</span>' +
+'</div>' +
+'<div class="info">' +
+'<span class="info-label">已接受字节</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_receive_bytes">0 KiB</span>' +
+'</div>' +
+'<div class="info">' +
+'<span class="info-label">已接收包</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_receive_packets">0</span>' +
+'</div>' +
+'</div>' +
+'<div class="info_block" id="eth_' + data.network[offset] + '_info">';
+for (var offset2 in data.network_info[data.network[offset]].ip) {
+var ip = data.network_info[data.network[offset]].ip[offset2];
+var ip_version = ip.indexOf(":") !== -1 ? "6" : "4";
+temp += '' +
+'<div class="info-inline">' +
+'<span class="info-inline-label">IPV' + ip_version + ' 地址:</span>' +
+'<span class="info-inline-content">' + ip + '</span>' +
+'</div>';
+}
+temp += '' +
+'</div>' +
+'</div>' +
+'</div>';
+$("#PerformanceContainer").append(temp);
 }
 
 $('#MainTab').easyResponsiveTabs({
@@ -718,7 +759,7 @@ $('#cpu_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz
 $('#cpu_num').text(data.cpu_info.cpu_num);
 $('#cpu_processor_num').text(data.cpu_info.cpu_processor_num);
 $('#cpu_core_num').text(data.cpu_info.cpu_core_num);
-$('#cpu_cache_size').text(data.cpu[0].cache_size.replace("KB", "KiB"));
+$('#cpu_cache_size').text(kibiBytesToSize(parseInt(data.cpu[0].cache_size.replace("KB", "").replace(" ", ""))));
 
 window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 window.cpuUsageChartoption = {
@@ -940,6 +981,13 @@ window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[wi
 for (var eth in window.env.network) {
 $("#network_" + window.env.network[eth] + "_usage_label").text("发送：" + kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + "/s 接收：" + kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + "/s");
 // networkUsageChartoption[window.env.network[eth]].yAxis.max = Math.max(data.network[window.env.network[eth]].transmit_speed, data.network[window.env.network[eth]].receive_speed / 1024);
+$("#eth_" + window.env.network[eth] + "_receive_bytes").text(kibiBytesToSize(data.network[window.env.network[eth]].receive_bytes / 1024));
+$("#eth_" + window.env.network[eth] + "_receive_packets").text(data.network[window.env.network[eth]].receive_packets);
+$("#eth_" + window.env.network[eth] + "_receive_speed").text(kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + " / 秒");
+$("#eth_" + window.env.network[eth] + "_transmit_bytes").text(kibiBytesToSize(data.network[window.env.network[eth]].transmit_bytes / 1024));
+$("#eth_" + window.env.network[eth] + "_transmit_packets").text(data.network[window.env.network[eth]].transmit_packets);
+$("#eth_" + window.env.network[eth] + "_transmit_speed").text(kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + " / 秒");
+
 networkUsageChartoption[window.env.network[eth]].series[0].data.shift();
 networkUsageChartoption[window.env.network[eth]].series[0].data.push(-Math.round(data.network[window.env.network[eth]].receive_speed / 1024));
 networkUsageChartoption[window.env.network[eth]].series[1].data.shift();
