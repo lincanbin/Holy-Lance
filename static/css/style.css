@@ -258,7 +258,7 @@ h2.resp-accordion {
 }
 
 .info {
-	min-width: 130px;
+	min-width: 65px;
 	display: block;
 	float: left;
 	margin: 5px 30px;

@@ -496,7 +496,7 @@ float: left;
 }
 
 .info {
-min-width: 130px;
+min-width: 65px;
 display: block;
 float: left;
 margin: 5px 30px;
@@ -689,21 +689,22 @@ data.network[offset] +
 '<span class="info-content" id="eth_' + data.network[offset] + '_transmit_speed">0 KiB / 秒</span>' +
 '</div>' +
 '<div class="info">' +
+'<span class="info-label">接收速率</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_receive_speed">0 KiB / 秒</span>' +
+'</div>' +
+'<div class="info-clear"></div>' +
+'<div class="info">' +
 '<span class="info-label">已发送字节</span>' +
 '<span class="info-content" id="eth_' + data.network[offset] + '_transmit_bytes">0 KiB</span>' +
 '</div>' +
 '<div class="info">' +
-'<span class="info-label">已发送包</span>' +
-'<span class="info-content" id="eth_' + data.network[offset] + '_transmit_packets">0</span>' +
+'<span class="info-label">已接受字节</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_receive_bytes">0 KiB</span>' +
 '</div>' +
 '<div class="info-clear"></div>' +
 '<div class="info">' +
-'<span class="info-label">接收速率</span>' +
-'<span class="info-content" id="eth_' + data.network[offset] + '_receive_speed">0 KiB / 秒</span>' +
-'</div>' +
-'<div class="info">' +
-'<span class="info-label">已接受字节</span>' +
-'<span class="info-content" id="eth_' + data.network[offset] + '_receive_bytes">0 KiB</span>' +
+'<span class="info-label">已发送包</span>' +
+'<span class="info-content" id="eth_' + data.network[offset] + '_transmit_packets">0</span>' +
 '</div>' +
 '<div class="info">' +
 '<span class="info-label">已接收包</span>' +
