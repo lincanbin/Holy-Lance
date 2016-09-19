@@ -10,6 +10,7 @@ A Linux Resource / Performance Monitor based on PHP.
 ## Requirements
 
 * PHP version 5.2.0 or higher.
+* If your PHP version is lower than 5.4, you must disable safe_mode.
 
 ## Install
 

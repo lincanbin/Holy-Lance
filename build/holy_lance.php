@@ -1288,8 +1288,8 @@ endif;
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
-if (!function_exists("exec")) {
-exit("请启用exec()函数！");
+if (!function_exists("exec") || !function_exists("shell_exec")) {
+exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 }
 ?>
 
