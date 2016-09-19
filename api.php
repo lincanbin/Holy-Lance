@@ -12,12 +12,6 @@
  * A Linux Resource / Performance Monitor based on PHP. 
  */
 
-function api_exec_command($command)
-{
-	exec($command, $temp);
-	return empty($temp) ? "" : $temp[0];
-}
-
 header('Content-type: application/json');
 
 define('SAMPLING_TIME', 250000); // 250ms
@@ -110,15 +104,15 @@ unset($network_status2);
 unset($network_usage);
 
 // memory: KiB
-$system_info['memory_usage_total'] = api_exec_command("free | grep \"Mem\" | awk '{print $2}'");
-$system_info['memory_usage_used'] = api_exec_command("free | grep \"Mem\" | awk '{print $3}'");
-$system_info['memory_usage_free'] = api_exec_command("free | grep \"Mem\" | awk '{print $4}'");
-$system_info['memory_usage_buff'] = api_exec_command("cat /proc/meminfo | grep Buffers: | awk '{print $2}'");
-$system_info['memory_usage_cache'] = api_exec_command("cat /proc/meminfo | grep Cached: | awk '{print $2}'");
+$system_info['memory_usage_total'] = trim(shell_exec("free | grep \"Mem\" | awk '{print $2}'"));
+$system_info['memory_usage_used'] = trim(shell_exec("free | grep \"Mem\" | awk '{print $3}'"));
+$system_info['memory_usage_free'] = trim(shell_exec("free | grep \"Mem\" | awk '{print $4}'"));
+$system_info['memory_usage_buff'] = trim(shell_exec("cat /proc/meminfo | grep Buffers: | awk '{print $2}'"));
+$system_info['memory_usage_cache'] = trim(shell_exec("cat /proc/meminfo | grep Cached: | head -n1 | awk '{print $2}'"));
 
-$system_info['memory_usage_swap_total'] = api_exec_command("free | grep \"Swap\" | awk '{print $2}'");
-$system_info['memory_usage_swap_used'] = api_exec_command("free | grep \"Swap\" | awk '{print $3}'");
-$system_info['memory_usage_swap_free'] = api_exec_command("free | grep \"Swap\" | awk '{print $4}'");
+$system_info['memory_usage_swap_total'] = trim(shell_exec("free | grep \"Swap\" | awk '{print $2}'"));
+$system_info['memory_usage_swap_used'] = trim(shell_exec("free | grep \"Swap\" | awk '{print $3}'"));
+$system_info['memory_usage_swap_free'] = trim(shell_exec("free | grep \"Swap\" | awk '{print $4}'"));
 
 // process
 $process_number = array();
