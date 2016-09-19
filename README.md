@@ -17,7 +17,29 @@ A Linux Resource / Performance Monitor based on PHP.
 
 ## Screenshot
 
-* Waiting
+![CPU](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339413531.png)
+
+![Memory](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339422092.png)
+
+![Disk](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339395845.png)
+
+![Network](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339435898.png)
+
+![Process](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339450668.png)
+
+![Information](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339466029.png)
+
+## Donate for Holy Lance
+
+* [Donation list](https://www.94cb.com/t/4288)
+
+* Alipay: 
+
+![Alipay](https://www.94cb.com/upload/donate_small.png)
+
+* Wechat: 
+
+![Wechat](https://www.94cb.com/upload/image/20151027/1445941423826186.png)
 
 ## License
 
