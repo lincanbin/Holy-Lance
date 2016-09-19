@@ -26,3 +26,4 @@ script:
   # - curl -s http://localhost:8080/holy_lance.php?file=api.php
   - php-cgi -f holy_lance.php file=init.php
   - php-cgi -f holy_lance.php file=api.php
+  - php-cgi -f holy_lance.php
