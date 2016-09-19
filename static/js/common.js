@@ -61,6 +61,10 @@ function listSort(arr, field, order){
 	return result; 
 }
 
+function numberFormatter(number) {
+	return number.toString().replace(/(\d{3})/g,'$1 ').replace(/\s*$/,'');
+}
+
 function kibiBytesToSize(bytes) {
 	if (bytes == 0) return '0 B';
 	var kibi = 1024, // or 1000
@@ -443,10 +447,10 @@ function refreshChart() {
 				$("#network_" + window.env.network[eth] + "_usage_label").text("发送：" + kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + "/s 接收：" + kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + "/s");
 				// networkUsageChartoption[window.env.network[eth]].yAxis.max = Math.max(data.network[window.env.network[eth]].transmit_speed, data.network[window.env.network[eth]].receive_speed / 1024);
 				$("#eth_" + window.env.network[eth] + "_receive_bytes").text(kibiBytesToSize(data.network[window.env.network[eth]].receive_bytes / 1024));
-				$("#eth_" + window.env.network[eth] + "_receive_packets").text(data.network[window.env.network[eth]].receive_packets);
+				$("#eth_" + window.env.network[eth] + "_receive_packets").text(numberFormatter(data.network[window.env.network[eth]].receive_packets));
 				$("#eth_" + window.env.network[eth] + "_receive_speed").text(kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + " / 秒");
 				$("#eth_" + window.env.network[eth] + "_transmit_bytes").text(kibiBytesToSize(data.network[window.env.network[eth]].transmit_bytes / 1024));
-				$("#eth_" + window.env.network[eth] + "_transmit_packets").text(data.network[window.env.network[eth]].transmit_packets);
+				$("#eth_" + window.env.network[eth] + "_transmit_packets").text(numberFormatter(data.network[window.env.network[eth]].transmit_packets));
 				$("#eth_" + window.env.network[eth] + "_transmit_speed").text(kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + " / 秒");
 
 				networkUsageChartoption[window.env.network[eth]].series[0].data.shift();
