@@ -14,7 +14,7 @@
 define("BUILD_FILE_NAME", "holy_lance.php");
 define("ENTER_FILE_NAME", "index.php");
 $file_buffer = array();
-$ignore_dir = array(".git", "build");
+$ignore_dir = array(".git", "build", "screenshot");
 $ignore_file = array("../build/build");
 $build_extension = array("php", "css", "js");
 $old_file_name_list = array();
