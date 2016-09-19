@@ -1306,6 +1306,9 @@ endif;
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
+if (!function_exists("exec")) {
+exit("请启用exec()函数！");
+}
 ?>
 
 <!DOCTYPE html>
