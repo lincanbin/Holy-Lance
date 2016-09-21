@@ -11,7 +11,14 @@
  * 
  * A Linux environmental probe.
  */
-define("BUILD_FILE_NAME", "holy_lance.php");
+$args = getopt('n:');
+$build_file_name = trim(!empty($args['n']) ? $args['n'] : "");
+if (!empty($build_file_name)) {
+	define("BUILD_FILE_NAME", $build_file_name . ".php");
+} else {
+	define("BUILD_FILE_NAME", "holy_lance.php");
+}
+
 define("ENTER_FILE_NAME", "index.php");
 $file_buffer = array();
 $ignore_dir = array(".git", "build", "screenshot");
@@ -97,3 +104,5 @@ endif;
 }
 fwrite($fp, $entry_file['content']);
 fclose($fp);
+
+echo "\n\n" . BUILD_FILE_NAME . "has been generated! \n\n\n";
