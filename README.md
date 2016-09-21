@@ -4,13 +4,13 @@ A Linux Resource / Performance Monitor based on PHP.
 ## Demo/Official Website
 
 * [Demo](http://ipv4.94cb.com/Holy-Lance)
-* [官方支持论坛](https://www.94cb.com)
-* [Official support forum](https://en.94cb.com)
+* [中文官方支持论坛](https://www.94cb.com)
+* [English official support forum](https://en.94cb.com)
 
 ## Requirements
 
 * PHP version 5.2.0 or higher.
-* If your PHP version is lower than 5.4, you must disable safe_mode.
+* If your PHP version is lower than 5.4, you must disable [safe_mode](http://php.net/manual/en/features.safe-mode.php).
 
 ## Install
 
@@ -40,7 +40,11 @@ A Linux Resource / Performance Monitor based on PHP.
 
 * Wechat: 
 
-![Wechat](https://www.94cb.com/upload/image/20151027/1445941423826186.png)
+![Wechat](https://www.94cb.com/upload/donate_weixin.png)
+
+* Paypal: 
+
+517038270 (at) qq (dot) com
 
 ## License
 
