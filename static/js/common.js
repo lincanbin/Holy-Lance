@@ -161,7 +161,7 @@ function init(data) {
 			'				<span class="info-content" id="eth_' + data.network[offset] + '_transmit_bytes">0 KiB</span>' +
 			'			</div>' +
 			'			<div class="info">' +
-			'				<span class="info-label">已接受字节</span>' +
+			'				<span class="info-label">已接收字节</span>' +
 			'				<span class="info-content" id="eth_' + data.network[offset] + '_receive_bytes">0 KiB</span>' +
 			'			</div>' +
 			'			<div class="info-clear"></div>' +
