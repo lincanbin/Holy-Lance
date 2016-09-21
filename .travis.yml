@@ -19,7 +19,7 @@ before_script:
   - cd build
 
 script:
-  - php build
+  - php build -n holy_lance
   - php -l holy_lance.php
   # - php -S 0.0.0.0:8080 &
   # - curl -s http://localhost:8080/holy_lance.php?file=init.php
