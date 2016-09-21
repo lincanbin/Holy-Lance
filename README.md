@@ -40,7 +40,7 @@ A Linux Resource / Performance Monitor based on PHP.
 
 * Wechat: 
 
-![Wechat](https://www.94cb.com/upload/donate_weixin.png)
+![Wechat](https://www.94cb.com/upload/donate_weixin_small.png)
 
 * Paypal: 
 
