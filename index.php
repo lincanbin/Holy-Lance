@@ -171,10 +171,6 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 						<span class="info-label">PHP版本</span>
 						<span class="info-content"><?php echo phpversion(); ?></span>
 					</div>
-					<!-- <div class="info">
-						<span class="info-label">MySQL客户端版本</span>
-						<span class="info-content"><?php echo mysqli_get_client_version(); ?></span>
-					</div> -->
 					<div class="info">
 						<span class="info-label">Zend引擎版本</span>
 						<span class="info-content"><?php echo zend_version(); ?></span>
