@@ -44,7 +44,7 @@ A Linux Resource / Performance Monitor based on PHP.
 
 * Paypal: 
 
-517038270 (at) qq (dot) com
+  https://www.paypal.me/lincanbin
 
 ## License
 
