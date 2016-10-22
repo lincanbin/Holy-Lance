@@ -15,14 +15,10 @@ var intervalTime = 3000; // ms
 var password = 12345678; // ms
 
 function getCpuColumn(cpuNumber) {
-	var remainder = 0;
-	var quotient = 0;
 	var start = Math.ceil(Math.sqrt(cpuNumber));
 	for (var i = start; i <= cpuNumber; i++) {
-		remainder = cpuNumber % i;
-		if (remainder === 0) {
-			quotient = cpuNumber / i;
-			// console.log(Math.abs(quotient - i));
+		if ((cpuNumber % i) === 0) {
+			// console.log(Math.abs((cpuNumber / i) - i));
 			return i;
 		}
 	}
