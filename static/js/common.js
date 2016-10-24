@@ -287,7 +287,7 @@ function init(data) {
 	            z: 3,
 	            min: 0,
 	            max: cpuNumber,
-	            splitNumber: 11,
+	            splitNumber: 10,
 	            radius: '50%',
 	            axisLine: {            // 坐标轴线
 	                lineStyle: {       // 属性lineStyle控制线条样式
@@ -328,7 +328,7 @@ function init(data) {
 	            min:0,
 	            max:cpuNumber,
 	            endAngle:45,
-	            splitNumber:7,
+	            splitNumber:10,
 	            axisLine: {            // 坐标轴线
 	                lineStyle: {       // 属性lineStyle控制线条样式
 	                    width: 8
@@ -368,7 +368,7 @@ function init(data) {
 	            max: cpuNumber,
 	            startAngle: 135,
 	            endAngle: -45,
-	            splitNumber: 2,
+	            splitNumber: 10,
 	            axisLine: {            // 坐标轴线
 	                lineStyle: {       // 属性lineStyle控制线条样式
 	                    width: 8
