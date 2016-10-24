@@ -812,7 +812,7 @@ window.loadUsageChartoption = {
             min: 0,
             max: cpuNumber,
             splitNumber: 10,
-            radius: '50%',
+            radius: '70%',
             axisLine: {            // 坐标轴线
                 lineStyle: {       // 属性lineStyle控制线条样式
                     width: 10
@@ -848,7 +848,7 @@ window.loadUsageChartoption = {
             name: '5分钟平均负载',
             type: 'gauge',
             center: ['20%', '55%'],    // 默认全局居中
-            radius: '35%',
+            radius: '55%',
             min:0,
             max:cpuNumber,
             endAngle:45,
@@ -887,7 +887,7 @@ window.loadUsageChartoption = {
             name: '15分钟平均负载',
             type: 'gauge',
             center: ['80%', '55%'],    // 默认全局居中
-            radius: '35%',
+            radius: '55%',
             min: 0,
             max: cpuNumber,
             startAngle: 135,
@@ -1066,7 +1066,7 @@ cpuUsageChartoption.xAxis.data.shift();
 cpuUsageChartoption.xAxis.data.push(axisData);
 cpuUsageChart.setOption(cpuUsageChartoption);
 // Load
-$("#load_usage_label").text(data.load[1]);
+$("#load_usage_label").text(data.load[0]);
 loadUsageChartoption.series[0].data[0].value = data.load[0];
 loadUsageChartoption.series[1].data[0].value = data.load[1];
 loadUsageChartoption.series[2].data[0].value = data.load[2];
