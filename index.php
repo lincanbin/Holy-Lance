@@ -108,7 +108,7 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 						<div class="chart-title-set">
 							<h2 class="chart-title">系统负载</h2>
 						</div>
-						<div id="load_usage" style="width: 100%; height: 460px;"></div>
+						<div id="load_usage" style="width: 100%; height: 660px;"></div>
 					</div>
 					<div>
 						<div class="chart-title-set">
