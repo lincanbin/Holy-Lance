@@ -48,10 +48,10 @@ $network_status2 = array();
 // exec("top -b -n2 | grep \"Cpu(s)\"|tail -n 1 | awk '{print $2 + $4}'", $cpu_usage);
 exec("cat /proc/stat | grep 'cpu' | awk '{print $2+$3+$4+$5+$6+$7+$8+$9+$10\"\\n\" $5}'", $cpu_usage1);
 exec("cat /proc/diskstats | awk '{print $3 \"\\n\" $6 \"\\n\" $7 \"\\n\" $10 \"\\n\" $11}'", $disk_usage1);
-exec("cat /proc/net/dev | grep \":\" | awk '{print $1 $2 \":\"  $3 \":\" $10 \":\" $11}'", $network_status1);
+exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \" \");print $1 \":\" $2 \":\"  $3 \":\" $10 \":\" $11}'", $network_status1);
 usleep(SAMPLING_TIME);
 exec("cat /proc/diskstats | awk '{print $3 \"\\n\" $6 \"\\n\" $7 \"\\n\" $10 \"\\n\" $11}'", $disk_usage2);
-exec("cat /proc/net/dev | grep \":\" | awk '{print $1 $2 \":\"  $3 \":\" $10 \":\" $11}'", $network_status2);
+exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \" \");print $1 \":\" $2 \":\"  $3 \":\" $10 \":\" $11}'", $network_status2);
 exec("cat /proc/stat | grep 'cpu' | awk '{print $2+$3+$4+$5+$6+$7+$8+$9+$10\"\\n\" $5}'", $cpu_usage2);
 // CPU
 if (!empty($cpu_usage1)) {
