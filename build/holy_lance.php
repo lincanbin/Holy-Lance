@@ -881,7 +881,7 @@ window.loadUsageChartoption = {
                     fontWeight: 'bolder'
                 }
             },
-            data:[{value: 0, name: '1分钟平均负载'}]
+            data:[{value: 0, name: '5分钟平均负载'}]
         },
         {
             name: '15分钟平均负载',
