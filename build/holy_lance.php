@@ -609,6 +609,7 @@ return (bytes / Math.pow(kibi, i)).toFixed(2) + ' ' + sizes[i];
 
 function resizeChart() {
 window.cpuUsageChart.resize();
+window.loadUsageChart.resize();
 window.memoryUsageChart.resize();
 for (var offset in window.env.network) {
 window.networkUsageChart[window.env.network[offset]].resize();
@@ -759,6 +760,8 @@ $('#cpu_processor_num').text(data.cpu_info.cpu_processor_num);
 $('#cpu_core_num').text(data.cpu_info.cpu_core_num);
 $('#cpu_cache_size').text(kibiBytesToSize(parseInt(data.cpu[0].cache_size.replace("KB", "").replace(" ", ""))));
 
+var cpuNumber = data.cpu.length;
+
 window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 window.cpuUsageChartoption = {
 title: {},
@@ -797,6 +800,130 @@ return res;
 })()
 }
 ]
+};
+
+window.loadUsageChart = echarts.init(document.getElementById('load_usage'));
+window.loadUsageChartoption = {
+    series : [
+        {
+            name: '1分钟平均负载',
+            type: 'gauge',
+            z: 3,
+            min: 0,
+            max: cpuNumber,
+            splitNumber: 10,
+            radius: '50%',
+            axisLine: {            // 坐标轴线
+                lineStyle: {       // 属性lineStyle控制线条样式
+                    width: 10
+                }
+            },
+            axisTick: {            // 坐标轴小标记
+                length: 15,        // 属性length控制线长
+                lineStyle: {       // 属性lineStyle控制线条样式
+                    color: 'auto'
+                }
+            },
+            splitLine: {           // 分隔线
+                length: 20,         // 属性length控制线长
+                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                    color: 'auto'
+                }
+            },
+            title : {
+                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder',
+                    fontSize: 20,
+                    fontStyle: 'italic'
+                }
+            },
+            detail : {
+                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                }
+            },
+            data:[{value: 0, name: '1分钟平均负载'}]
+        },
+        {
+            name: '5分钟平均负载',
+            type: 'gauge',
+            center: ['20%', '55%'],    // 默认全局居中
+            radius: '35%',
+            min:0,
+            max:cpuNumber,
+            endAngle:45,
+            splitNumber:10,
+            axisLine: {            // 坐标轴线
+                lineStyle: {       // 属性lineStyle控制线条样式
+                    width: 8
+                }
+            },
+            axisTick: {            // 坐标轴小标记
+                length:12,        // 属性length控制线长
+                lineStyle: {       // 属性lineStyle控制线条样式
+                    color: 'auto'
+                }
+            },
+            splitLine: {           // 分隔线
+                length:20,         // 属性length控制线长
+                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                    color: 'auto'
+                }
+            },
+            pointer: {
+                width:5
+            },
+            title: {
+                offsetCenter: [0, '-30%'],       // x, y，单位px
+            },
+            detail: {
+                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                }
+            },
+            data:[{value: 0, name: '1分钟平均负载'}]
+        },
+        {
+            name: '15分钟平均负载',
+            type: 'gauge',
+            center: ['80%', '55%'],    // 默认全局居中
+            radius: '35%',
+            min: 0,
+            max: cpuNumber,
+            startAngle: 135,
+            endAngle: -45,
+            splitNumber: 10,
+            axisLine: {            // 坐标轴线
+                lineStyle: {       // 属性lineStyle控制线条样式
+                    width: 8
+                }
+            },
+            axisTick: {            // 坐标轴小标记
+                length:12,        // 属性length控制线长
+                lineStyle: {       // 属性lineStyle控制线条样式
+                    color: 'auto'
+                }
+            },
+            splitLine: {           // 分隔线
+                length:20,         // 属性length控制线长
+                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                    color: 'auto'
+                }
+            },
+            pointer: {
+                width:5
+            },
+            title: {
+                offsetCenter: [0, '-30%'],       // x, y，单位px
+            },
+            detail: {
+                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                }
+            },
+            data:[{value: 0, name: '15分钟平均负载'}]
+        }
+    ]
 };
 
 window.memoryUsageChart = echarts.init(document.getElementById('memory_usage'));
@@ -940,6 +1067,10 @@ cpuUsageChartoption.xAxis.data.push(axisData);
 cpuUsageChart.setOption(cpuUsageChartoption);
 // Load
 $("#load_usage_label").text(data.load[1]);
+loadUsageChartoption.series[0].data[0].value = data.load[0];
+loadUsageChartoption.series[1].data[0].value = data.load[1];
+loadUsageChartoption.series[2].data[0].value = data.load[2];
+loadUsageChart.setOption(loadUsageChartoption, true);
 // Memory
 $("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + " / " + kibiBytesToSize(data.memory_usage_total) + " (" + Math.round(data.memory_usage_used * 100 / data.memory_usage_total) + "%)");
 memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
@@ -1394,9 +1525,9 @@ exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 </div>
 <div>
 <div class="chart-title-set">
-<h2 class="chart-title">服务器</h2>
+<h2 class="chart-title">系统负载</h2>
 </div>
-<div id="load_usage" style="width: 100%; height: 460px;"></div>
+<div id="load_usage" style="width: 100%; height: 960px;"></div>
 </div>
 <div>
 <div class="chart-title-set">
