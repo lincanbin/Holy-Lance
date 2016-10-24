@@ -85,6 +85,7 @@ function kibiBytesToSize(bytes) {
 
 function resizeChart() {
 	window.cpuUsageChart.resize();
+	window.loadUsageChart.resize();
 	window.memoryUsageChart.resize();
 	for (var offset in window.env.network) {
 		window.networkUsageChart[window.env.network[offset]].resize();
