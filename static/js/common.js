@@ -99,7 +99,7 @@ function init(data) {
 	window.env = data;
 	window.processSortedBy = 2;
 	window.processOrder = 'desc';
-	console.log(data);
+	// console.log(data);
 	for (var offset in data.disk) {
 		$("#PerformanceList").append('<li>磁盘' + 
 			data.disk[offset] + 
@@ -414,6 +414,8 @@ function refreshChart() {
 			cpuUsageChartoption.xAxis.data.shift();
 			cpuUsageChartoption.xAxis.data.push(axisData);
 			cpuUsageChart.setOption(cpuUsageChartoption);
+			// Load
+			$("#load_usage_label").text(data.load[1]);
 			// Memory
 			$("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + " / " + kibiBytesToSize(data.memory_usage_total) + " (" + Math.round(data.memory_usage_used * 100 / data.memory_usage_total) + "%)");
 			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
