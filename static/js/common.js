@@ -288,7 +288,7 @@ function init(data) {
 	            min: 0,
 	            max: cpuNumber,
 	            splitNumber: 10,
-	            radius: '50%',
+	            radius: '70%',
 	            axisLine: {            // 坐标轴线
 	                lineStyle: {       // 属性lineStyle控制线条样式
 	                    width: 10
@@ -324,7 +324,7 @@ function init(data) {
 	            name: '5分钟平均负载',
 	            type: 'gauge',
 	            center: ['20%', '55%'],    // 默认全局居中
-	            radius: '35%',
+	            radius: '55%',
 	            min:0,
 	            max:cpuNumber,
 	            endAngle:45,
@@ -363,7 +363,7 @@ function init(data) {
 	            name: '15分钟平均负载',
 	            type: 'gauge',
 	            center: ['80%', '55%'],    // 默认全局居中
-	            radius: '35%',
+	            radius: '55%',
 	            min: 0,
 	            max: cpuNumber,
 	            startAngle: 135,
