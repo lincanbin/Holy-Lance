@@ -542,7 +542,7 @@ function refreshChart() {
 			cpuUsageChartoption.xAxis.data.push(axisData);
 			cpuUsageChart.setOption(cpuUsageChartoption);
 			// Load
-			$("#load_usage_label").text(data.load[1]);
+			$("#load_usage_label").text(data.load[0]);
 			loadUsageChartoption.series[0].data[0].value = data.load[0];
 			loadUsageChartoption.series[1].data[0].value = data.load[1];
 			loadUsageChartoption.series[2].data[0].value = data.load[2];
