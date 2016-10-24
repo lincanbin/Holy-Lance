@@ -182,7 +182,7 @@ return $result;
 
 header('Content-type: application/json');
 
-exec("cat /proc/net/dev | grep \":\" | awk '{gsub(\":\", \"\");print $1}'", $network_cards);
+exec("cat /proc/net/dev | grep \":\" | awk -F ':' '{gsub(\" \", \"\");print $1}'", $network_cards);
 exec("cat /proc/diskstats | awk '{print $3}'", $disk);
 $cpu_info = array(
 'cpu_name' => trim(shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | head -1')), // CPU名称
