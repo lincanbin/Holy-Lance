@@ -195,7 +195,7 @@ $all_cpu_info = array_map("get_cpu_info_map", explode("\n\n", trim(shell_exec('c
 $memory_info = get_mem_info_map(explode("\n", trim(shell_exec('cat /proc/meminfo'))));
 $network_info = array();
 foreach ($network_cards as $eth) {
-$network_info[$eth]['ip'] = explode("\n", trim(shell_exec("ifconfig " . $eth . " | grep 'inet' | awk '{ print $2}'")));
+$network_info[$eth]['ip'] = explode("\n", trim(shell_exec("ifconfig " . $eth . " | grep 'inet' | sed 's/addr://g' | awk '{print $2}'")));
 }
 $system_env = array(
 'version' => 1,
