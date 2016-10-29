@@ -46,6 +46,7 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 			<div id="PerformanceTab">
 				<ul class="resp-tabs-list performance" id="PerformanceList">
 					<li>CPU<p><span class="tab-label" id="cpu_usage_label"></span></p></li>
+					<li>逻辑处理器<p><span class="tab-label" id="logic_cpu_usage_label"></span></p></li>
 					<li>系统负载<p><span class="tab-label" id="load_usage_label"></span></p></li>
 					<li>内存<p><span class="tab-label" id="memory_usage_label"></span></p></li>
 				</ul>
@@ -104,12 +105,22 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 							<div class="info_block"></div>
 						</div>
 					</div>
+
+					<div>
+						<div class="chart-title-set">
+							<h2 class="chart-title">CPU</h2>
+							<span class="chart-sub-title" id="logic_cpu_model_name">Loading</span>
+						</div>
+						<div id="logic_cpu_usage_container" style="width: 100%; height: 660px;"></div>
+					</div>
+
 					<div>
 						<div class="chart-title-set">
 							<h2 class="chart-title">系统负载</h2>
 						</div>
 						<div id="load_usage" style="width: 100%; height: 960px;"></div>
 					</div>
+
 					<div>
 						<div class="chart-title-set">
 							<h2 class="chart-title">内存</h2>
