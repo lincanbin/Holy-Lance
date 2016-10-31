@@ -71,7 +71,7 @@ function listSort(arr, field, order){
 }
 
 function numberFormatter(number) {
-	return number.toString().replace(/(\d{3})/g,'$1 ').replace(/\s*$/,'');
+	return number.toString().replace(/\d+?(?=(?:\d{3})+$)/img, "$& ");
 }
 
 function kibiBytesToSize(bytes) {
