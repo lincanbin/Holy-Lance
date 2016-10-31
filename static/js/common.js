@@ -562,7 +562,7 @@ function refreshChart() {
 			// Logic CPU
 			for (var i = 0; i < window.env.cpu.length; i++) {
 				logicCpuUsageChartoption[i].series[0].data.shift();
-				logicCpuUsageChartoption[i].series[0].data.push(data.cpu[i]);
+				logicCpuUsageChartoption[i].series[0].data.push(data.logic_cpu_usage[i]);
 				logicCpuUsageChartoption[i].xAxis.data.shift();
 				logicCpuUsageChartoption[i].xAxis.data.push(axisData);
 				window.logicCpuUsage[i].setOption(logicCpuUsageChartoption[i]);
