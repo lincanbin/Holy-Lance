@@ -210,7 +210,7 @@ function init(data) {
 		var logic_cpu_height = Math.floor(640 / (cpuNumber / cpu_column));
 		temp = '';
 		for (var i = 0; i < cpuNumber; i++) {
-			temp += '<div id="logic_cpu_' + i + '_usage" style="width: ' + logic_cpu_width + '%; height: ' + logic_cpu_height + 'px;"></div>';
+			temp += '<div id="logic_cpu_' + i + '_usage" style="float: left;width: ' + logic_cpu_width + '%; height: ' + logic_cpu_height + 'px;"></div>';
 		}
 		$("#logic_cpu_usage_container").html(temp);
 	}
