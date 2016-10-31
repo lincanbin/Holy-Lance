@@ -90,6 +90,9 @@ function resizeChart() {
 	for (var offset in window.env.network) {
 		window.networkUsageChart[window.env.network[offset]].resize();
 	}
+	for (var i = 0; i < window.env.cpu.length; i++) {
+		window.logicCpuUsage[i].resize();
+	}
 	for (var offset in window.env.disk) {
 		window.diskUsageChart[window.env.disk[offset]].resize();
 		window.diskSpeedChart[window.env.disk[offset]].resize();
