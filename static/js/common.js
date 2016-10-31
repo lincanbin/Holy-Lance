@@ -91,7 +91,7 @@ function resizeChart() {
 		window.networkUsageChart[window.env.network[offset]].resize();
 	}
 	for (var i = 0; i < window.env.cpu.length; i++) {
-		window.logicCpuUsage[i].resize();
+		window.logicCpuUsageChart[i].resize();
 	}
 	for (var offset in window.env.disk) {
 		window.diskUsageChart[window.env.disk[offset]].resize();
@@ -565,7 +565,7 @@ function refreshChart() {
 				logicCpuUsageChartoption[i].series[0].data.push(data.logic_cpu_usage[i]);
 				logicCpuUsageChartoption[i].xAxis.data.shift();
 				logicCpuUsageChartoption[i].xAxis.data.push(axisData);
-				window.logicCpuUsage[i].setOption(logicCpuUsageChartoption[i]);
+				window.logicCpuUsageChart[i].setOption(logicCpuUsageChartoption[i]);
 			}
 			// Load
 			$("#load_usage_label").text(data.load[0]);
