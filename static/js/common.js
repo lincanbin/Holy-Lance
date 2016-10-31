@@ -242,6 +242,7 @@ function init(data) {
 	});
 	$('#system_name').text(data.system_name);
 	$('#cpu_model_name').text(data.cpu_info.cpu_name);
+	$('#logic_cpu_model_name').text(data.cpu_info.cpu_name);
 	$('#total_memory').text(kibiBytesToSize(data.memory.MemTotal));
 	$('#cpu_max_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
 	$('#cpu_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
@@ -560,6 +561,8 @@ function refreshChart() {
 			$("#process_number").text(data.process_number);
 			$("#uptime").text(data.uptime);
 
+			$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%  ') + '%');
+			
 			$("#memory_usage_used").text(kibiBytesToSize(data.memory_usage_used));
 			$("#memory_usage_available").text(kibiBytesToSize(parseInt(data.memory_usage_total) - parseInt(data.memory_usage_used)));
 			
