@@ -268,6 +268,9 @@ function init(data) {
 		yAxis: {
 			type: 'value',
 			name: 'CPU利用率 %',
+			splitLine: {
+				show: true
+			},
 			max: 100,
 			min: 0
 		},
@@ -429,7 +432,9 @@ function init(data) {
 			bottom: 3
 		};
 		logicCpuUsageChartoption[i].xAxis.show = false;
-		logicCpuUsageChartoption[i].yAxis.axisLabel.show = false;
+		logicCpuUsageChartoption[i].yAxis.axisLabel = {
+            show: false
+        };
 		logicCpuUsageChartoption[i].yAxis.name = 'CPU' + i + ' 利用率 %';
 		logicCpuUsageChartoption[i].series[0].name = 'CPU' + i + ' Usage';
 	}
