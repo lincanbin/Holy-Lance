@@ -97,6 +97,7 @@ function resizeChart() {
 }
 
 function init(data) {
+	var cpuNumber = data.cpu.length;
 	window.env = data;
 	window.processSortedBy = 2;
 	window.processOrder = 'desc';
@@ -199,6 +200,15 @@ function init(data) {
 			'	</div>' +
 			'</div>';
 		$("#PerformanceContainer").append(temp);
+
+		// 逻辑处理器
+		var cpu_column = getCpuColumn(cpuNumber);
+		var logic_cpu_width = Math.floor(100 / cpu_column);
+		var logic_cpu_height = Math.floor(640 / (cpuNumber / cpu_column));
+		for (var i = 0; i < cpuNumber; i++) {
+			temp += '<div id="logic_cpu_' + i + '_usage" style="width: ' + logic_cpu_width + '%; height: ' + logic_cpu_height + 'px;"></div>';
+		}
+		$("logic_cpu_usage_container").html(temp);
 	}
 
 	$('#MainTab').easyResponsiveTabs({
@@ -235,8 +245,6 @@ function init(data) {
 	$('#cpu_processor_num').text(data.cpu_info.cpu_processor_num);
 	$('#cpu_core_num').text(data.cpu_info.cpu_core_num);
 	$('#cpu_cache_size').text(kibiBytesToSize(parseInt(data.cpu[0].cache_size.replace("KB", "").replace(" ", ""))));
-
-	var cpuNumber = data.cpu.length;
 
 	window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 	window.cpuUsageChartoption = {
@@ -402,6 +410,13 @@ function init(data) {
 	    ]
 	};
 
+	window.logicCpuUsageChart = [];
+	window.logicCpuUsageChartoption = [];
+	for (var i = 0; i < cpuNumber; i++) {
+		window.logicCpuUsageChart[i] = echarts.init(document.getElementById('logic_cpu_' + i + '_usage'));
+		window.logicCpuUsageChartoption[i] = cloneObject(window.cpuUsageChartoption);
+		logicCpuUsageChartoption[i].series[0].name = 'CPU' + i + ' Usage';
+	}
 	window.memoryUsageChart = echarts.init(document.getElementById('memory_usage'));
 	window.memoryUsageChartoption = cloneObject(window.cpuUsageChartoption);
 	memoryUsageChartoption.yAxis.name = '内存使用量 MiB';
@@ -541,6 +556,14 @@ function refreshChart() {
 			cpuUsageChartoption.xAxis.data.shift();
 			cpuUsageChartoption.xAxis.data.push(axisData);
 			cpuUsageChart.setOption(cpuUsageChartoption);
+			// Logic CPU
+			for (var i = 0; i < window.env.cpu.length; i++) {
+				logicCpuUsageChartoption[window.env.network[eth]].series[0].data.shift();
+				logicCpuUsageChartoption[window.env.network[eth]].series[0].data.push(data.cpu[i]);
+				networkUsageChartoption[window.env.network[eth]].xAxis.data.shift();
+				networkUsageChartoption[window.env.network[eth]].xAxis.data.push(axisData);
+				window.logicCpuUsage[i].setOption(logicCpuUsageChartoption[i]);
+			}
 			// Load
 			$("#load_usage_label").text(data.load[0]);
 			loadUsageChartoption.series[0].data[0].value = data.load[0];
