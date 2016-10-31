@@ -421,7 +421,7 @@ function init(data) {
 		window.logicCpuUsageChartoption[i] = cloneObject(window.cpuUsageChartoption);
 		logicCpuUsageChartoption[i].grid = {
 			show: true,
-			borderColor: '#CC00FF',
+			borderColor: '#117DBB',
 			borderWidth: 1,
 			left: 3,
 			top: 3,
@@ -429,7 +429,7 @@ function init(data) {
 			bottom: 3
 		};
 		logicCpuUsageChartoption[i].xAxis.show = false;
-		logicCpuUsageChartoption[i].yAxis.show = false;
+		logicCpuUsageChartoption[i].yAxis.axisLabel.show = false;
 		logicCpuUsageChartoption[i].yAxis.name = 'CPU' + i + ' 利用率 %';
 		logicCpuUsageChartoption[i].series[0].name = 'CPU' + i + ' Usage';
 	}
