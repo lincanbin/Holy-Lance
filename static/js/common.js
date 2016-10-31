@@ -420,10 +420,13 @@ function init(data) {
 		window.logicCpuUsageChart[i] = echarts.init(document.getElementById('logic_cpu_' + i + '_usage'));
 		window.logicCpuUsageChartoption[i] = cloneObject(window.cpuUsageChartoption);
 		logicCpuUsageChartoption[i].grid = {
-			left: 2,
-			top: 2,
-			right: 2,
-			bottom: 2
+			show: true,
+			borderColor: '#CC00FF',
+			borderWidth: 1,
+			left: 3,
+			top: 3,
+			right: 3,
+			bottom: 3
 		};
 		logicCpuUsageChartoption[i].xAxis.show = false;
 		logicCpuUsageChartoption[i].yAxis.show = false;
