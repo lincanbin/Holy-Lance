@@ -561,10 +561,10 @@ function refreshChart() {
 			cpuUsageChart.setOption(cpuUsageChartoption);
 			// Logic CPU
 			for (var i = 0; i < window.env.cpu.length; i++) {
-				logicCpuUsageChartoption[window.env.network[eth]].series[0].data.shift();
-				logicCpuUsageChartoption[window.env.network[eth]].series[0].data.push(data.cpu[i]);
-				networkUsageChartoption[window.env.network[eth]].xAxis.data.shift();
-				networkUsageChartoption[window.env.network[eth]].xAxis.data.push(axisData);
+				logicCpuUsageChartoption[i].series[0].data.shift();
+				logicCpuUsageChartoption[i].series[0].data.push(data.cpu[i]);
+				logicCpuUsageChartoption[i].xAxis.data.shift();
+				logicCpuUsageChartoption[i].xAxis.data.push(axisData);
 				window.logicCpuUsage[i].setOption(logicCpuUsageChartoption[i]);
 			}
 			// Load
