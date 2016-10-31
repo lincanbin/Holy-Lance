@@ -595,7 +595,7 @@ return result;
 }
 
 function numberFormatter(number) {
-return number.toString().replace(/(\d{3})/g,'$1 ').replace(/\s*$/,'');
+return number.toString().replace(/\d+?(?=(?:\d{3})+$)/img, "$& ");
 }
 
 function kibiBytesToSize(bytes) {
@@ -614,6 +614,9 @@ window.memoryUsageChart.resize();
 for (var offset in window.env.network) {
 window.networkUsageChart[window.env.network[offset]].resize();
 }
+for (var i = 0; i < window.env.cpu.length; i++) {
+window.logicCpuUsageChart[i].resize();
+}
 for (var offset in window.env.disk) {
 window.diskUsageChart[window.env.disk[offset]].resize();
 window.diskSpeedChart[window.env.disk[offset]].resize();
@@ -621,6 +624,7 @@ window.diskSpeedChart[window.env.disk[offset]].resize();
 }
 
 function init(data) {
+var cpuNumber = data.cpu.length;
 window.env = data;
 window.processSortedBy = 2;
 window.processOrder = 'desc';
@@ -723,6 +727,16 @@ temp += '' +
 '</div>' +
 '</div>';
 $("#PerformanceContainer").append(temp);
+
+// 逻辑处理器
+var cpu_column = getCpuColumn(cpuNumber);
+var logic_cpu_width = Math.floor(100 / cpu_column);
+var logic_cpu_height = Math.floor(640 / (cpuNumber / cpu_column));
+temp = '';
+for (var i = 0; i < cpuNumber; i++) {
+temp += '<div id="logic_cpu_' + i + '_usage" style="float: left;width: ' + logic_cpu_width + '%; height: ' + logic_cpu_height + 'px;"></div>';
+}
+$("#logic_cpu_usage_container").html(temp);
 }
 
 $('#MainTab').easyResponsiveTabs({
@@ -752,6 +766,7 @@ resizeChart();
 });
 $('#system_name').text(data.system_name);
 $('#cpu_model_name').text(data.cpu_info.cpu_name);
+$('#logic_cpu_model_name').text(data.cpu_info.cpu_name);
 $('#total_memory').text(kibiBytesToSize(data.memory.MemTotal));
 $('#cpu_max_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
 $('#cpu_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
@@ -759,8 +774,6 @@ $('#cpu_num').text(data.cpu_info.cpu_num);
 $('#cpu_processor_num').text(data.cpu_info.cpu_processor_num);
 $('#cpu_core_num').text(data.cpu_info.cpu_core_num);
 $('#cpu_cache_size').text(kibiBytesToSize(parseInt(data.cpu[0].cache_size.replace("KB", "").replace(" ", ""))));
-
-var cpuNumber = data.cpu.length;
 
 window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 window.cpuUsageChartoption = {
@@ -780,6 +793,9 @@ return res;
 yAxis: {
 type: 'value',
 name: 'CPU利用率 %',
+splitLine: {
+show: true
+},
 max: 100,
 min: 0
 },
@@ -926,6 +942,27 @@ window.loadUsageChartoption = {
     ]
 };
 
+window.logicCpuUsageChart = [];
+window.logicCpuUsageChartoption = [];
+for (var i = 0; i < cpuNumber; i++) {
+window.logicCpuUsageChart[i] = echarts.init(document.getElementById('logic_cpu_' + i + '_usage'));
+window.logicCpuUsageChartoption[i] = cloneObject(window.cpuUsageChartoption);
+logicCpuUsageChartoption[i].grid = {
+show: true,
+borderColor: '#117DBB',
+borderWidth: 1,
+left: 3,
+top: 3,
+right: 3,
+bottom: 3
+};
+logicCpuUsageChartoption[i].xAxis.show = false;
+logicCpuUsageChartoption[i].yAxis.axisLabel = {
+            show: false
+        };
+logicCpuUsageChartoption[i].yAxis.name = 'CPU' + i + ' 利用率 %';
+logicCpuUsageChartoption[i].series[0].name = 'CPU' + i + ' Usage';
+}
 window.memoryUsageChart = echarts.init(document.getElementById('memory_usage'));
 window.memoryUsageChartoption = cloneObject(window.cpuUsageChartoption);
 memoryUsageChartoption.yAxis.name = '内存使用量 MiB';
@@ -1048,6 +1085,8 @@ $("#cpu_usage_info").text(data.cpu_usage + "%");
 $("#process_number").text(data.process_number);
 $("#uptime").text(data.uptime);
 
+$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%  ') + '%');
+
 $("#memory_usage_used").text(kibiBytesToSize(data.memory_usage_used));
 $("#memory_usage_available").text(kibiBytesToSize(parseInt(data.memory_usage_total) - parseInt(data.memory_usage_used)));
 
@@ -1065,6 +1104,14 @@ cpuUsageChartoption.series[0].data.push(data.cpu_usage);
 cpuUsageChartoption.xAxis.data.shift();
 cpuUsageChartoption.xAxis.data.push(axisData);
 cpuUsageChart.setOption(cpuUsageChartoption);
+// Logic CPU
+for (var i = 0; i < window.env.cpu.length; i++) {
+logicCpuUsageChartoption[i].series[0].data.shift();
+logicCpuUsageChartoption[i].series[0].data.push(data.logic_cpu_usage[i]);
+logicCpuUsageChartoption[i].xAxis.data.shift();
+logicCpuUsageChartoption[i].xAxis.data.push(axisData);
+window.logicCpuUsageChart[i].setOption(logicCpuUsageChartoption[i]);
+}
 // Load
 $("#load_usage_label").text(data.load[0]);
 loadUsageChartoption.series[0].data[0].value = data.load[0];
@@ -1465,6 +1512,7 @@ exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 <div id="PerformanceTab">
 <ul class="resp-tabs-list performance" id="PerformanceList">
 <li>CPU<p><span class="tab-label" id="cpu_usage_label"></span></p></li>
+<li>逻辑处理器<p><span class="tab-label" id="logic_cpu_usage_label"></span></p></li>
 <li>系统负载<p><span class="tab-label" id="load_usage_label"></span></p></li>
 <li>内存<p><span class="tab-label" id="memory_usage_label"></span></p></li>
 </ul>
@@ -1523,12 +1571,22 @@ exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 <div class="info_block"></div>
 </div>
 </div>
+
+<div>
+<div class="chart-title-set">
+<h2 class="chart-title">CPU</h2>
+<span class="chart-sub-title" id="logic_cpu_model_name">Loading</span>
+</div>
+<div id="logic_cpu_usage_container" class="chart-title-set"></div>
+</div>
+
 <div>
 <div class="chart-title-set">
 <h2 class="chart-title">系统负载</h2>
 </div>
 <div id="load_usage" style="width: 100%; height: 960px;"></div>
 </div>
+
 <div>
 <div class="chart-title-set">
 <h2 class="chart-title">内存</h2>
