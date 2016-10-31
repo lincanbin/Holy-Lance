@@ -211,7 +211,7 @@ function init(data) {
 		for (var i = 0; i < cpuNumber; i++) {
 			temp += '<div id="logic_cpu_' + i + '_usage" style="width: ' + logic_cpu_width + '%; height: ' + logic_cpu_height + 'px;"></div>';
 		}
-		$("logic_cpu_usage_container").html(temp);
+		$("#logic_cpu_usage_container").html(temp);
 	}
 
 	$('#MainTab').easyResponsiveTabs({
