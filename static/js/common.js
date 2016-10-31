@@ -419,6 +419,15 @@ function init(data) {
 	for (var i = 0; i < cpuNumber; i++) {
 		window.logicCpuUsageChart[i] = echarts.init(document.getElementById('logic_cpu_' + i + '_usage'));
 		window.logicCpuUsageChartoption[i] = cloneObject(window.cpuUsageChartoption);
+		logicCpuUsageChartoption[i].grid = {
+			left: 2,
+			top: 2,
+			right: 2,
+			bottom: 2
+		};
+		logicCpuUsageChartoption[i].xAxis.show = false;
+		logicCpuUsageChartoption[i].yAxis.show = false;
+		logicCpuUsageChartoption[i].yAxis.name = 'CPU' + i + ' 利用率 %';
 		logicCpuUsageChartoption[i].series[0].name = 'CPU' + i + ' Usage';
 	}
 	window.memoryUsageChart = echarts.init(document.getElementById('memory_usage'));
