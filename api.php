@@ -131,6 +131,32 @@ if (!empty($process_list)) {
 	$system_info['process'] = $process_map;
 }
 unset($process_list);
+
+// network service
+$temp_network_service_list = array();
+exec("netstat -lntp | tail -n +3", $temp_network_service_list);
+if (!empty($temp_network_service_list)) {
+	$network_service_list = array();
+	foreach ($temp_network_service_list as $key => $value) {
+		$network_service_list[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 7);
+	}
+	$system_info['network_service'] = $network_service_list;
+}
+unset($temp_network_service_list);
+
+// connections
+$temp_connection = array();
+exec("netstat -nat| tail -n +3 | awk '{print $6}'|sort|uniq -c", $temp_connection);
+if (!empty($temp_connection)) {
+	$connection = array();
+	foreach ($temp_connection as $key => $value) {
+		$cur_connection = explode(" ", trim($value), 2);
+		$connection[$cur_connection[1]] = intval($cur_connection[0]);
+	}
+	$system_info['connection'] = $connection;
+}
+unset($temp_connection);
+
 if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 	echo json_encode($system_info);
 } else {
