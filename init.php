@@ -37,7 +37,7 @@ function get_mem_info_map($mem_info)
 
 header('Content-type: application/json');
 
-exec("cat /proc/net/dev | grep \":\" | awk -F ':' '{gsub(\" \", \"\");print $1}'", $network_cards);
+exec("cat /proc/net/dev | grep \":\" | awk -F ':' '{gsub(\" \", \"\"); if ($2 > 0) print $1}'", $network_cards);
 exec("cat /proc/diskstats | awk '{if ($4 > 0) print $3}'", $disk);
 $cpu_info = array(
 	'cpu_name' => trim(shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | head -1')), // CPU名称
