@@ -20,6 +20,8 @@ A Linux Resource / Performance Monitor based on PHP.
 
 ![CPU](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339413531.png)
 
+![Multi_CPU](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1477958681909.png)
+
 ![Load](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1477340144069.png)
 
 ![Memory](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339422092.png)
