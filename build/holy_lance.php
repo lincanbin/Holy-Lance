@@ -182,7 +182,7 @@ return $result;
 
 header('Content-type: application/json');
 
-exec("cat /proc/net/dev | grep \":\" | awk -F ':' '{gsub(\" \", \"\");print $1}'", $network_cards);
+exec("cat /proc/net/dev | grep \":\" | awk -F ':' '{gsub(\" \", \"\"); if ($2 > 0) print $1}'", $network_cards);
 exec("cat /proc/diskstats | awk '{if ($4 > 0) print $3}'", $disk);
 $cpu_info = array(
 'cpu_name' => trim(shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | head -1')), // CPU名称
@@ -630,10 +630,10 @@ window.processSortedBy = 2;
 window.processOrder = 'desc';
 // console.log(data);
 for (var offset in data.disk) {
-$("#PerformanceList").append('<li>磁盘' + 
+$("#PerformanceList").append('<li>磁盘 ' + 
 data.disk[offset] + 
 '<p><span class="tab-label" id="disk_' + data.disk[offset] + '_usage_label"></span></p></li>');
-$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">磁盘' + 
+$("#PerformanceContainer").append('<div><div class="chart-title-set"><h2 class="chart-title">磁盘 ' + 
 data.disk[offset] + 
 '</h2><span class="chart-sub-title" id="disk_' + data.disk[offset] + '_size"></span></div>' + 
 '<div id="disk_' + data.disk[offset] + '_usage" style="width: 100%; height: 460px;"></div>' +
@@ -676,10 +676,10 @@ data.disk[offset] +
 }
 
 for (var offset in data.network) {
-$("#PerformanceList").append('<li>网卡' + 
+$("#PerformanceList").append('<li>网卡 ' + 
 data.network[offset] + 
 '<p><span class="tab-label" id="network_' + data.network[offset] + '_usage_label"></span></p></li>');
-var temp = '<div><div class="chart-title-set"><h2 class="chart-title">网卡' + 
+var temp = '<div><div class="chart-title-set"><h2 class="chart-title">网卡 ' + 
 data.network[offset] + 
 '</h2><span class="chart-sub-title" id="eth_name_' + data.network[offset] + '"></span></div>' + 
 '<div id="network_' + data.network[offset] + '_usage" style="width: 100%; height: 460px;"></div>' +
@@ -771,7 +771,7 @@ $('#total_memory').text(kibiBytesToSize(data.memory.MemTotal));
 $('#cpu_max_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
 $('#cpu_frequency').text((data.cpu_info.cpu_frequency / 1000).toFixed(2) + " GHz");
 $('#cpu_num').text(data.cpu_info.cpu_num);
-$('#cpu_processor_num').text(data.cpu_info.cpu_processor_num);
+$('#cpu_processor_num').text(numberFormatter(data.cpu_info.cpu_processor_num));
 $('#cpu_core_num').text(data.cpu_info.cpu_core_num);
 $('#cpu_cache_size').text(kibiBytesToSize(parseInt(data.cpu[0].cache_size.replace("KB", "").replace(" ", ""))));
 
@@ -1085,7 +1085,7 @@ $("#cpu_usage_info").text(data.cpu_usage + "%");
 $("#process_number").text(data.process_number);
 $("#uptime").text(data.uptime);
 
-$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%  ') + '%');
+$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%   ') + '%' + data.logic_cpu_usage.length > 4 ? '  ……' : '');
 
 $("#memory_usage_used").text(kibiBytesToSize(data.memory_usage_used));
 $("#memory_usage_available").text(kibiBytesToSize(parseInt(data.memory_usage_total) - parseInt(data.memory_usage_used)));
