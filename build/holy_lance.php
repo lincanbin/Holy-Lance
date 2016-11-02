@@ -1111,7 +1111,7 @@ $("#cpu_usage_info").text(data.cpu_usage + "%");
 $("#process_number").text(data.process_number);
 $("#uptime").text(data.uptime);
 
-$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%   ') + '%' + data.logic_cpu_usage.length > 4 ? '  ……' : '');
+$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%   ') + '%' + (data.logic_cpu_usage.length > 4 ? '  ……' : ''));
 
 $("#memory_usage_used").text(kibiBytesToSize(data.memory_usage_used));
 $("#memory_usage_available").text(kibiBytesToSize(parseInt(data.memory_usage_total) - parseInt(data.memory_usage_used)));
@@ -1404,7 +1404,7 @@ $respTabs.find("[aria-controls=" + $tabAria + "]").addClass('resp-tab-active').c
 
 $respTabs.find('.resp-tab-content[aria-labelledby = ' + $tabAria + '].' + options.tabidentify).slideDown().addClass('resp-tab-content-active');
 } else {
-console.log('here');
+// console.log('here');
 $respTabs.find('.resp-tab-active.' + options.tabidentify).removeClass('resp-tab-active').css({
 'background-color': options.inactive_bg,
 'border-color': 'none'
