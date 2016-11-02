@@ -561,7 +561,7 @@ function refreshChart() {
 			$("#process_number").text(data.process_number);
 			$("#uptime").text(data.uptime);
 
-			$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%   ') + '%' + data.logic_cpu_usage.length > 4 ? '  ……' : '');
+			$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%   ') + '%' + (data.logic_cpu_usage.length > 4 ? '  ……' : ''));
 			
 			$("#memory_usage_used").text(kibiBytesToSize(data.memory_usage_used));
 			$("#memory_usage_available").text(kibiBytesToSize(parseInt(data.memory_usage_total) - parseInt(data.memory_usage_used)));
