@@ -22,7 +22,21 @@ $system_info = array(
 	'load' => array(0, 0, 0),
 	'uptime' => '0',
 	'cpu_usage' => 0,
-	'logic_cpu_usage' => array()
+	'logic_cpu_usage' => array(),
+	'connection' => array(
+		'ESTABLISHED' => 0,
+		'SYN_SENT' => 0,
+		'SYN_RECV' => 0,
+		'FIN_WAIT1' => 0,
+		'FIN_WAIT2' => 0,
+		'TIME_WAIT' => 0,
+		'CLOSE' => 0,
+		'CLOSE_WAIT' => 0,
+		'LAST_ACK' => 0,
+		'LISTEN' => 0,
+		'CLOSING' => 0,
+		'UNKNOWN' => 0
+		)
 );
 $system_info['load'] = sys_getloadavg();
 
@@ -153,7 +167,7 @@ if (!empty($temp_connection)) {
 		$cur_connection = explode(" ", trim($value), 2);
 		$connection[$cur_connection[1]] = intval($cur_connection[0]);
 	}
-	$system_info['connection'] = $connection;
+	$system_info['connection'] = array_merge($connection, $system_info['connection']);
 }
 unset($temp_connection);
 
