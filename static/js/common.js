@@ -481,6 +481,7 @@ function init(data) {
 		]
 	};
 	connectionUsageChartoption.series[0].name = 'ESTABLISHED';
+	connectionUsageChartoption.series[0].stack = 'AllConnection';
 	connectionUsageChartoption.series[1] = cloneObject(connectionUsageChartoption.series[0]);
 	connectionUsageChartoption.series[1].name = 'SYN_SENT';
 	connectionUsageChartoption.series[2] = cloneObject(connectionUsageChartoption.series[0]);
