@@ -87,6 +87,7 @@ function resizeChart() {
 	window.cpuUsageChart.resize();
 	window.loadUsageChart.resize();
 	window.memoryUsageChart.resize();
+	window.connectionUsageChart.resize();
 	for (var offset in window.env.network) {
 		window.networkUsageChart[window.env.network[offset]].resize();
 	}
@@ -445,6 +446,35 @@ function init(data) {
 	memoryUsageChartoption.color = ['#8B12AE'];
 	memoryUsageChartoption.series[0].name = 'Memory Usage';
 
+	window.connectionUsageChart = echarts.init(document.getElementById('connection_usage'));
+	window.connectionUsageChartoption = cloneObject(window.cpuUsageChartoption);
+	connectionUsageChartoption.yAxis.name = '连接数';
+	connectionUsageChartoption.color = null;
+	connectionUsageChartoption.yAxis.max = null;
+	connectionUsageChartoption.series[0].name = 'ESTABLISHED';
+	connectionUsageChartoption.series[1] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[1].name = 'SYN_SENT';
+	connectionUsageChartoption.series[2] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[2].name = 'SYN_RECV';
+	connectionUsageChartoption.series[3] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[3].name = 'FIN_WAIT1';
+	connectionUsageChartoption.series[4] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[4].name = 'FIN_WAIT2';
+	connectionUsageChartoption.series[5] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[5].name = 'TIME_WAIT';
+	connectionUsageChartoption.series[6] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[6].name = 'CLOSE';
+	connectionUsageChartoption.series[7] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[7].name = 'CLOSE_WAIT';
+	connectionUsageChartoption.series[8] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[8].name = 'LAST_ACK';
+	connectionUsageChartoption.series[9] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[9].name = 'LISTEN';
+	connectionUsageChartoption.series[10] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[10].name = 'CLOSING';
+	connectionUsageChartoption.series[11] = cloneObject(connectionUsageChartoption.series[0]);
+	connectionUsageChartoption.series[11].name = 'UNKNOWN';
+
 	window.diskUsageChart = [];
 	window.diskUsageChartoption = [];
 	window.diskSpeedChart = [];
@@ -602,6 +632,34 @@ function refreshChart() {
 			memoryUsageChartoption.xAxis.data.shift();
 			memoryUsageChartoption.xAxis.data.push(axisData);
 			memoryUsageChart.setOption(memoryUsageChartoption);
+			// Connection
+			connectionUsageChartoption.series[0].data.shift();
+			connectionUsageChartoption.series[0].data.push(data.connection.ESTABLISHED);
+			connectionUsageChartoption.series[1].data.shift();
+			connectionUsageChartoption.series[1].data.push(data.connection.SYN_SENT);
+			connectionUsageChartoption.series[2].data.shift();
+			connectionUsageChartoption.series[2].data.push(data.connection.SYN_RECV);
+			connectionUsageChartoption.series[3].data.shift();
+			connectionUsageChartoption.series[3].data.push(data.connection.FIN_WAIT1);
+			connectionUsageChartoption.series[4].data.shift();
+			connectionUsageChartoption.series[4].data.push(data.connection.FIN_WAIT2);
+			connectionUsageChartoption.series[5].data.shift();
+			connectionUsageChartoption.series[5].data.push(data.connection.TIME_WAIT);
+			connectionUsageChartoption.series[6].data.shift();
+			connectionUsageChartoption.series[6].data.push(data.connection.CLOSE);
+			connectionUsageChartoption.series[7].data.shift();
+			connectionUsageChartoption.series[7].data.push(data.connection.CLOSE_WAIT);
+			connectionUsageChartoption.series[8].data.shift();
+			connectionUsageChartoption.series[8].data.push(data.connection.LAST_ACK);
+			connectionUsageChartoption.series[9].data.shift();
+			connectionUsageChartoption.series[9].data.push(data.connection.LISTEN);
+			connectionUsageChartoption.series[10].data.shift();
+			connectionUsageChartoption.series[10].data.push(data.connection.CLOSING);
+			connectionUsageChartoption.series[11].data.shift();
+			connectionUsageChartoption.series[11].data.push(data.connection.UNKNOWN);
+			connectionUsageChartoption.xAxis.data.shift();
+			connectionUsageChartoption.xAxis.data.push(axisData);
+			connectionUsageChart.setOption(connectionUsageChartoption);
 			// Disk
 			for (var offset in window.env.disk) {
 				// console.log(window.env.disk[offset]);
