@@ -183,6 +183,7 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 									<span class="info-label">FIN_WAIT1</span>
 									<span class="info-content" id="connection_FIN_WAIT1_usage_info">0</span>
 								</div>
+								<div class="info-clear"></div>
 								<div class="info">
 									<span class="info-label">FIN_WAIT2</span>
 									<span class="info-content" id="connection_FIN_WAIT2_usage_info">0</span>
@@ -199,6 +200,7 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 									<span class="info-label">CLOSE_WAIT</span>
 									<span class="info-content" id="connection_CLOSE_WAIT_usage_info">0</span>
 								</div>
+								<div class="info-clear"></div>
 								<div class="info">
 									<span class="info-label">LAST_ACK</span>
 									<span class="info-content" id="connection_LAST_ACK_usage_info">0</span>
@@ -215,10 +217,6 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 									<span class="info-label">UNKNOWN</span>
 									<span class="info-content" id="connection_UNKNOWN_usage_info">0</span>
 								</div>
-							</div>
-
-							<div class="info_block">
-								
 							</div>
 						</div>
 					</div>
