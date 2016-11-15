@@ -449,7 +449,20 @@ function init(data) {
 	window.connectionUsageChart = echarts.init(document.getElementById('connection_usage'));
 	window.connectionUsageChartoption = cloneObject(window.cpuUsageChartoption);
 	connectionUsageChartoption.yAxis.name = '连接数';
-	connectionUsageChartoption.color = null;
+	connectionUsageChartoption.color = [
+		'#F44336',
+		'#9C27B0',
+		'#673AB7',
+		'#2196F3',
+		'#03A9F4',
+		'#009688',
+		'#4CAF50',
+		'#CDDC39',
+		'#FFEB3B',
+		'#FF9800',
+		'#FF5722',
+		'#9E9E9E'
+	];
 	connectionUsageChartoption.yAxis.max = null;
 	connectionUsageChartoption.legend = {
 		data: [
