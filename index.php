@@ -222,7 +222,6 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 							</div>
 						</div>
 					</div>
-					</div>
 
 				</div>
 			</div>
