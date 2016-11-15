@@ -167,7 +167,7 @@ if (!empty($temp_connection)) {
 		$cur_connection = explode(" ", trim($value), 2);
 		$connection[$cur_connection[1]] = intval($cur_connection[0]);
 	}
-	$system_info['connection'] = array_merge($connection, $system_info['connection']);
+	$system_info['connection'] = array_merge($system_info['connection'], $connection);
 }
 unset($temp_connection);
 
