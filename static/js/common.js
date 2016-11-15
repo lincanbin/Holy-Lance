@@ -451,6 +451,22 @@ function init(data) {
 	connectionUsageChartoption.yAxis.name = '连接数';
 	connectionUsageChartoption.color = null;
 	connectionUsageChartoption.yAxis.max = null;
+	connectionUsageChartoption.legend = {
+		data: [
+			'ESTABLISHED',
+			'SYN_SENT',
+			'SYN_RECV',
+			'FIN_WAIT1',
+			'FIN_WAIT2',
+			'TIME_WAIT',
+			'CLOSE',
+			'CLOSE_WAIT',
+			'LAST_ACK',
+			'LISTEN',
+			'CLOSING',
+			'UNKNOWN'
+		]
+	};
 	connectionUsageChartoption.series[0].name = 'ESTABLISHED';
 	connectionUsageChartoption.series[1] = cloneObject(connectionUsageChartoption.series[0]);
 	connectionUsageChartoption.series[1].name = 'SYN_SENT';
