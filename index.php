@@ -49,6 +49,7 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 					<li>逻辑处理器<p><span class="tab-label" id="logic_cpu_usage_label"></span></p></li>
 					<li>系统负载<p><span class="tab-label" id="load_usage_label"></span></p></li>
 					<li>内存<p><span class="tab-label" id="memory_usage_label"></span></p></li>
+					<li>网络连接数<p><span class="tab-label" id="connection_usage_label"></span></p></li>
 				</ul>
 				<div class="resp-tabs-container performance" id="PerformanceContainer">
 					<div>
@@ -158,6 +159,14 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 							</div>
 						</div>
 					</div>
+
+					<div>
+						<div class="chart-title-set">
+							<h2 class="chart-title">网络连接数</h2>
+						</div>
+						<div id="connection_usage" style="width: 100%; height: 460px;"></div>
+					</div>
+
 				</div>
 			</div>
 			
