@@ -706,6 +706,20 @@ function refreshChart() {
 			connectionUsageChartoption.xAxis.data.shift();
 			connectionUsageChartoption.xAxis.data.push(axisData);
 			connectionUsageChart.setOption(connectionUsageChartoption);
+			$('#connection_usage_label').text(
+				data.connection.ESTABLISHED + 
+				data.connection.SYN_SENT + 
+				data.connection.SYN_RECV + 
+				data.connection.FIN_WAIT1 + 
+				data.connection.FIN_WAIT2 + 
+				data.connection.TIME_WAIT + 
+				data.connection.CLOSE + 
+				data.connection.CLOSE_WAIT + 
+				data.connection.LAST_ACK + 
+				data.connection.LISTEN + 
+				data.connection.CLOSING + 
+				data.connection.UNKNOWN
+			);
 			// Disk
 			for (var offset in window.env.disk) {
 				// console.log(window.env.disk[offset]);
