@@ -524,8 +524,9 @@ function init(data) {
 		diskSpeedChartoption[data.disk[offset]].yAxis.max = null;
 		diskSpeedChartoption[data.disk[offset]].yAxis.min = null;
 		diskSpeedChartoption[data.disk[offset]].color = ['#4DA60C'];
-		diskSpeedChartoption[data.disk[offset]].series[0].name = 'Disk Speed';
+		diskSpeedChartoption[data.disk[offset]].series[0].name = '磁盘读取速率';
 		diskSpeedChartoption[data.disk[offset]].series[1] = cloneObject(diskSpeedChartoption[data.disk[offset]].series[0]);
+		diskSpeedChartoption[data.disk[offset]].series[1].name = '磁盘写入速率';
 	}
 	window.networkUsageChart = [];
 	window.networkUsageChartoption = [];
@@ -536,8 +537,9 @@ function init(data) {
 		networkUsageChartoption[data.network[offset]].yAxis.max = null;
 		networkUsageChartoption[data.network[offset]].yAxis.min = null;
 		networkUsageChartoption[data.network[offset]].color = ['#A74F01'];
-		networkUsageChartoption[data.network[offset]].series[0].name = 'Network Usage';
+		networkUsageChartoption[data.network[offset]].series[0].name = '上行速率';
 		networkUsageChartoption[data.network[offset]].series[1] = cloneObject(networkUsageChartoption[data.network[offset]].series[0]);
+		networkUsageChartoption[data.network[offset]].series[0].name = '下行速率';
 	}
 
 	refreshChart();
