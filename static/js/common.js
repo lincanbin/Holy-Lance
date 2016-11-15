@@ -255,7 +255,9 @@ function init(data) {
 	window.cpuUsageChart = echarts.init(document.getElementById('cpu_usage'));
 	window.cpuUsageChartoption = {
 		title: {},
-		tooltip: {},
+		tooltip: {
+			trigger: 'axis'
+		},
 		xAxis: {
 			data: (function (){
 					var res = [];
