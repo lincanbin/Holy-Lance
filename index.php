@@ -165,6 +165,63 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 							<h2 class="chart-title">网络连接数</h2>
 						</div>
 						<div id="connection_usage" style="width: 100%; height: 460px;"></div>
+						<div class="info_block_container">
+							<div class="info_block">
+								<div class="info">
+									<span class="info-label">ESTABLISHED</span>
+									<span class="info-content" id="connection_ESTABLISHED_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">SYN_SENT</span>
+									<span class="info-content" id="connection_SYN_SENT_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">SYN_RECV</span>
+									<span class="info-content" id="connection_SYN_RECV_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">FIN_WAIT1</span>
+									<span class="info-content" id="connection_FIN_WAIT1_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">FIN_WAIT2</span>
+									<span class="info-content" id="connection_FIN_WAIT2_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">TIME_WAIT</span>
+									<span class="info-content" id="connection_TIME_WAIT_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">CLOSE</span>
+									<span class="info-content" id="connection_CLOSE_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">CLOSE_WAIT</span>
+									<span class="info-content" id="connection_CLOSE_WAIT_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">LAST_ACK</span>
+									<span class="info-content" id="connection_LAST_ACK_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">LISTEN</span>
+									<span class="info-content" id="connection_LISTEN_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">CLOSING</span>
+									<span class="info-content" id="connection_CLOSING_usage_info">0</span>
+								</div>
+								<div class="info">
+									<span class="info-label">UNKNOWN</span>
+									<span class="info-content" id="connection_UNKNOWN_usage_info">0</span>
+								</div>
+							</div>
+
+							<div class="info_block">
+								
+							</div>
+						</div>
+					</div>
 					</div>
 
 				</div>
