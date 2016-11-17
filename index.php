@@ -314,6 +314,7 @@ function get_config_value($varName)
 						<span class="info-label">服务器端口</span>
 						<span class="info-content"><?php echo $_SERVER['SERVER_PORT']; ?></span>
 					</div>
+					<div class="info-clear"></div>
 					
 				<?php foreach(get_loaded_extensions() as $extension): ?>
 					<div class="info">
