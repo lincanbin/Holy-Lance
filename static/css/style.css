@@ -246,6 +246,7 @@ h2.resp-accordion {
 }
 
 .info_block_container {
+	display: inline-block;
 	width: 85%;
 	margin: 0 auto;
 	margin-top: 10px;
