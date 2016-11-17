@@ -22,9 +22,10 @@ define('SAMPLING_TIME', 250000); // 250ms
 $system_info = array(
 'status' => 1,
 'load' => array(0, 0, 0),
-'uptime' => '0',
+'uptime' => '0:0:0:0',
 'cpu_usage' => 0,
 'logic_cpu_usage' => array(),
+'network_service' => array(),
 'connection' => array(
 'ESTABLISHED' => 0,
 'SYN_SENT' => 0,
@@ -38,7 +39,8 @@ $system_info = array(
 'LISTEN' => 0,
 'CLOSING' => 0,
 'UNKNOWN' => 0
-)
+),
+'process' => array()
 );
 $system_info['load'] = sys_getloadavg();
 
@@ -513,6 +515,14 @@ margin-top: 10px;
 margin-bottom: 200px;
 }
 
+.info_block_container:after {
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+}
+
 .info_block {
 display: inline;
 float: left;
@@ -649,7 +659,7 @@ return (bytes / Math.pow(kibi, i)).toFixed(2) + ' ' + sizes[i];
 
 function resizeChart() {
 if ($("#cpu_usage").is(":visible")) {
-    cpuUsageChart.setOption(cpuUsageChartoption);
+cpuUsageChart.setOption(cpuUsageChartoption);
 window.cpuUsageChart.resize();
 }
 if ($("#logic_cpu_usage_container").is(":visible")) {
@@ -659,11 +669,11 @@ window.logicCpuUsageChart[i].resize();
 }
 }
 if ($("#load_usage").is(":visible")) {
-    loadUsageChart.setOption(loadUsageChartoption, true);
+loadUsageChart.setOption(loadUsageChartoption, true);
 window.loadUsageChart.resize();
 }
 if ($("#memory_usage").is(":visible")) {
-    memoryUsageChart.setOption(memoryUsageChartoption);
+memoryUsageChart.setOption(memoryUsageChartoption);
 window.memoryUsageChart.resize();
 }
 if ($("#connection_usage").is(":visible")) {
@@ -674,15 +684,15 @@ for (var offset in window.env.disk) {
 if ($("#disk_" + window.env.disk[offset] + "_speed").is(":visible")) {
 window.diskUsageChart[window.env.disk[offset]].setOption(diskUsageChartoption[window.env.disk[offset]]);
 window.diskUsageChart[window.env.disk[offset]].resize();
-        window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[window.env.disk[offset]]);
+window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[window.env.disk[offset]]);
 window.diskSpeedChart[window.env.disk[offset]].resize();
-    }
+}
 }
 for (var offset in window.env.network) {
 if ($("#network_" + window.env.network[offset] + "_usage").is(":visible")) {
-      window.networkUsageChart[window.env.network[offset]].setOption(networkUsageChartoption[window.env.network[offset]]);
-      window.networkUsageChart[window.env.network[offset]].resize();
-    }
+window.networkUsageChart[window.env.network[offset]].setOption(networkUsageChartoption[window.env.network[offset]]);
+window.networkUsageChart[window.env.network[offset]].resize();
+}
 
 }
 
@@ -888,126 +898,126 @@ return res;
 
 window.loadUsageChart = echarts.init(document.getElementById('load_usage'));
 window.loadUsageChartoption = {
-    series : [
-        {
-            name: '1分钟平均负载',
-            type: 'gauge',
-            z: 3,
-            min: 0,
-            max: cpuNumber,
-            splitNumber: 10,
-            radius: '70%',
-            axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    width: 10
-                }
-            },
-            axisTick: {            // 坐标轴小标记
-                length: 15,        // 属性length控制线长
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: 'auto'
-                }
-            },
-            splitLine: {           // 分隔线
-                length: 20,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                    color: 'auto'
-                }
-            },
-            title : {
-                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                    fontWeight: 'bolder',
-                    fontSize: 20,
-                    fontStyle: 'italic'
-                }
-            },
-            detail : {
-                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                    fontWeight: 'bolder'
-                }
-            },
-            data:[{value: 0, name: '1分钟平均负载'}]
-        },
-        {
-            name: '5分钟平均负载',
-            type: 'gauge',
-            center: ['20%', '55%'],    // 默认全局居中
-            radius: '55%',
-            min:0,
-            max:cpuNumber,
-            endAngle:45,
-            splitNumber:10,
-            axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    width: 8
-                }
-            },
-            axisTick: {            // 坐标轴小标记
-                length:12,        // 属性length控制线长
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: 'auto'
-                }
-            },
-            splitLine: {           // 分隔线
-                length:20,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                    color: 'auto'
-                }
-            },
-            pointer: {
-                width:5
-            },
-            title: {
-                offsetCenter: [0, '-30%'],       // x, y，单位px
-            },
-            detail: {
-                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                    fontWeight: 'bolder'
-                }
-            },
-            data:[{value: 0, name: '5分钟平均负载'}]
-        },
-        {
-            name: '15分钟平均负载',
-            type: 'gauge',
-            center: ['80%', '55%'],    // 默认全局居中
-            radius: '55%',
-            min: 0,
-            max: cpuNumber,
-            startAngle: 135,
-            endAngle: -45,
-            splitNumber: 10,
-            axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    width: 8
-                }
-            },
-            axisTick: {            // 坐标轴小标记
-                length:12,        // 属性length控制线长
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: 'auto'
-                }
-            },
-            splitLine: {           // 分隔线
-                length:20,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                    color: 'auto'
-                }
-            },
-            pointer: {
-                width:5
-            },
-            title: {
-                offsetCenter: [0, '-30%'],       // x, y，单位px
-            },
-            detail: {
-                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                    fontWeight: 'bolder'
-                }
-            },
-            data:[{value: 0, name: '15分钟平均负载'}]
-        }
-    ]
+series : [
+{
+name: '1分钟平均负载',
+type: 'gauge',
+z: 3,
+min: 0,
+max: cpuNumber,
+splitNumber: 10,
+radius: '70%',
+axisLine: {            // 坐标轴线
+lineStyle: {       // 属性lineStyle控制线条样式
+width: 10
+}
+},
+axisTick: {            // 坐标轴小标记
+length: 15,        // 属性length控制线长
+lineStyle: {       // 属性lineStyle控制线条样式
+color: 'auto'
+}
+},
+splitLine: {           // 分隔线
+length: 20,         // 属性length控制线长
+lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+color: 'auto'
+}
+},
+title : {
+textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+fontWeight: 'bolder',
+fontSize: 20,
+fontStyle: 'italic'
+}
+},
+detail : {
+textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+fontWeight: 'bolder'
+}
+},
+data:[{value: 0, name: '1分钟平均负载'}]
+},
+{
+name: '5分钟平均负载',
+type: 'gauge',
+center: ['20%', '55%'],    // 默认全局居中
+radius: '55%',
+min:0,
+max:cpuNumber,
+endAngle:45,
+splitNumber:10,
+axisLine: {            // 坐标轴线
+lineStyle: {       // 属性lineStyle控制线条样式
+width: 8
+}
+},
+axisTick: {            // 坐标轴小标记
+length:12,        // 属性length控制线长
+lineStyle: {       // 属性lineStyle控制线条样式
+color: 'auto'
+}
+},
+splitLine: {           // 分隔线
+length:20,         // 属性length控制线长
+lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+color: 'auto'
+}
+},
+pointer: {
+width:5
+},
+title: {
+offsetCenter: [0, '-30%'],       // x, y，单位px
+},
+detail: {
+textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+fontWeight: 'bolder'
+}
+},
+data:[{value: 0, name: '5分钟平均负载'}]
+},
+{
+name: '15分钟平均负载',
+type: 'gauge',
+center: ['80%', '55%'],    // 默认全局居中
+radius: '55%',
+min: 0,
+max: cpuNumber,
+startAngle: 135,
+endAngle: -45,
+splitNumber: 10,
+axisLine: {            // 坐标轴线
+lineStyle: {       // 属性lineStyle控制线条样式
+width: 8
+}
+},
+axisTick: {            // 坐标轴小标记
+length:12,        // 属性length控制线长
+lineStyle: {       // 属性lineStyle控制线条样式
+color: 'auto'
+}
+},
+splitLine: {           // 分隔线
+length:20,         // 属性length控制线长
+lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+color: 'auto'
+}
+},
+pointer: {
+width:5
+},
+title: {
+offsetCenter: [0, '-30%'],       // x, y，单位px
+},
+detail: {
+textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+fontWeight: 'bolder'
+}
+},
+data:[{value: 0, name: '15分钟平均负载'}]
+}
+]
 };
 
 window.logicCpuUsageChart = [];
@@ -1026,8 +1036,8 @@ bottom: 3
 };
 logicCpuUsageChartoption[i].xAxis.show = false;
 logicCpuUsageChartoption[i].yAxis.axisLabel = {
-            show: false
-        };
+show: false
+};
 logicCpuUsageChartoption[i].yAxis.name = 'CPU' + i + ' 利用率 %';
 logicCpuUsageChartoption[i].series[0].name = 'CPU' + i + ' Usage';
 }
@@ -1685,6 +1695,21 @@ endif;
 if (!function_exists("exec") || !function_exists("shell_exec")) {
 exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 }
+
+function get_config_value($varName)
+{
+switch($result = get_cfg_var($varName))
+{
+case 0:
+return '×';
+break;
+case 1:
+return '√';
+break;
+default:
+return $result;
+}
+}
 ?>
 
 <!DOCTYPE html>
@@ -1783,7 +1808,7 @@ exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 <h2 class="chart-title">CPU</h2>
 <span class="chart-sub-title" id="logic_cpu_model_name">Loading</span>
 </div>
-<div id="logic_cpu_usage_container" class="chart-title-set"></div>
+<div id="logic_cpu_usage_container" class="chart-title-set" style="height: 640px;"></div>
 </div>
 
 <div>
@@ -1934,6 +1959,31 @@ exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 <div class="info-clear"></div>
 
 <div class="info">
+<span class="info-label">脚本最大占用内存</span>
+<span class="info-content"><?php echo get_config_value('memory_limit'); ?></span>
+</div>
+<div class="info">
+<span class="info-label">脚本超时时间</span>
+<span class="info-content"><?php echo get_config_value('max_execution_time'); ?>秒</span>
+</div>
+<div class="info">
+<span class="info-label">socket超时时间</span>
+<span class="info-content"><?php echo get_config_value('default_socket_timeout'); ?>秒</span>
+</div>
+<div class="info-clear"></div>
+
+<div class="info-clear"></div>
+<div class="info">
+<span class="info-label">允许的最大POST数据</span>
+<span class="info-content"><?php echo get_config_value('post_max_size'); ?></span>
+</div>
+<div class="info">
+<span class="info-label">上传文件大小限制</span>
+<span class="info-content"><?php echo get_config_value('upload_max_filesize'); ?></span>
+</div>
+<div class="info-clear"></div>
+
+<div class="info">
 <span class="info-label">服务器接口类型</span>
 <span class="info-content"><?php echo php_sapi_name(); ?></span>
 </div>
@@ -1946,13 +1996,28 @@ exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 <span class="info-content"><?php echo $_SERVER['SERVER_PORT']; ?></span>
 </div>
 
-<div class="info-clear"></div>
 <?php foreach(get_loaded_extensions() as $extension): ?>
 <div class="info">
 <span class="info-label">已编译扩展: </span>
-<span class="info-content" id="cpu_max_frequency"><?php echo $extension; ?></span>
+<span class="info-content"><?php echo $extension; ?></span>
 </div>
 <?php endforeach; ?>
+<div class="info-clear"></div>
+
+<?php 
+$disable_functions = get_cfg_var("disable_functions");
+if (!empty($disable_functions)):
+foreach(explode(',', $disable_functions) as $disable_function): ?>
+<div class="info">
+<span class="info-label">已禁用函数: </span>
+<span class="info-content"><?php echo $disable_function; ?></span>
+</div>
+<?php 
+endforeach;
+endif;
+?>
+<div class="info-clear"></div>
+
 </div>
 <div class="info_block">
 
