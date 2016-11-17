@@ -112,7 +112,7 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 							<h2 class="chart-title">CPU</h2>
 							<span class="chart-sub-title" id="logic_cpu_model_name">Loading</span>
 						</div>
-						<div id="logic_cpu_usage_container" class="chart-title-set"></div>
+						<div id="logic_cpu_usage_container" class="chart-title-set" style="width: 100%; height: 640px;"></div>
 					</div>
 
 					<div>
