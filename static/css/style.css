@@ -252,14 +252,6 @@ h2.resp-accordion {
 	margin-bottom: 200px;
 }
 
-.info_block_container:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-
 .info_block {
 	display: inline;
 	float: left;
