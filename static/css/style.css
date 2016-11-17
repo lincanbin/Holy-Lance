@@ -246,11 +246,18 @@ h2.resp-accordion {
 }
 
 .info_block_container {
-	display: inline-block;
 	width: 85%;
 	margin: 0 auto;
 	margin-top: 10px;
 	margin-bottom: 200px;
+}
+
+.info_block_container:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
 }
 
 .info_block {
