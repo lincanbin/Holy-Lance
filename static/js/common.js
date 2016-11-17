@@ -84,20 +84,45 @@ function kibiBytesToSize(bytes) {
 }
 
 function resizeChart() {
-	window.cpuUsageChart.resize();
-	window.loadUsageChart.resize();
-	window.memoryUsageChart.resize();
-	window.connectionUsageChart.resize();
-	for (var offset in window.env.network) {
-		window.networkUsageChart[window.env.network[offset]].resize();
+	if ($("#cpu_usage").is(":visible")) {
+    	cpuUsageChart.setOption(cpuUsageChartoption);
+		window.cpuUsageChart.resize();
 	}
-	for (var i = 0; i < window.env.cpu.length; i++) {
-		window.logicCpuUsageChart[i].resize();
+	if ($("#logic_cpu_usage_container").is(":visible")) {
+		for (var i = 0; i < window.env.cpu.length; i++) {
+			window.logicCpuUsageChart[i].setOption(logicCpuUsageChartoption[i]);
+			window.logicCpuUsageChart[i].resize();
+		}
+	}
+	if ($("#load_usage").is(":visible")) {
+    	loadUsageChart.setOption(loadUsageChartoption, true);
+		window.loadUsageChart.resize();
+	}
+	if ($("#memory_usage").is(":visible")) {
+    	memoryUsageChart.setOption(memoryUsageChartoption);
+		window.memoryUsageChart.resize();
+	}
+	if ($("#connection_usage").is(":visible")) {
+		connectionUsageChart.setOption(connectionUsageChartoption);
+		window.connectionUsageChart.resize();
 	}
 	for (var offset in window.env.disk) {
-		window.diskUsageChart[window.env.disk[offset]].resize();
-		window.diskSpeedChart[window.env.disk[offset]].resize();
+		if ($("#disk_" + window.env.disk[offset] + "_speed").is(":visible")) {
+			window.diskUsageChart[window.env.disk[offset]].setOption(diskUsageChartoption[window.env.disk[offset]]);
+			window.diskUsageChart[window.env.disk[offset]].resize();
+	        window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[window.env.disk[offset]]);
+			window.diskSpeedChart[window.env.disk[offset]].resize();
+	    }
 	}
+	for (var offset in window.env.network) {
+		if ($("#network_" + window.env.network[offset] + "_usage").is(":visible")) {
+      		window.networkUsageChart[window.env.network[offset]].setOption(networkUsageChartoption[window.env.network[offset]]);
+      		window.networkUsageChart[window.env.network[offset]].resize();
+    	}
+		
+	}
+
+
 }
 
 function init(data) {
