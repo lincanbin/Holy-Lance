@@ -20,9 +20,10 @@ define('SAMPLING_TIME', 250000); // 250ms
 $system_info = array(
 	'status' => 1,
 	'load' => array(0, 0, 0),
-	'uptime' => '0',
+	'uptime' => '0:0:0:0',
 	'cpu_usage' => 0,
 	'logic_cpu_usage' => array(),
+	'network_service' => array(),
 	'connection' => array(
 		'ESTABLISHED' => 0,
 		'SYN_SENT' => 0,
@@ -36,7 +37,8 @@ $system_info = array(
 		'LISTEN' => 0,
 		'CLOSING' => 0,
 		'UNKNOWN' => 0
-		)
+	),
+	'process' => array()
 );
 $system_info['load'] = sys_getloadavg();
 
