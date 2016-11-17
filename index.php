@@ -287,7 +287,7 @@ function get_config_value($varName)
 					</div>
 					<div class="info">
 						<span class="info-label">socket超时时间</span>
-						<span class="info-content"><?php echo get_config_value('default_socket_timeout'); ?></span>
+						<span class="info-content"><?php echo get_config_value('default_socket_timeout'); ?>秒</span>
 					</div>
 					<div class="info-clear"></div>
 
