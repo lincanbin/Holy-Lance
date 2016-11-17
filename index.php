@@ -14,6 +14,21 @@
 if (!function_exists("exec") || !function_exists("shell_exec")) {
 	exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 }
+
+function get_config_value($varName)
+{
+	switch($result = get_cfg_var($varName))
+	{
+		case 0:
+			return '×';
+		break;
+		case 1:
+			return '√';
+		break;
+		default:
+			return $result;
+	}
+}
 ?>
 
 <!DOCTYPE html>
@@ -263,6 +278,31 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 					<div class="info-clear"></div>
 
 					<div class="info">
+						<span class="info-label">脚本最大占用内存</span>
+						<span class="info-content"><?php echo get_config_value('memory_limit'); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">脚本超时时间</span>
+						<span class="info-content"><?php echo get_config_value('max_execution_time'); ?>秒</span>
+					</div>
+					<div class="info">
+						<span class="info-label">socket超时时间</span>
+						<span class="info-content"><?php echo get_config_value('default_socket_timeout'); ?></span>
+					</div>
+					<div class="info-clear"></div>
+
+					<div class="info-clear"></div>
+					<div class="info">
+						<span class="info-label">允许的最大POST数据</span>
+						<span class="info-content"><?php echo get_config_value('post_max_size'); ?></span>
+					</div>
+					<div class="info">
+						<span class="info-label">上传文件大小限制</span>
+						<span class="info-content"><?php echo get_config_value('upload_max_filesize'); ?></span>
+					</div>
+					<div class="info-clear"></div>
+
+					<div class="info">
 						<span class="info-label">服务器接口类型</span>
 						<span class="info-content"><?php echo php_sapi_name(); ?></span>
 					</div>
@@ -274,8 +314,7 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 						<span class="info-label">服务器端口</span>
 						<span class="info-content"><?php echo $_SERVER['SERVER_PORT']; ?></span>
 					</div>
-				
-					<div class="info-clear"></div>
+					
 				<?php foreach(get_loaded_extensions() as $extension): ?>
 					<div class="info">
 						<span class="info-label">已编译扩展: </span>
