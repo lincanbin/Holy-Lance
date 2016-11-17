@@ -85,7 +85,7 @@ function kibiBytesToSize(bytes) {
 
 function resizeChart() {
 	if ($("#cpu_usage").is(":visible")) {
-    	cpuUsageChart.setOption(cpuUsageChartoption);
+		cpuUsageChart.setOption(cpuUsageChartoption);
 		window.cpuUsageChart.resize();
 	}
 	if ($("#logic_cpu_usage_container").is(":visible")) {
@@ -95,11 +95,11 @@ function resizeChart() {
 		}
 	}
 	if ($("#load_usage").is(":visible")) {
-    	loadUsageChart.setOption(loadUsageChartoption, true);
+		loadUsageChart.setOption(loadUsageChartoption, true);
 		window.loadUsageChart.resize();
 	}
 	if ($("#memory_usage").is(":visible")) {
-    	memoryUsageChart.setOption(memoryUsageChartoption);
+		memoryUsageChart.setOption(memoryUsageChartoption);
 		window.memoryUsageChart.resize();
 	}
 	if ($("#connection_usage").is(":visible")) {
@@ -110,15 +110,15 @@ function resizeChart() {
 		if ($("#disk_" + window.env.disk[offset] + "_speed").is(":visible")) {
 			window.diskUsageChart[window.env.disk[offset]].setOption(diskUsageChartoption[window.env.disk[offset]]);
 			window.diskUsageChart[window.env.disk[offset]].resize();
-	        window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[window.env.disk[offset]]);
+			window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[window.env.disk[offset]]);
 			window.diskSpeedChart[window.env.disk[offset]].resize();
-	    }
+		}
 	}
 	for (var offset in window.env.network) {
 		if ($("#network_" + window.env.network[offset] + "_usage").is(":visible")) {
-      		window.networkUsageChart[window.env.network[offset]].setOption(networkUsageChartoption[window.env.network[offset]]);
-      		window.networkUsageChart[window.env.network[offset]].resize();
-    	}
+			window.networkUsageChart[window.env.network[offset]].setOption(networkUsageChartoption[window.env.network[offset]]);
+			window.networkUsageChart[window.env.network[offset]].resize();
+		}
 		
 	}
 
@@ -324,126 +324,126 @@ function init(data) {
 
 	window.loadUsageChart = echarts.init(document.getElementById('load_usage'));
 	window.loadUsageChartoption = {
-	    series : [
-	        {
-	            name: '1分钟平均负载',
-	            type: 'gauge',
-	            z: 3,
-	            min: 0,
-	            max: cpuNumber,
-	            splitNumber: 10,
-	            radius: '70%',
-	            axisLine: {            // 坐标轴线
-	                lineStyle: {       // 属性lineStyle控制线条样式
-	                    width: 10
-	                }
-	            },
-	            axisTick: {            // 坐标轴小标记
-	                length: 15,        // 属性length控制线长
-	                lineStyle: {       // 属性lineStyle控制线条样式
-	                    color: 'auto'
-	                }
-	            },
-	            splitLine: {           // 分隔线
-	                length: 20,         // 属性length控制线长
-	                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-	                    color: 'auto'
-	                }
-	            },
-	            title : {
-	                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-	                    fontWeight: 'bolder',
-	                    fontSize: 20,
-	                    fontStyle: 'italic'
-	                }
-	            },
-	            detail : {
-	                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-	                    fontWeight: 'bolder'
-	                }
-	            },
-	            data:[{value: 0, name: '1分钟平均负载'}]
-	        },
-	        {
-	            name: '5分钟平均负载',
-	            type: 'gauge',
-	            center: ['20%', '55%'],    // 默认全局居中
-	            radius: '55%',
-	            min:0,
-	            max:cpuNumber,
-	            endAngle:45,
-	            splitNumber:10,
-	            axisLine: {            // 坐标轴线
-	                lineStyle: {       // 属性lineStyle控制线条样式
-	                    width: 8
-	                }
-	            },
-	            axisTick: {            // 坐标轴小标记
-	                length:12,        // 属性length控制线长
-	                lineStyle: {       // 属性lineStyle控制线条样式
-	                    color: 'auto'
-	                }
-	            },
-	            splitLine: {           // 分隔线
-	                length:20,         // 属性length控制线长
-	                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-	                    color: 'auto'
-	                }
-	            },
-	            pointer: {
-	                width:5
-	            },
-	            title: {
-	                offsetCenter: [0, '-30%'],       // x, y，单位px
-	            },
-	            detail: {
-	                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-	                    fontWeight: 'bolder'
-	                }
-	            },
-	            data:[{value: 0, name: '5分钟平均负载'}]
-	        },
-	        {
-	            name: '15分钟平均负载',
-	            type: 'gauge',
-	            center: ['80%', '55%'],    // 默认全局居中
-	            radius: '55%',
-	            min: 0,
-	            max: cpuNumber,
-	            startAngle: 135,
-	            endAngle: -45,
-	            splitNumber: 10,
-	            axisLine: {            // 坐标轴线
-	                lineStyle: {       // 属性lineStyle控制线条样式
-	                    width: 8
-	                }
-	            },
-	            axisTick: {            // 坐标轴小标记
-	                length:12,        // 属性length控制线长
-	                lineStyle: {       // 属性lineStyle控制线条样式
-	                    color: 'auto'
-	                }
-	            },
-	            splitLine: {           // 分隔线
-	                length:20,         // 属性length控制线长
-	                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-	                    color: 'auto'
-	                }
-	            },
-	            pointer: {
-	                width:5
-	            },
-	            title: {
-	                offsetCenter: [0, '-30%'],       // x, y，单位px
-	            },
-	            detail: {
-	                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-	                    fontWeight: 'bolder'
-	                }
-	            },
-	            data:[{value: 0, name: '15分钟平均负载'}]
-	        }
-	    ]
+		series : [
+			{
+				name: '1分钟平均负载',
+				type: 'gauge',
+				z: 3,
+				min: 0,
+				max: cpuNumber,
+				splitNumber: 10,
+				radius: '70%',
+				axisLine: {            // 坐标轴线
+					lineStyle: {       // 属性lineStyle控制线条样式
+						width: 10
+					}
+				},
+				axisTick: {            // 坐标轴小标记
+					length: 15,        // 属性length控制线长
+					lineStyle: {       // 属性lineStyle控制线条样式
+						color: 'auto'
+					}
+				},
+				splitLine: {           // 分隔线
+					length: 20,         // 属性length控制线长
+					lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+						color: 'auto'
+					}
+				},
+				title : {
+					textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+						fontWeight: 'bolder',
+						fontSize: 20,
+						fontStyle: 'italic'
+					}
+				},
+				detail : {
+					textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+						fontWeight: 'bolder'
+					}
+				},
+				data:[{value: 0, name: '1分钟平均负载'}]
+			},
+			{
+				name: '5分钟平均负载',
+				type: 'gauge',
+				center: ['20%', '55%'],    // 默认全局居中
+				radius: '55%',
+				min:0,
+				max:cpuNumber,
+				endAngle:45,
+				splitNumber:10,
+				axisLine: {            // 坐标轴线
+					lineStyle: {       // 属性lineStyle控制线条样式
+						width: 8
+					}
+				},
+				axisTick: {            // 坐标轴小标记
+					length:12,        // 属性length控制线长
+					lineStyle: {       // 属性lineStyle控制线条样式
+						color: 'auto'
+					}
+				},
+				splitLine: {           // 分隔线
+					length:20,         // 属性length控制线长
+					lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+						color: 'auto'
+					}
+				},
+				pointer: {
+					width:5
+				},
+				title: {
+					offsetCenter: [0, '-30%'],       // x, y，单位px
+				},
+				detail: {
+					textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+						fontWeight: 'bolder'
+					}
+				},
+				data:[{value: 0, name: '5分钟平均负载'}]
+			},
+			{
+				name: '15分钟平均负载',
+				type: 'gauge',
+				center: ['80%', '55%'],    // 默认全局居中
+				radius: '55%',
+				min: 0,
+				max: cpuNumber,
+				startAngle: 135,
+				endAngle: -45,
+				splitNumber: 10,
+				axisLine: {            // 坐标轴线
+					lineStyle: {       // 属性lineStyle控制线条样式
+						width: 8
+					}
+				},
+				axisTick: {            // 坐标轴小标记
+					length:12,        // 属性length控制线长
+					lineStyle: {       // 属性lineStyle控制线条样式
+						color: 'auto'
+					}
+				},
+				splitLine: {           // 分隔线
+					length:20,         // 属性length控制线长
+					lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+						color: 'auto'
+					}
+				},
+				pointer: {
+					width:5
+				},
+				title: {
+					offsetCenter: [0, '-30%'],       // x, y，单位px
+				},
+				detail: {
+					textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+						fontWeight: 'bolder'
+					}
+				},
+				data:[{value: 0, name: '15分钟平均负载'}]
+			}
+		]
 	};
 
 	window.logicCpuUsageChart = [];
@@ -462,8 +462,8 @@ function init(data) {
 		};
 		logicCpuUsageChartoption[i].xAxis.show = false;
 		logicCpuUsageChartoption[i].yAxis.axisLabel = {
-            show: false
-        };
+			show: false
+		};
 		logicCpuUsageChartoption[i].yAxis.name = 'CPU' + i + ' 利用率 %';
 		logicCpuUsageChartoption[i].series[0].name = 'CPU' + i + ' Usage';
 	}
