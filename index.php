@@ -318,9 +318,19 @@ function get_config_value($varName)
 				<?php foreach(get_loaded_extensions() as $extension): ?>
 					<div class="info">
 						<span class="info-label">已编译扩展: </span>
-						<span class="info-content" id="cpu_max_frequency"><?php echo $extension; ?></span>
+						<span class="info-content"><?php echo $extension; ?></span>
 					</div>
 				<?php endforeach; ?>
+					<div class="info-clear"></div>
+
+				<?php foreach(explode(',', get_cfg_var("disable_functions")) as $disable_function): ?>
+					<div class="info">
+						<span class="info-label">已禁用函数: </span>
+						<span class="info-content"><?php echo $disable_function; ?></span>
+					</div>
+				<?php endforeach; ?>
+					<div class="info-clear"></div>
+					
 				</div>
 				<div class="info_block">
 
