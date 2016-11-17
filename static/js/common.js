@@ -546,7 +546,7 @@ function init(data) {
 }
 
 function drawProcessTable(processData, formatData) {
-	// Process
+	// Process if ($("#cpu_usage").is(":visible")) {
 	$("#Process").empty();
 	processData = listSort(processData, window.processSortedBy, window.processOrder);
 	if (formatData) {
@@ -612,6 +612,175 @@ function drawProcessTable(processData, formatData) {
 	$("th:eq(" + window.processSortedBy + ")").attr("class", "selected-col-" + window.processOrder);
 }
 
+function drawChart(data) {
+	$("#cpu_usage_info").text(data.cpu_usage + "%");
+	$("#process_number").text(data.process_number);
+	$("#uptime").text(data.uptime);
+
+	$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%   ') + '%' + (data.logic_cpu_usage.length > 4 ? '  ……' : ''));
+	
+	$("#memory_usage_used").text(kibiBytesToSize(data.memory_usage_used));
+	$("#memory_usage_available").text(kibiBytesToSize(parseInt(data.memory_usage_total) - parseInt(data.memory_usage_used)));
+	
+	$("#memory_usage_swap_used").text(kibiBytesToSize(data.memory_usage_swap_used));
+	$("#memory_usage_swap_free").text(kibiBytesToSize(data.memory_usage_swap_free));
+
+	$("#memory_submit").text(kibiBytesToSize(parseInt(data.memory_usage_used) + parseInt(data.memory_usage_swap_used)) + " / " + kibiBytesToSize(parseInt(data.memory_usage_total) + parseInt(data.memory_usage_swap_total)));
+	$("#memory_usage_cache").text(kibiBytesToSize(data.memory_usage_cache));
+
+	axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
+	// CPU
+	$("#cpu_usage_label").text(data.cpu_usage + "%");
+	cpuUsageChartoption.series[0].data.shift();
+	cpuUsageChartoption.series[0].data.push(data.cpu_usage);
+	cpuUsageChartoption.xAxis.data.shift();
+	cpuUsageChartoption.xAxis.data.push(axisData);
+	if ($("#cpu_usage").is(":visible")) {
+		cpuUsageChart.setOption(cpuUsageChartoption);
+	}
+	// Logic CPU
+	for (var i = 0; i < window.env.cpu.length; i++) {
+		logicCpuUsageChartoption[i].series[0].data.shift();
+		logicCpuUsageChartoption[i].series[0].data.push(data.logic_cpu_usage[i]);
+		logicCpuUsageChartoption[i].xAxis.data.shift();
+		logicCpuUsageChartoption[i].xAxis.data.push(axisData);
+		if ($("#logic_cpu_usage_container").is(":visible")) {
+			window.logicCpuUsageChart[i].setOption(logicCpuUsageChartoption[i]);
+		}
+	}
+	// Load
+	$("#load_usage_label").text(data.load[0]);
+	loadUsageChartoption.series[0].data[0].value = data.load[0];
+	loadUsageChartoption.series[1].data[0].value = data.load[1];
+	loadUsageChartoption.series[2].data[0].value = data.load[2];
+	if ($("#load_usage").is(":visible")) {
+		loadUsageChart.setOption(loadUsageChartoption, true);
+	}
+	// Memory
+	$("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + " / " + kibiBytesToSize(data.memory_usage_total) + " (" + Math.round(data.memory_usage_used * 100 / data.memory_usage_total) + "%)");
+	memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
+	memoryUsageChartoption.series[0].data.shift();
+	memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used / 1024));
+	memoryUsageChartoption.xAxis.data.shift();
+	memoryUsageChartoption.xAxis.data.push(axisData);
+	if ($("#memory_usage").is(":visible")) {
+		memoryUsageChart.setOption(memoryUsageChartoption);
+	}
+	// Connection
+	connectionUsageChartoption.series[0].data.shift();
+	connectionUsageChartoption.series[0].data.push(data.connection.ESTABLISHED);
+	$('#connection_ESTABLISHED_usage_info').text(data.connection.ESTABLISHED);
+	connectionUsageChartoption.series[1].data.shift();
+	connectionUsageChartoption.series[1].data.push(data.connection.SYN_SENT);
+	$('#connection_SYN_SENT_usage_info').text(data.connection.SYN_SENT);
+	connectionUsageChartoption.series[2].data.shift();
+	connectionUsageChartoption.series[2].data.push(data.connection.SYN_RECV);
+	$('#connection_SYN_RECV_usage_info').text(data.connection.SYN_RECV);
+	connectionUsageChartoption.series[3].data.shift();
+	connectionUsageChartoption.series[3].data.push(data.connection.FIN_WAIT1);
+	$('#connection_FIN_WAIT1_usage_info').text(data.connection.FIN_WAIT1);
+	connectionUsageChartoption.series[4].data.shift();
+	connectionUsageChartoption.series[4].data.push(data.connection.FIN_WAIT2);
+	$('#connection_FIN_WAIT2_usage_info').text(data.connection.FIN_WAIT2);
+	connectionUsageChartoption.series[5].data.shift();
+	connectionUsageChartoption.series[5].data.push(data.connection.TIME_WAIT);
+	$('#connection_TIME_WAIT_usage_info').text(data.connection.TIME_WAIT);
+	connectionUsageChartoption.series[6].data.shift();
+	connectionUsageChartoption.series[6].data.push(data.connection.CLOSE);
+	$('#connection_CLOSE_usage_info').text(data.connection.CLOSE);
+	connectionUsageChartoption.series[7].data.shift();
+	connectionUsageChartoption.series[7].data.push(data.connection.CLOSE_WAIT);
+	$('#connection_CLOSE_WAIT_usage_info').text(data.connection.CLOSE_WAIT);
+	connectionUsageChartoption.series[8].data.shift();
+	connectionUsageChartoption.series[8].data.push(data.connection.LAST_ACK);
+	$('#connection_LAST_ACK_usage_info').text(data.connection.LAST_ACK);
+	connectionUsageChartoption.series[9].data.shift();
+	connectionUsageChartoption.series[9].data.push(data.connection.LISTEN);
+	$('#connection_LISTEN_usage_info').text(data.connection.LISTEN);
+	connectionUsageChartoption.series[10].data.shift();
+	connectionUsageChartoption.series[10].data.push(data.connection.CLOSING);
+	$('#connection_CLOSING_usage_info').text(data.connection.CLOSING);
+	connectionUsageChartoption.series[11].data.shift();
+	connectionUsageChartoption.series[11].data.push(data.connection.UNKNOWN);
+	$('#connection_UNKNOWN_usage_info').text(data.connection.UNKNOWN);
+	connectionUsageChartoption.xAxis.data.shift();
+	connectionUsageChartoption.xAxis.data.push(axisData);
+	if ($("#connection_usage").is(":visible")) {
+		connectionUsageChart.setOption(connectionUsageChartoption);
+	}
+	$('#connection_usage_label').text(
+		data.connection.ESTABLISHED + 
+		data.connection.SYN_SENT + 
+		data.connection.SYN_RECV + 
+		data.connection.FIN_WAIT1 + 
+		data.connection.FIN_WAIT2 + 
+		data.connection.TIME_WAIT + 
+		data.connection.CLOSE + 
+		data.connection.CLOSE_WAIT + 
+		data.connection.LAST_ACK + 
+		data.connection.LISTEN + 
+		data.connection.CLOSING + 
+		data.connection.UNKNOWN
+	);
+	// Disk
+	for (var offset in window.env.disk) {
+		// console.log(window.env.disk[offset]);
+		// console.log(data.disk[window.env.disk[offset]]);
+		// Disk Usage
+		var disk_usage_percent = Math.min((data.disk[window.env.disk[offset]].disk_read_active_time + data.disk[window.env.disk[offset]].disk_write_active_time) / 10, 100);
+		$("#disk_" + window.env.disk[offset] + "_usage_label").text(disk_usage_percent + "%");
+		$("#disk_" + window.env.disk[offset] + "_usage_info").text(disk_usage_percent + "%");
+		$("#disk_" + window.env.disk[offset] + "_read_active_time").text(data.disk[window.env.disk[offset]].disk_read_active_time + " 毫秒");
+		$("#disk_" + window.env.disk[offset] + "_write_active_time").text(data.disk[window.env.disk[offset]].disk_write_active_time + " 毫秒");
+		$("#disk_" + window.env.disk[offset] + "_read_speed").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_read_speed) + " / 秒");
+		$("#disk_" + window.env.disk[offset] + "_write_speed").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_write_speed) + " / 秒");
+		$("#disk_" + window.env.disk[offset] + "_read_kibibytes").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_read_kibibytes));
+		$("#disk_" + window.env.disk[offset] + "_write_kibibytes").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_write_kibibytes));
+		diskUsageChartoption[window.env.disk[offset]].series[0].data.shift();
+		diskUsageChartoption[window.env.disk[offset]].series[0].data.push(disk_usage_percent);
+		diskUsageChartoption[window.env.disk[offset]].xAxis.data.shift();
+		diskUsageChartoption[window.env.disk[offset]].xAxis.data.push(axisData);
+		if ($("#disk_" + window.env.disk[offset] + "_usage").is(":visible")) {
+			window.diskUsageChart[window.env.disk[offset]].setOption(diskUsageChartoption[window.env.disk[offset]]);
+		}
+		// console.log(window.diskUsageChart[window.env.disk[offset]].isDisposed);
+		// Disk Speed
+		diskSpeedChartoption[window.env.disk[offset]].series[0].data.shift();
+		diskSpeedChartoption[window.env.disk[offset]].series[0].data.push(data.disk[window.env.disk[offset]].disk_read_speed);
+		diskSpeedChartoption[window.env.disk[offset]].series[1].data.shift();
+		diskSpeedChartoption[window.env.disk[offset]].series[1].data.push(-data.disk[window.env.disk[offset]].disk_write_speed);
+		diskSpeedChartoption[window.env.disk[offset]].xAxis.data.shift();
+		diskSpeedChartoption[window.env.disk[offset]].xAxis.data.push(axisData);
+		if ($("#disk_" + window.env.disk[offset] + "_speed").is(":visible")) {
+			window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[window.env.disk[offset]]);
+		}
+	}
+	// Network
+	for (var eth in window.env.network) {
+		$("#network_" + window.env.network[eth] + "_usage_label").text("发送：" + kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + "/s 接收：" + kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + "/s");
+		// networkUsageChartoption[window.env.network[eth]].yAxis.max = Math.max(data.network[window.env.network[eth]].transmit_speed, data.network[window.env.network[eth]].receive_speed / 1024);
+		$("#eth_" + window.env.network[eth] + "_receive_bytes").text(kibiBytesToSize(data.network[window.env.network[eth]].receive_bytes / 1024));
+		$("#eth_" + window.env.network[eth] + "_receive_packets").text(numberFormatter(data.network[window.env.network[eth]].receive_packets));
+		$("#eth_" + window.env.network[eth] + "_receive_speed").text(kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + " / 秒");
+		$("#eth_" + window.env.network[eth] + "_transmit_bytes").text(kibiBytesToSize(data.network[window.env.network[eth]].transmit_bytes / 1024));
+		$("#eth_" + window.env.network[eth] + "_transmit_packets").text(numberFormatter(data.network[window.env.network[eth]].transmit_packets));
+		$("#eth_" + window.env.network[eth] + "_transmit_speed").text(kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + " / 秒");
+
+		networkUsageChartoption[window.env.network[eth]].series[0].data.shift();
+		networkUsageChartoption[window.env.network[eth]].series[0].data.push(-Math.round(data.network[window.env.network[eth]].receive_speed / 1024));
+		networkUsageChartoption[window.env.network[eth]].series[1].data.shift();
+		networkUsageChartoption[window.env.network[eth]].series[1].data.push(Math.round(data.network[window.env.network[eth]].transmit_speed / 1024));
+		networkUsageChartoption[window.env.network[eth]].xAxis.data.shift();
+		networkUsageChartoption[window.env.network[eth]].xAxis.data.push(axisData);
+		if ($("#network_" + window.env.network[eth] + "_usage").is(":visible")) {
+			window.networkUsageChart[window.env.network[eth]].setOption(networkUsageChartoption[window.env.network[eth]]);
+		}
+	}
+	// Process
+	if ($("#Process").is(":visible")) {
+		drawProcessTable(data.process, true);
+	}
+}
 function refreshChart() {
 	$.ajax({
 		type: "POST",
@@ -621,155 +790,7 @@ function refreshChart() {
 		},
 		dataType: "json",
 		success: function(data){
-			$("#cpu_usage_info").text(data.cpu_usage + "%");
-			$("#process_number").text(data.process_number);
-			$("#uptime").text(data.uptime);
-
-			$('#logic_cpu_usage_label').text(data.logic_cpu_usage.slice(0, Math.min(data.logic_cpu_usage.length, 4)).join('%   ') + '%' + (data.logic_cpu_usage.length > 4 ? '  ……' : ''));
-			
-			$("#memory_usage_used").text(kibiBytesToSize(data.memory_usage_used));
-			$("#memory_usage_available").text(kibiBytesToSize(parseInt(data.memory_usage_total) - parseInt(data.memory_usage_used)));
-			
-			$("#memory_usage_swap_used").text(kibiBytesToSize(data.memory_usage_swap_used));
-			$("#memory_usage_swap_free").text(kibiBytesToSize(data.memory_usage_swap_free));
-
-			$("#memory_submit").text(kibiBytesToSize(parseInt(data.memory_usage_used) + parseInt(data.memory_usage_swap_used)) + " / " + kibiBytesToSize(parseInt(data.memory_usage_total) + parseInt(data.memory_usage_swap_total)));
-			$("#memory_usage_cache").text(kibiBytesToSize(data.memory_usage_cache));
-
-			axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
-			// CPU
-			$("#cpu_usage_label").text(data.cpu_usage + "%");
-			cpuUsageChartoption.series[0].data.shift();
-			cpuUsageChartoption.series[0].data.push(data.cpu_usage);
-			cpuUsageChartoption.xAxis.data.shift();
-			cpuUsageChartoption.xAxis.data.push(axisData);
-			cpuUsageChart.setOption(cpuUsageChartoption);
-			// Logic CPU
-			for (var i = 0; i < window.env.cpu.length; i++) {
-				logicCpuUsageChartoption[i].series[0].data.shift();
-				logicCpuUsageChartoption[i].series[0].data.push(data.logic_cpu_usage[i]);
-				logicCpuUsageChartoption[i].xAxis.data.shift();
-				logicCpuUsageChartoption[i].xAxis.data.push(axisData);
-				window.logicCpuUsageChart[i].setOption(logicCpuUsageChartoption[i]);
-			}
-			// Load
-			$("#load_usage_label").text(data.load[0]);
-			loadUsageChartoption.series[0].data[0].value = data.load[0];
-			loadUsageChartoption.series[1].data[0].value = data.load[1];
-			loadUsageChartoption.series[2].data[0].value = data.load[2];
-			loadUsageChart.setOption(loadUsageChartoption, true);
-			// Memory
-			$("#memory_usage_label").text(kibiBytesToSize(data.memory_usage_used) + " / " + kibiBytesToSize(data.memory_usage_total) + " (" + Math.round(data.memory_usage_used * 100 / data.memory_usage_total) + "%)");
-			memoryUsageChartoption.yAxis.max = Math.round(data.memory_usage_total / 1024);
-			memoryUsageChartoption.series[0].data.shift();
-			memoryUsageChartoption.series[0].data.push(Math.round(data.memory_usage_used / 1024));
-			memoryUsageChartoption.xAxis.data.shift();
-			memoryUsageChartoption.xAxis.data.push(axisData);
-			memoryUsageChart.setOption(memoryUsageChartoption);
-			// Connection
-			connectionUsageChartoption.series[0].data.shift();
-			connectionUsageChartoption.series[0].data.push(data.connection.ESTABLISHED);
-			$('#connection_ESTABLISHED_usage_info').text(data.connection.ESTABLISHED);
-			connectionUsageChartoption.series[1].data.shift();
-			connectionUsageChartoption.series[1].data.push(data.connection.SYN_SENT);
-			$('#connection_SYN_SENT_usage_info').text(data.connection.SYN_SENT);
-			connectionUsageChartoption.series[2].data.shift();
-			connectionUsageChartoption.series[2].data.push(data.connection.SYN_RECV);
-			$('#connection_SYN_RECV_usage_info').text(data.connection.SYN_RECV);
-			connectionUsageChartoption.series[3].data.shift();
-			connectionUsageChartoption.series[3].data.push(data.connection.FIN_WAIT1);
-			$('#connection_FIN_WAIT1_usage_info').text(data.connection.FIN_WAIT1);
-			connectionUsageChartoption.series[4].data.shift();
-			connectionUsageChartoption.series[4].data.push(data.connection.FIN_WAIT2);
-			$('#connection_FIN_WAIT2_usage_info').text(data.connection.FIN_WAIT2);
-			connectionUsageChartoption.series[5].data.shift();
-			connectionUsageChartoption.series[5].data.push(data.connection.TIME_WAIT);
-			$('#connection_TIME_WAIT_usage_info').text(data.connection.TIME_WAIT);
-			connectionUsageChartoption.series[6].data.shift();
-			connectionUsageChartoption.series[6].data.push(data.connection.CLOSE);
-			$('#connection_CLOSE_usage_info').text(data.connection.CLOSE);
-			connectionUsageChartoption.series[7].data.shift();
-			connectionUsageChartoption.series[7].data.push(data.connection.CLOSE_WAIT);
-			$('#connection_CLOSE_WAIT_usage_info').text(data.connection.CLOSE_WAIT);
-			connectionUsageChartoption.series[8].data.shift();
-			connectionUsageChartoption.series[8].data.push(data.connection.LAST_ACK);
-			$('#connection_LAST_ACK_usage_info').text(data.connection.LAST_ACK);
-			connectionUsageChartoption.series[9].data.shift();
-			connectionUsageChartoption.series[9].data.push(data.connection.LISTEN);
-			$('#connection_LISTEN_usage_info').text(data.connection.LISTEN);
-			connectionUsageChartoption.series[10].data.shift();
-			connectionUsageChartoption.series[10].data.push(data.connection.CLOSING);
-			$('#connection_CLOSING_usage_info').text(data.connection.CLOSING);
-			connectionUsageChartoption.series[11].data.shift();
-			connectionUsageChartoption.series[11].data.push(data.connection.UNKNOWN);
-			$('#connection_UNKNOWN_usage_info').text(data.connection.UNKNOWN);
-			connectionUsageChartoption.xAxis.data.shift();
-			connectionUsageChartoption.xAxis.data.push(axisData);
-			connectionUsageChart.setOption(connectionUsageChartoption);
-			$('#connection_usage_label').text(
-				data.connection.ESTABLISHED + 
-				data.connection.SYN_SENT + 
-				data.connection.SYN_RECV + 
-				data.connection.FIN_WAIT1 + 
-				data.connection.FIN_WAIT2 + 
-				data.connection.TIME_WAIT + 
-				data.connection.CLOSE + 
-				data.connection.CLOSE_WAIT + 
-				data.connection.LAST_ACK + 
-				data.connection.LISTEN + 
-				data.connection.CLOSING + 
-				data.connection.UNKNOWN
-			);
-			// Disk
-			for (var offset in window.env.disk) {
-				// console.log(window.env.disk[offset]);
-				// console.log(data.disk[window.env.disk[offset]]);
-				// Disk Usage
-				var disk_usage_percent = Math.min((data.disk[window.env.disk[offset]].disk_read_active_time + data.disk[window.env.disk[offset]].disk_write_active_time) / 10, 100);
-				$("#disk_" + window.env.disk[offset] + "_usage_label").text(disk_usage_percent + "%");
-				$("#disk_" + window.env.disk[offset] + "_usage_info").text(disk_usage_percent + "%");
-				$("#disk_" + window.env.disk[offset] + "_read_active_time").text(data.disk[window.env.disk[offset]].disk_read_active_time + " 毫秒");
-				$("#disk_" + window.env.disk[offset] + "_write_active_time").text(data.disk[window.env.disk[offset]].disk_write_active_time + " 毫秒");
-				$("#disk_" + window.env.disk[offset] + "_read_speed").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_read_speed) + " / 秒");
-				$("#disk_" + window.env.disk[offset] + "_write_speed").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_write_speed) + " / 秒");
-				$("#disk_" + window.env.disk[offset] + "_read_kibibytes").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_read_kibibytes));
-				$("#disk_" + window.env.disk[offset] + "_write_kibibytes").text(kibiBytesToSize(data.disk[window.env.disk[offset]].disk_write_kibibytes));
-				diskUsageChartoption[window.env.disk[offset]].series[0].data.shift();
-				diskUsageChartoption[window.env.disk[offset]].series[0].data.push(disk_usage_percent);
-				diskUsageChartoption[window.env.disk[offset]].xAxis.data.shift();
-				diskUsageChartoption[window.env.disk[offset]].xAxis.data.push(axisData);
-				window.diskUsageChart[window.env.disk[offset]].setOption(diskUsageChartoption[window.env.disk[offset]]);
-				// console.log(window.diskUsageChart[window.env.disk[offset]].isDisposed);
-				// Disk Speed
-				diskSpeedChartoption[window.env.disk[offset]].series[0].data.shift();
-				diskSpeedChartoption[window.env.disk[offset]].series[0].data.push(data.disk[window.env.disk[offset]].disk_read_speed);
-				diskSpeedChartoption[window.env.disk[offset]].series[1].data.shift();
-				diskSpeedChartoption[window.env.disk[offset]].series[1].data.push(-data.disk[window.env.disk[offset]].disk_write_speed);
-				diskSpeedChartoption[window.env.disk[offset]].xAxis.data.shift();
-				diskSpeedChartoption[window.env.disk[offset]].xAxis.data.push(axisData);
-				window.diskSpeedChart[window.env.disk[offset]].setOption(diskSpeedChartoption[window.env.disk[offset]]);
-			}
-			// Network
-			for (var eth in window.env.network) {
-				$("#network_" + window.env.network[eth] + "_usage_label").text("发送：" + kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + "/s 接收：" + kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + "/s");
-				// networkUsageChartoption[window.env.network[eth]].yAxis.max = Math.max(data.network[window.env.network[eth]].transmit_speed, data.network[window.env.network[eth]].receive_speed / 1024);
-				$("#eth_" + window.env.network[eth] + "_receive_bytes").text(kibiBytesToSize(data.network[window.env.network[eth]].receive_bytes / 1024));
-				$("#eth_" + window.env.network[eth] + "_receive_packets").text(numberFormatter(data.network[window.env.network[eth]].receive_packets));
-				$("#eth_" + window.env.network[eth] + "_receive_speed").text(kibiBytesToSize(data.network[window.env.network[eth]].receive_speed / 1024) + " / 秒");
-				$("#eth_" + window.env.network[eth] + "_transmit_bytes").text(kibiBytesToSize(data.network[window.env.network[eth]].transmit_bytes / 1024));
-				$("#eth_" + window.env.network[eth] + "_transmit_packets").text(numberFormatter(data.network[window.env.network[eth]].transmit_packets));
-				$("#eth_" + window.env.network[eth] + "_transmit_speed").text(kibiBytesToSize(data.network[window.env.network[eth]].transmit_speed / 1024) + " / 秒");
-
-				networkUsageChartoption[window.env.network[eth]].series[0].data.shift();
-				networkUsageChartoption[window.env.network[eth]].series[0].data.push(-Math.round(data.network[window.env.network[eth]].receive_speed / 1024));
-				networkUsageChartoption[window.env.network[eth]].series[1].data.shift();
-				networkUsageChartoption[window.env.network[eth]].series[1].data.push(Math.round(data.network[window.env.network[eth]].transmit_speed / 1024));
-				networkUsageChartoption[window.env.network[eth]].xAxis.data.shift();
-				networkUsageChartoption[window.env.network[eth]].xAxis.data.push(axisData);
-				window.networkUsageChart[window.env.network[eth]].setOption(networkUsageChartoption[window.env.network[eth]]);
-			}
-			// Process
-			drawProcessTable(data.process, true);
+			drawChart(data);
 			// Callback
 			setTimeout(function(){refreshChart();}, intervalTime);
 		},
