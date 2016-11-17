@@ -323,14 +323,20 @@ function get_config_value($varName)
 				<?php endforeach; ?>
 					<div class="info-clear"></div>
 
-				<?php foreach(explode(',', get_cfg_var("disable_functions")) as $disable_function): ?>
-					<div class="info">
-						<span class="info-label">已禁用函数: </span>
-						<span class="info-content"><?php echo $disable_function; ?></span>
-					</div>
-				<?php endforeach; ?>
+				<?php 
+				$disable_functions = get_cfg_var("disable_functions");
+				if (!empty($disable_functions)):
+					foreach(explode(',', $disable_functions) as $disable_function): ?>
+						<div class="info">
+							<span class="info-label">已禁用函数: </span>
+							<span class="info-content"><?php echo $disable_function; ?></span>
+						</div>
+					<?php 
+					endforeach;
+				endif;
+				?>
 					<div class="info-clear"></div>
-					
+
 				</div>
 				<div class="info_block">
 
