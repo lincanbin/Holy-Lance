@@ -14,7 +14,21 @@ A Linux Resource / Performance Monitor based on PHP.
 
 ## Install
 
-1. upload `build/holy_lance.php` to your server.
+* upload `build/holy_lance.php` to your server.
+
+*__OR__*
+
+```bash
+wget 'https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/build/holy_lance.php' --no-check-certificate
+```
+
+## Build
+
+If you want to modify the file name, you must rebuild it: 
+
+* run `build\build.sh` under Linux.
+
+* run `build\build.bat` under Windows.
 
 ## Screenshot
 
