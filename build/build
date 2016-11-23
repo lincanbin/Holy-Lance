@@ -105,4 +105,4 @@ endif;
 fwrite($fp, $entry_file['content']);
 fclose($fp);
 
-echo "\n\n" . BUILD_FILE_NAME . "has been generated! \n\n\n";
+echo "\n\n" . BUILD_FILE_NAME . " has been generated! \n\n\n";
