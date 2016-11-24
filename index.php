@@ -259,7 +259,7 @@ function get_config_value($varName)
 					</div>
 					<div class="info">
 						<span class="info-label">系统语言</span>
-						<span class="info-content"><?php echo $_SERVER['HTTP_ACCEPT_LANGUAGE']; ?></span>
+						<span class="info-content"><?php echo !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : ''; ?></span>
 					</div>
 					<div class="info-clear"></div>
 
@@ -273,7 +273,7 @@ function get_config_value($varName)
 					</div>
 					<div class="info">
 						<span class="info-label">服务器解析引擎</span>
-						<span class="info-content"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></span>
+						<span class="info-content"><?php echo !empty($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : ''; ?></span>
 					</div>
 					<div class="info-clear"></div>
 
@@ -308,11 +308,11 @@ function get_config_value($varName)
 					</div>
 					<div class="info">
 						<span class="info-label">服务器IP</span>
-						<span class="info-content"><?php echo GetHostByName($_SERVER['SERVER_NAME']); ?></span>
+						<span class="info-content"><?php echo GetHostByName(!empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost'); ?></span>
 					</div>
 					<div class="info">
 						<span class="info-label">服务器端口</span>
-						<span class="info-content"><?php echo $_SERVER['SERVER_PORT']; ?></span>
+						<span class="info-content"><?php echo !empty($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : ''; ?></span>
 					</div>
 					<div class="info-clear"></div>
 					
