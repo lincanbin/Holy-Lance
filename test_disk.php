@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(0);
 function check_permission($file_name)
 {
 	$fp = @fopen($file_name, 'w');
@@ -28,11 +28,11 @@ if (!check_permission($file_name)) {
 <?php
 } else {
 	ob_start();
-	$disk_write_512k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=524288 count=512 conv=fdatasync 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
-	$disk_read_512k = trim(system('dd if=' . $file_name . ' of=/dev/null ibs=524288 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+	$disk_write_512k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=524288 count=512 conv=fdatasync  oflag=direct,nonblock 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+	$disk_read_512k = trim(system('dd if=' . $file_name . ' of=/dev/null bs=524288 iflag=direct,nonblock 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
 	unlink($file_name);
-	$disk_write_4k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=4096 count=262144 conv=fdatasync 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
-	$disk_read_4k = trim(system('dd if=' . $file_name . ' of=/dev/null ibs=4096 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+	$disk_write_4k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=4096 count=262144 conv=fdatasync oflag=direct,nonblock  2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+	$disk_read_4k = trim(system('dd if=' . $file_name . ' of=/dev/null bs=4096 iflag=direct,nonblock  2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
 	unlink($file_name);
 	ob_end_clean();
 ?>
