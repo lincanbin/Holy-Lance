@@ -14,7 +14,7 @@ A Linux Resource / Performance Monitor based on PHP.
 
 ## Install
 
-* upload `build/holy_lance.php` to your server.
+upload `build/holy_lance.php` to your server.
 
 *__OR__*
 
