@@ -28,10 +28,12 @@ if (!check_permission($file_name)) {
 <?php
 } else {
 	ob_start();
+	// Write 1 GiB
 	$disk_write_512k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=524288 count=512 conv=fdatasync  oflag=direct,nonblock 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
 	$disk_read_512k = trim(system('dd if=' . $file_name . ' of=/dev/null bs=524288 iflag=direct,nonblock 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
 	unlink($file_name);
-	$disk_write_4k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=4096 count=262144 conv=fdatasync oflag=direct,nonblock  2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+	// Write 128 MiB
+	$disk_write_4k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=4096 count=32768 conv=fdatasync oflag=direct,nonblock  2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
 	$disk_read_4k = trim(system('dd if=' . $file_name . ' of=/dev/null bs=4096 iflag=direct,nonblock  2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
 	unlink($file_name);
 	ob_end_clean();
