@@ -14,20 +14,34 @@
 if (!function_exists("exec") || !function_exists("shell_exec")) {
 	exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 }
+function convert_boolean($value) {
+    if (is_bool($value) || in_array($value, array('true', 'false', '1', '0', 1, 0), true)) {
+        return $value ? '√' : '×';
+    } else {
+        return $value;
+    }
+}
 
 function get_config_value($varName)
 {
-	switch($result = get_cfg_var($varName))
-	{
-		case 0:
-			return '×';
-		break;
-		case 1:
-			return '√';
-		break;
-		default:
-			return $result;
-	}
+    return convert_boolean(get_cfg_var($varName));
+}
+
+//格式化文件大小
+function format_bytes($size, $precision = 2)
+{
+    // https://www.zhihu.com/question/21578998/answer/86401223
+    // According to Metric prefix, IEEE 1541-2002.
+    $units = array(
+        ' Bytes',
+        ' KiB',
+        ' MiB',
+        ' GiB',
+        ' TiB'
+    );
+    for ($i = 0; $size >= 1024 && $i < 4; $i++)
+        $size /= 1024;
+    return round($size, $precision) . $units[$i];
 }
 ?>
 
@@ -37,7 +51,7 @@ function get_config_value($varName)
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="robots" content="noarchive">
-	<title>Holy Lance</title>
+	<title>Holy Lance v1.2.0</title>
 	<link href="static/css/style.css" rel="stylesheet"/>
 	<script src="static/js/jquery.min.js" type="text/javascript"></script>
 	<script src="static/js/easyResponsiveTabs.js" type="text/javascript"></script>
@@ -52,6 +66,7 @@ function get_config_value($varName)
 		<li>性能</li>
 		<li>进程</li>
 		<li>环境</li>
+		<li>测试</li>
 		<li>关于</li>
 	</ul>
 	<div class="resp-tabs-container main">
@@ -245,6 +260,37 @@ function get_config_value($varName)
 		<div>
 			<div class="info_block_container">
 				<div class="info_block">
+
+					<div class="info">
+						<span class="info-label">磁盘连续读取速度</span>
+						<span class="info-content" id="disk_read_512k">0 MB/s</span>
+					</div>
+					<div class="info">
+						<span class="info-label">磁盘连续写入速度</span>
+						<span class="info-content" id="disk_write_512k">0 MB/s</span>
+					</div>
+					<div class="info">
+						<span class="info-label">磁盘4k读取速度</span>
+						<span class="info-content" id="disk_read_4k">0 MB/s</span>
+					</div>
+					<div class="info">
+						<span class="info-label">磁盘4k写入速度</span>
+						<span class="info-content" id="disk_write_4k">0 MB/s</span>
+					</div>
+					
+					<div class="info-clear"></div>
+					
+
+				</div>
+				<div class="info_block">
+
+				</div>
+			</div>
+
+		</div>
+		<div>
+			<div class="info_block_container">
+				<div class="info_block">
 					<div class="info">
 						<span class="info-label">系统类型</span>
 						<span class="info-content"><?php echo php_uname('s'); ?></span>
@@ -263,6 +309,10 @@ function get_config_value($varName)
 					</div>
 					<div class="info-clear"></div>
 
+                    <div class="info">
+                        <span class="info-label">服务器解析引擎</span>
+                        <span class="info-content"><?php echo !empty($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : ''; ?></span>
+                    </div>
 					<div class="info">
 						<span class="info-label">PHP版本</span>
 						<span class="info-content"><?php echo phpversion(); ?></span>
@@ -271,11 +321,75 @@ function get_config_value($varName)
 						<span class="info-label">Zend引擎版本</span>
 						<span class="info-content"><?php echo zend_version(); ?></span>
 					</div>
-					<div class="info">
-						<span class="info-label">服务器解析引擎</span>
-						<span class="info-content"><?php echo !empty($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : ''; ?></span>
-					</div>
-					<div class="info-clear"></div>
+                    <div class="info-clear"></div>
+
+                    <?php
+                    if (function_exists('opcache_get_status')):
+                        $opcache_status_info = opcache_get_status();
+                        $opcache_configuration = opcache_get_configuration();
+                        if (!empty($opcache_status_info['opcache_statistics']['start_time'])) {
+                            $opcache_uptime_second = $_SERVER['REQUEST_TIME'] - $opcache_status_info['opcache_statistics']['start_time'];
+                            $opcache_start_uptime = intval($opcache_uptime_second / 86400) . ":"
+                                . sprintf("%02d", $opcache_uptime_second % 86400 / 3600) . ":"
+                                . sprintf("%02d", $opcache_uptime_second % 3600 / 60) . ":"
+                                . sprintf("%02d", $opcache_uptime_second % 60);
+                        }
+                    ?>
+                        <div class="info">
+                            <span class="info-label">OPCache状态</span>
+                            <span class="info-content"><?php echo convert_boolean($opcache_status_info['opcache_enabled']); ?></span>
+                        </div>
+                        <?php
+                        if (!empty($opcache_start_uptime)):
+                        ?>
+                            <div class="info">
+                                <span class="info-label">OPCache运行时间</span>
+                                <span class="info-content"><?php echo $opcache_start_uptime; ?></span>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
+                        <?php
+                        if ($opcache_status_info['opcache_statistics']['hits'] > 0):
+                            ?>
+                            <div class="info">
+                                <span class="info-label">OPCache命中率</span>
+                                <span class="info-content">
+                                    <?php echo round(
+                                        $opcache_status_info['opcache_statistics']['hits']
+                                        / ($opcache_status_info['opcache_statistics']['hits'] + $opcache_configuration['opcache_statistics']['misses'] + $opcache_status_info['opcache_statistics']['blacklist_misses'])
+                                        ,4); ?>%
+                                </span>
+                            </div>
+                            <div class="info">
+                                <span class="info-label">OPCache命中次数</span>
+                                <span class="info-content">
+                                    <?php echo number_format($opcache_status_info['opcache_statistics']['hits'], '0', '.', ' '); ?>
+                                </span>
+                            </div>
+                            <?php
+                        endif;
+                        ?>
+                        <?php
+                        if (!empty($opcache_status_info['memory_usage']['free_memory'] && !empty($opcache_configuration['directives']['opcache.memory_consumption']))):
+                            ?>
+                            <div class="info">
+                                <span class="info-label">OPCache内存占用</span>
+                                <span class="info-content">
+                                    <?php echo format_bytes(
+                                            $opcache_configuration['directives']['opcache.memory_consumption'] - $opcache_status_info['memory_usage']['free_memory']
+                                    ); ?>
+                                    &nbsp;/&nbsp;
+                                    <?php echo format_bytes($opcache_configuration['directives']['opcache.memory_consumption']); ?>
+                                </span>
+                            </div>
+                            <?php
+                        endif;
+                        ?>
+                        <div class="info-clear"></div>
+                    <?php
+                    endif;
+                    ?>
 
 					<div class="info">
 						<span class="info-label">脚本最大占用内存</span>
