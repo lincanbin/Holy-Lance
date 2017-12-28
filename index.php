@@ -43,6 +43,11 @@ function format_bytes($size, $precision = 2)
         $size /= 1024;
     return round($size, $precision) . $units[$i];
 }
+
+function format_number($number)
+{
+    return number_format($number, '0', '.', ' ');
+}
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +76,6 @@ function format_bytes($size, $precision = 2)
 	</ul>
 	<div class="resp-tabs-container main">
 		<div>
-			<p>
 			<!--vertical Tabs-->
 			<div id="PerformanceTab">
 				<ul class="resp-tabs-list performance" id="PerformanceList">
@@ -253,41 +257,11 @@ function format_bytes($size, $precision = 2)
 
 				</div>
 			</div>
-			
+
 		</div>
 		<div id="Process">
 		</div>
-		<div>
-			<div class="info_block_container">
-				<div class="info_block">
 
-					<div class="info">
-						<span class="info-label">磁盘连续读取速度</span>
-						<span class="info-content" id="disk_read_512k">0 MB/s</span>
-					</div>
-					<div class="info">
-						<span class="info-label">磁盘连续写入速度</span>
-						<span class="info-content" id="disk_write_512k">0 MB/s</span>
-					</div>
-					<div class="info">
-						<span class="info-label">磁盘4k读取速度</span>
-						<span class="info-content" id="disk_read_4k">0 MB/s</span>
-					</div>
-					<div class="info">
-						<span class="info-label">磁盘4k写入速度</span>
-						<span class="info-content" id="disk_write_4k">0 MB/s</span>
-					</div>
-					
-					<div class="info-clear"></div>
-					
-
-				</div>
-				<div class="info_block">
-
-				</div>
-			</div>
-
-		</div>
 		<div>
 			<div class="info_block_container">
 				<div class="info_block">
@@ -356,15 +330,23 @@ function format_bytes($size, $precision = 2)
                                 <span class="info-label">OPCache命中率</span>
                                 <span class="info-content">
                                     <?php echo round(
-                                        $opcache_status_info['opcache_statistics']['hits']
-                                        / ($opcache_status_info['opcache_statistics']['hits'] + $opcache_configuration['opcache_statistics']['misses'] + $opcache_status_info['opcache_statistics']['blacklist_misses'])
+                                        $opcache_status_info['opcache_statistics']['hits'] * 100
+                                        / ($opcache_status_info['opcache_statistics']['hits'] + $opcache_status_info['opcache_statistics']['misses'] + $opcache_status_info['opcache_statistics']['blacklist_misses'])
                                         ,4); ?>%
                                 </span>
                             </div>
                             <div class="info">
                                 <span class="info-label">OPCache命中次数</span>
                                 <span class="info-content">
-                                    <?php echo number_format($opcache_status_info['opcache_statistics']['hits'], '0', '.', ' '); ?>
+                                    <?php echo format_number($opcache_status_info['opcache_statistics']['hits']); ?>
+                                </span>
+                            </div>
+                            <div class="info">
+                                <span class="info-label">OPCache缓存脚本数</span>
+                                <span class="info-content">
+                                    <?php echo format_number($opcache_status_info['opcache_statistics']['num_cached_scripts']); ?>
+                                    &nbsp;/&nbsp;
+									<?php echo format_number($opcache_status_info['opcache_statistics']['max_cached_keys']); ?>
                                 </span>
                             </div>
                             <?php
@@ -429,7 +411,7 @@ function format_bytes($size, $precision = 2)
 						<span class="info-content"><?php echo !empty($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : ''; ?></span>
 					</div>
 					<div class="info-clear"></div>
-					
+
 				<?php foreach(get_loaded_extensions() as $extension): ?>
 					<div class="info">
 						<span class="info-label">已编译扩展: </span>
@@ -438,7 +420,7 @@ function format_bytes($size, $precision = 2)
 				<?php endforeach; ?>
 					<div class="info-clear"></div>
 
-				<?php 
+				<?php
 				$disable_functions = get_cfg_var("disable_functions");
 				if (!empty($disable_functions)):
 					foreach(explode(',', $disable_functions) as $disable_function): ?>
@@ -446,7 +428,7 @@ function format_bytes($size, $precision = 2)
 							<span class="info-label">已禁用函数: </span>
 							<span class="info-content"><?php echo $disable_function; ?></span>
 						</div>
-					<?php 
+					<?php
 					endforeach;
 				endif;
 				?>
@@ -459,9 +441,41 @@ function format_bytes($size, $precision = 2)
 			</div>
 
 		</div>
+        <div>
+            <div class="info_block_container">
+                <div class="info_block">
+
+                    <div class="info">
+                        <span class="info-label">磁盘连续读取速度</span>
+                        <span class="info-content" id="disk_read_512k">0 MB/s</span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">磁盘连续写入速度</span>
+                        <span class="info-content" id="disk_write_512k">0 MB/s</span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">磁盘4k读取速度</span>
+                        <span class="info-content" id="disk_read_4k">0 MB/s</span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">磁盘4k写入速度</span>
+                        <span class="info-content" id="disk_write_4k">0 MB/s</span>
+                    </div>
+
+                    <div class="info-clear"></div>
+
+
+                </div>
+                <div class="info_block">
+
+                </div>
+            </div>
+
+        </div>
 		<div>
 			<div class="info_block_container">
-				<p><pre>
+				<p>
+                    <pre>
 					MIT License
 
 Copyright (c) 2016 Canbin Lin (lincanbin@hotmail.com)
@@ -484,12 +498,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-				</pre></p>
+				    </pre>
+                </p>
 				<p>
 				GitHub地址：<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
 				</p>
 				<p>
-				
+
 				</p>
 			</div>
 		</div>
