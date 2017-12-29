@@ -1,4 +1,90 @@
 <?php
+define("HAS_BEEN_COMPILED", true);
+?><?php
+if (!defined('HOLY_LANCE_PASSWORD')) {
+define('HOLY_LANCE_PASSWORD', '');
+}
+
+function convert_boolean($value) {
+if (is_bool($value) || in_array($value, array('true', 'false', '1', '0', 1, 0), true)) {
+return $value ? '√' : '×';
+} else {
+return $value;
+}
+}
+
+function get_config_value($varName)
+{
+return convert_boolean(get_cfg_var($varName));
+}
+
+//格式化文件大小
+function format_bytes($size, $precision = 2)
+{
+// https://www.zhihu.com/question/21578998/answer/86401223
+// According to Metric prefix, IEEE 1541-2002.
+$units = array(
+' Bytes',
+' KiB',
+' MiB',
+' GiB',
+' TiB'
+);
+for ($i = 0; $size >= 1024 && $i < 4; $i++)
+$size /= 1024;
+return round($size, $precision) . $units[$i];
+}
+
+function format_number($number)
+{
+return number_format($number, '0', '.', ' ');
+}
+
+
+function check_permission($file_name)
+{
+$fp = @fopen($file_name, 'w');
+if(!$fp) {
+return false;
+}
+else {
+fclose($fp);
+@unlink($file_name);
+return true;
+}
+}
+
+function get_cpu_info_map($cpu_info_val)
+{
+$result = array();
+foreach (explode("\n", $cpu_info_val) as $value) {
+if ($value) {
+$item = array_map("trim", explode(":", $value));
+$result[str_replace(" ", "_", $item[0])] = $item[1];
+}
+}
+return $result;
+}
+
+function get_mem_info_map($mem_info)
+{
+$result = array();
+foreach ($mem_info as $value) {
+$value = str_ireplace(")", "", str_ireplace("(", "_", str_ireplace("kB", "", $value)));
+$item = array_map("trim", explode(":", $value));
+$result[str_replace(" ", "_", $item[0])] = $item[1];
+}
+return $result;
+}
+
+function convert_timestamp_2_string($timestamp) {
+$timestamp = intval($timestamp);
+return intval($timestamp / 86400) . ":"
+. sprintf("%02d", $timestamp % 86400 / 3600) . ":"
+. sprintf("%02d", $timestamp % 3600 / 60) . ":"
+. sprintf("%02d", $timestamp % 60);
+}
+?><?php
 if (!empty($_GET["file"]) && $_GET["file"] == "api.php"):
 ?><?php
 /*
@@ -49,7 +135,7 @@ $uptime = array();
 exec("cat /proc/uptime | awk '{print $1}'", $uptime);
 if (!empty($uptime)){
 $uptime[0] = intval($uptime[0]);
-$system_info['uptime'] = intval($uptime[0] / 86400) . ":" . sprintf("%02d", $uptime[0] % 86400 / 3600) . ":" . sprintf("%02d", $uptime[0] % 3600 / 60) . ":" . sprintf("%02d", $uptime[0] % 60);
+    $system_info['uptime'] = convert_timestamp_2_string($uptime[0]);
 }
 unset($uptime);
 
@@ -184,6 +270,11 @@ echo json_encode($system_info, JSON_PRETTY_PRINT);
 exit();
 endif;
 ?><?php
+if (!empty($_GET["file"]) && $_GET["file"] == "check_password.php"):
+?><?php
+exit();
+endif;
+?><?php
 if (!empty($_GET["file"]) && $_GET["file"] == "init.php"):
 ?><?php
 /*
@@ -198,28 +289,8 @@ if (!empty($_GET["file"]) && $_GET["file"] == "init.php"):
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
-
-function get_cpu_info_map($cpu_info_val)
-{
-$result = array();
-foreach (explode("\n", $cpu_info_val) as $value) {
-if ($value) {
-$item = array_map("trim", explode(":", $value));
-$result[str_replace(" ", "_", $item[0])] = $item[1];
-}
-}
-return $result;
-}
-
-function get_mem_info_map($mem_info)
-{
-$result = array();
-foreach ($mem_info as $value) {
-$value = str_ireplace(")", "", str_ireplace("(", "_", str_ireplace("kB", "", $value)));
-$item = array_map("trim", explode(":", $value));
-$result[str_replace(" ", "_", $item[0])] = $item[1];
-}
-return $result;
+if (defined('HAS_BEEN_COMPILED') === false) {
+require __DIR__ . '/holy_lance.php?file=common.php';
 }
 
 header('Content-type: application/json');
@@ -255,6 +326,18 @@ if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 echo json_encode($system_env);
 } else {
 echo json_encode($system_env, JSON_PRETTY_PRINT);
+}
+?><?php
+exit();
+endif;
+?><?php
+if (!empty($_GET["file"]) && $_GET["file"] == "ping.php"):
+?><?php
+$ip = (!empty($_GET['ip']) && filter_var($_GET['ip'], FILTER_VALIDATE_IP)) ? $_GET['ip'] : '';
+if ($ip) {
+system('ping -c4 -w1000 ' . $ip);
+} else {
+echo 'Invalid IP';
 }
 ?><?php
 exit();
@@ -1680,6 +1763,106 @@ return(!i||i!==r&&!b.contains(r,i))&&(e.type=o.origType,n=o.handler.apply(this,a
 exit();
 endif;
 ?><?php
+if (!empty($_GET["file"]) && $_GET["file"] == "test_disk.php"):
+?><?php
+set_time_limit(0);
+
+if (defined('HAS_BEEN_COMPILED') === false) {
+require __DIR__ . '/holy_lance.php?file=common.php';
+}
+
+$file_name = 'disk_speedtest' . md5(time());
+
+if (!check_permission($file_name)) {
+?>
+{
+"status": false,
+"message": "chown -R www ./",
+"result": {
+"disk_write_512k" :"",
+"disk_read_512k" :"",
+"disk_write_4k" :"",
+"disk_read_4k" :""
+}
+}
+<?php
+} else {
+ob_start();
+// Write 1 GiB
+$disk_write_512k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=524288 count=512 conv=fdatasync  oflag=direct,nonblock 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+$disk_read_512k = trim(system('dd if=' . $file_name . ' of=/dev/null bs=524288 iflag=direct,nonblock 2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+unlink($file_name);
+// Write 128 MiB
+$disk_write_4k = trim(system('dd if=/dev/zero of=' . $file_name . ' bs=4096 count=32768 conv=fdatasync oflag=direct,nonblock  2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+$disk_read_4k = trim(system('dd if=' . $file_name . ' of=/dev/null bs=4096 iflag=direct,nonblock  2>&1 |awk \'/copied/ {print $8 " "  $9}\''));
+unlink($file_name);
+ob_end_clean();
+?>
+{
+"status": true,
+"message": "",
+"result": {
+"disk_write_512k" :"<?php echo $disk_write_512k; ?>",
+"disk_read_512k" :"<?php echo $disk_read_512k; ?>",
+"disk_write_4k" :"<?php echo $disk_write_4k; ?>",
+"disk_read_4k" :"<?php echo $disk_read_4k; ?>"
+}
+}
+<?php
+}
+?><?php
+exit();
+endif;
+?><?php
+if (!empty($_GET["file"]) && $_GET["file"] == "test_network.php"):
+?><?php
+$start_time = microtime(true);
+//for ($i = 0; $i < 20480; $i++) { 
+// echo str_repeat('0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', 20480);
+//}
+$end_time = microtime(true);
+
+echo '循环执行时间为：'.(($end_time - $start_time) * 1000).' ms';
+system('ping baidu.com');
+?><?php
+exit();
+endif;
+?><?php
+if (!empty($_GET["file"]) && $_GET["file"] == "test_pi.php"):
+?><?php
+$mtime     = explode(' ', microtime());
+$starttime = $mtime[1] + $mtime[0];
+
+$pi = 4; $top = 4; $bot = 3; $minus = TRUE;
+$accuracy = 10000000;
+
+for($i = 0; $i < $accuracy; $i++)
+{
+  $pi += ( $minus ? -($top/$bot) : ($top/$bot) );
+  $minus = ( $minus ? FALSE : TRUE);
+  $bot += 2;
+}
+
+echo $pi;
+$mtime     = explode(' ', microtime());
+echo '<br>'.(number_format(($mtime[1] + $mtime[0] - $starttime), 6)*1000).'ms';
+echo '<br>'.(memory_get_usage(false)/1024).'KiB';
+?><?php
+exit();
+endif;
+?><?php
+if (!empty($_GET["file"]) && $_GET["file"] == "test_ping.php"):
+?><?php
+$ip = (!empty($_GET['ip']) && filter_var($_GET['ip'], FILTER_VALIDATE_IP)) ? $_GET['ip'] : '';
+if ($ip) {
+system('ping -c4 -w1000 ' . $ip);
+} else {
+echo 'Invalid IP';
+}
+?><?php
+exit();
+endif;
+?><?php
 /*
  * Holy Lance
  * https://github.com/lincanbin/Holy-Lance
@@ -1696,19 +1879,8 @@ if (!function_exists("exec") || !function_exists("shell_exec")) {
 exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 }
 
-function get_config_value($varName)
-{
-switch($result = get_cfg_var($varName))
-{
-case 0:
-return '×';
-break;
-case 1:
-return '√';
-break;
-default:
-return $result;
-}
+if (defined('HAS_BEEN_COMPILED') === false) {
+    require __DIR__ . '/holy_lance.php?file=common.php';
 }
 ?>
 
@@ -1718,7 +1890,7 @@ return $result;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="robots" content="noarchive">
-<title>Holy Lance</title>
+<title>Holy Lance v1.2.0</title>
 <link href="holy_lance.php?file=static%2Fcss%2Fstyle.css" rel="stylesheet"/>
 <script src="holy_lance.php?file=static%2Fjs%2Fjquery.min.js" type="text/javascript"></script>
 <script src="holy_lance.php?file=static%2Fjs%2FeasyResponsiveTabs.js" type="text/javascript"></script>
@@ -1733,11 +1905,11 @@ return $result;
 <li>性能</li>
 <li>进程</li>
 <li>环境</li>
+<li>测试</li>
 <li>关于</li>
 </ul>
 <div class="resp-tabs-container main">
 <div>
-<p>
 <!--vertical Tabs-->
 <div id="PerformanceTab">
 <ul class="resp-tabs-list performance" id="PerformanceList">
@@ -1923,6 +2095,7 @@ return $result;
 </div>
 <div id="Process">
 </div>
+
 <div>
 <div class="info_block_container">
 <div class="info_block">
@@ -1940,10 +2113,14 @@ return $result;
 </div>
 <div class="info">
 <span class="info-label">系统语言</span>
-<span class="info-content"><?php echo $_SERVER['HTTP_ACCEPT_LANGUAGE']; ?></span>
+<span class="info-content"><?php echo !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : ''; ?></span>
 </div>
 <div class="info-clear"></div>
 
+                    <div class="info">
+                        <span class="info-label">服务器解析引擎</span>
+                        <span class="info-content"><?php echo !empty($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : ''; ?></span>
+                    </div>
 <div class="info">
 <span class="info-label">PHP版本</span>
 <span class="info-content"><?php echo phpversion(); ?></span>
@@ -1952,11 +2129,80 @@ return $result;
 <span class="info-label">Zend引擎版本</span>
 <span class="info-content"><?php echo zend_version(); ?></span>
 </div>
-<div class="info">
-<span class="info-label">服务器解析引擎</span>
-<span class="info-content"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></span>
-</div>
-<div class="info-clear"></div>
+                    <div class="info-clear"></div>
+
+                    <?php
+                    if (function_exists('opcache_get_status')):
+                        $opcache_status_info = opcache_get_status();
+                        $opcache_configuration = opcache_get_configuration();
+                        if (!empty($opcache_status_info['opcache_statistics']['start_time'])) {
+                            $opcache_uptime_second = $_SERVER['REQUEST_TIME'] - $opcache_status_info['opcache_statistics']['start_time'];
+                            $opcache_start_uptime = convert_timestamp_2_string($opcache_uptime_second);
+                        }
+                    ?>
+                        <div class="info">
+                            <span class="info-label">OPCache状态</span>
+                            <span class="info-content"><?php echo convert_boolean($opcache_status_info['opcache_enabled']); ?></span>
+                        </div>
+                        <?php
+                        if (!empty($opcache_start_uptime)):
+                        ?>
+                            <div class="info">
+                                <span class="info-label">OPCache运行时间</span>
+                                <span class="info-content"><?php echo $opcache_start_uptime; ?></span>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
+                        <?php
+                        if ($opcache_status_info['opcache_statistics']['hits'] > 0):
+                            ?>
+                            <div class="info">
+                                <span class="info-label">OPCache命中率</span>
+                                <span class="info-content">
+                                    <?php echo round(
+                                        $opcache_status_info['opcache_statistics']['hits'] * 100
+                                        / ($opcache_status_info['opcache_statistics']['hits'] + $opcache_status_info['opcache_statistics']['misses'] + $opcache_status_info['opcache_statistics']['blacklist_misses'])
+                                        ,4); ?>%
+                                </span>
+                            </div>
+                            <div class="info">
+                                <span class="info-label">OPCache命中次数</span>
+                                <span class="info-content">
+                                    <?php echo format_number($opcache_status_info['opcache_statistics']['hits']); ?>
+                                </span>
+                            </div>
+                            <div class="info">
+                                <span class="info-label">OPCache缓存脚本数</span>
+                                <span class="info-content">
+                                    <?php echo format_number($opcache_status_info['opcache_statistics']['num_cached_scripts']); ?>
+                                    &nbsp;/&nbsp;
+<?php echo format_number($opcache_status_info['opcache_statistics']['max_cached_keys']); ?>
+                                </span>
+                            </div>
+                            <?php
+                        endif;
+                        ?>
+                        <?php
+                        if (!empty($opcache_status_info['memory_usage']['free_memory']) && !empty($opcache_configuration['directives']['opcache.memory_consumption'])):
+                            ?>
+                            <div class="info">
+                                <span class="info-label">OPCache内存占用</span>
+                                <span class="info-content">
+                                    <?php echo format_bytes(
+                                            $opcache_configuration['directives']['opcache.memory_consumption'] - $opcache_status_info['memory_usage']['free_memory']
+                                    ); ?>
+                                    &nbsp;/&nbsp;
+                                    <?php echo format_bytes($opcache_configuration['directives']['opcache.memory_consumption']); ?>
+                                </span>
+                            </div>
+                            <?php
+                        endif;
+                        ?>
+                        <div class="info-clear"></div>
+                    <?php
+                    endif;
+                    ?>
 
 <div class="info">
 <span class="info-label">脚本最大占用内存</span>
@@ -1989,11 +2235,11 @@ return $result;
 </div>
 <div class="info">
 <span class="info-label">服务器IP</span>
-<span class="info-content"><?php echo GetHostByName($_SERVER['SERVER_NAME']); ?></span>
+<span class="info-content"><?php echo GetHostByName(!empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost'); ?></span>
 </div>
 <div class="info">
 <span class="info-label">服务器端口</span>
-<span class="info-content"><?php echo $_SERVER['SERVER_PORT']; ?></span>
+<span class="info-content"><?php echo !empty($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : ''; ?></span>
 </div>
 <div class="info-clear"></div>
 
@@ -2005,7 +2251,7 @@ return $result;
 <?php endforeach; ?>
 <div class="info-clear"></div>
 
-<?php 
+<?php
 $disable_functions = get_cfg_var("disable_functions");
 if (!empty($disable_functions)):
 foreach(explode(',', $disable_functions) as $disable_function): ?>
@@ -2013,7 +2259,7 @@ foreach(explode(',', $disable_functions) as $disable_function): ?>
 <span class="info-label">已禁用函数: </span>
 <span class="info-content"><?php echo $disable_function; ?></span>
 </div>
-<?php 
+<?php
 endforeach;
 endif;
 ?>
@@ -2026,9 +2272,41 @@ endif;
 </div>
 
 </div>
+        <div>
+            <div class="info_block_container">
+                <div class="info_block">
+
+                    <div class="info">
+                        <span class="info-label">磁盘连续读取速度</span>
+                        <span class="info-content" id="disk_read_512k">0 MB/s</span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">磁盘连续写入速度</span>
+                        <span class="info-content" id="disk_write_512k">0 MB/s</span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">磁盘4k读取速度</span>
+                        <span class="info-content" id="disk_read_4k">0 MB/s</span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">磁盘4k写入速度</span>
+                        <span class="info-content" id="disk_write_4k">0 MB/s</span>
+                    </div>
+
+                    <div class="info-clear"></div>
+
+
+                </div>
+                <div class="info_block">
+
+                </div>
+            </div>
+
+        </div>
 <div>
 <div class="info_block_container">
-<p><pre>
+<p>
+                    <pre>
 MIT License
 
 Copyright (c) 2016 Canbin Lin (lincanbin@hotmail.com)
@@ -2051,7 +2329,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-</pre></p>
+    </pre>
+                </p>
 <p>
 GitHub地址：<a href="https://github.com/lincanbin/Holy-Lance" target="_blank">https://github.com/lincanbin/Holy-Lance</a>
 </p>

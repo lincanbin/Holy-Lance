@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('HOLY_LANCE_PASSWORD')) {
 	define('HOLY_LANCE_PASSWORD', '');
 }
@@ -81,5 +82,13 @@ function convert_timestamp_2_string($timestamp) {
 		. sprintf("%02d", $timestamp % 86400 / 3600) . ":"
 		. sprintf("%02d", $timestamp % 3600 / 60) . ":"
 		. sprintf("%02d", $timestamp % 60);
+}
+
+function check_password(){
+	if (HOLY_LANCE_PASSWORD !== '' && (!isset($_POST['password']) || $_POST['password'] !== HOLY_LANCE_PASSWORD)) {
+		echo '{"status":false}';
+		exit(1);
+	}
+	return true;
 }
 ?>

@@ -58,7 +58,7 @@ ul.resp-tabs-list, p {
 	font-weight: 600;
 	font-size: 13px;
 	display: inline-block;
-	padding: 20px 145px;
+	padding: 20px 65px;
 	margin: 0 4px 0 0;
 	list-style: none;
 	cursor: pointer;
@@ -88,7 +88,7 @@ h2.resp-accordion {
 	border: 1px solid #5AB1D0 !important;
 	border-bottom: none;
 	margin-bottom: -1px !important;
-	padding: 19px 144px 21px 144px !important;
+	padding: 16px 64px 20px 64px !important;
 	border-top: 4px solid #5AB1D0 !important;
 	border-bottom: 0 #fff solid !important;
 }
@@ -173,7 +173,7 @@ h2.resp-tab-active span.resp-arrow {
 	border-bottom: 12px solid #9B9797;
 }
 /*-----------Accordion styles-----------*/
-	h2.resp-tab-active {
+h2.resp-tab-active {
 	background: #DBDBDB;
 	/* !important;*/
 }
@@ -199,29 +199,29 @@ h2.resp-accordion:first-child {
 	/* !important;*/
 }
 /*Here your can change the breakpoint to set the accordion, when screen resolution changed*/
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 960px) {
 	ul.resp-tabs-list {
-	display: none;
-}
-h2.resp-accordion {
-	display: block;
-}
-.resp-vtabs .resp-tab-content {
-	border: 1px solid #C1C1C1;
-}
-.resp-vtabs .resp-tabs-container {
-	border: none;
-	float: none;
-	width: 100%;
-	min-height: 100px;
-	clear: none;
-}
-.resp-accordion-closed {
-	display: none !important;
-}
-.resp-vtabs .resp-tab-content:last-child {
-	border-bottom: 1px solid #c1c1c1 !important;
-}
+		display: none;
+	}
+	h2.resp-accordion {
+		display: block;
+	}
+	.resp-vtabs .resp-tab-content {
+		border: 1px solid #C1C1C1;
+	}
+	.resp-vtabs .resp-tabs-container {
+		border: none;
+		float: none;
+		width: 100%;
+		min-height: 100px;
+		clear: none;
+	}
+	.resp-accordion-closed {
+		display: none !important;
+	}
+	.resp-vtabs .resp-tab-content:last-child {
+		border-bottom: 1px solid #c1c1c1 !important;
+	}
 }
 
 .chart-title-set{

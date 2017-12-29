@@ -12,7 +12,7 @@
  */
 var numberOfRecords  = 360; // points
 var intervalTime = 3000; // ms
-var password = 12345678; // ms
+var password = '';
 
 function getCpuColumn(cpuNumber) {
 	var start = Math.ceil(Math.sqrt(cpuNumber));
@@ -827,15 +827,29 @@ function refreshChart() {
 }
 
 $(document).ready(function () {
-	$.ajax({
-		type: "POST",
-		url: "init.php",
-		data: {
-			password: password
-		},
-		dataType: "json",
-		success: function(data){
-			init(data);
-		}
-	});
+    if (passwordRequired) {
+        password = prompt("请输入Holy Lance的密码","");
+        if (password !== null){
+            //TODO 校验密码操作
+        }else{
+            alert("未输入密码");
+        }
+    }
+	if (passwordRequired === false || password !== ''){
+		var postData = password === '' ? {} : {password: password};
+		$.ajax({
+			type: "POST",
+			url: "init.php",
+			data: postData,
+			dataType: "json",
+			success: function(data){
+				if (data.status) {
+                    $('body').show();
+					init(data);
+                } else {
+					alert('密码错误');
+				}
+			}
+		});
+    }
 });

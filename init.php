@@ -14,8 +14,9 @@
 if (defined('HAS_BEEN_COMPILED') === false) {
 	require __DIR__ . '/common.php';
 }
-
 header('Content-type: application/json');
+check_password();
+
 
 exec("cat /proc/net/dev | grep \":\" | awk -F ':' '{gsub(\" \", \"\"); if ($2 > 0) print $1}'", $network_cards);
 exec("cat /proc/diskstats | awk '{if ($4 > 0) print $3}'", $disk);
@@ -33,6 +34,7 @@ foreach ($network_cards as $eth) {
 	$network_info[$eth]['ip'] = explode("\n", trim(shell_exec("ifconfig " . $eth . " | grep 'inet' | sed 's/addr://g' | awk '{print $2}'")));
 }
 $system_env = array(
+	'status' => true,
 	'version' => 1,
 	'system_name' => trim(shell_exec('cat /etc/*-release | head -n1')),
 	'psssword_require' => false,

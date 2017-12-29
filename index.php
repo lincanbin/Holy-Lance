@@ -34,7 +34,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 	<script src="static/js/echarts.min.js" type="text/javascript"></script>
 </head>
 
-<body>
+<body style="display: none;">
 <!--Horizontal Tab-->
 <div id="MainTab">
 	<ul class="resp-tabs-list main">
@@ -477,6 +477,9 @@ SOFTWARE.
 		</div>
 	</div>
 </div>
+<script>
+    var passwordRequired = <?php echo empty(HOLY_LANCE_PASSWORD) ? 'false' : 'true'; ?>;
+</script>
 <script src="static/js/common.js" type="text/javascript"></script>
 </body>
 </html>

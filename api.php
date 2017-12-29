@@ -11,14 +11,17 @@
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
-
+if (defined('HAS_BEEN_COMPILED') === false) {
+	require __DIR__ . '/common.php';
+}
 header('Content-type: application/json');
+check_password();
 
 define('SAMPLING_TIME', 250000); // 250ms
 
 // load
 $system_info = array(
-	'status' => 1,
+	'status' => true,
 	'load' => array(0, 0, 0),
 	'uptime' => '0:0:0:0',
 	'cpu_usage' => 0,
