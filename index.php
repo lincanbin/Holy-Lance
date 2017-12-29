@@ -433,8 +433,11 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 
                     <?php
                     $client_ip = !empty($_SERVER["HTTP_CLIENT_IP"]) ?
-                        $_SERVER["HTTP_CLIENT_IP"] :
-                        (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '');
+                        $_SERVER["HTTP_CLIENT_IP"] : (
+                                !empty($_SERVER['HTTP_X_FORWARDED_FOR'])
+                                    ? $_SERVER['HTTP_X_FORWARDED_FOR']
+                                    : (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '')
+                            );
                     if (!empty($client_ip)) :
                     ?>
                     <div class="info">
