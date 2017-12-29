@@ -826,6 +826,39 @@ function refreshChart() {
 	});
 }
 
+function diskTest() {
+    $("#disk_read_512k").text('…');
+    $("#disk_write_512k").text('…');
+    $("#disk_read_4k").text('…');
+    $("#disk_write_4k").text('…');
+    $.ajax({
+        type: "POST",
+        url: "test_disk.php",
+        data: {password: password},
+        dataType: "json",
+        success: function(data){
+            $("#disk_read_512k").text(data.result.disk_read_512k);
+            $("#disk_write_512k").text(data.result.disk_write_512k);
+            $("#disk_read_4k").text(data.result.disk_read_4k);
+            $("#disk_write_4k").text(data.result.disk_write_4k);
+        }
+    });
+}
+
+function pingTest(_this, ip) {
+    _this.textContent="…";
+    $.ajax({
+        type: "POST",
+        url: "test_ping.php",
+        data: {password: password, ip: ip},
+        dataType: "json",
+        success: function(data){
+            _this.textContent=data.result;
+        }
+    });
+}
+
+
 $(document).ready(function () {
     if (passwordRequired) {
         password = prompt("请输入Holy Lance的密码","");

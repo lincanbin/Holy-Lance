@@ -25,6 +25,10 @@ table {
 	border-collapse: collapse;
 	margin: 0 auto;
 }
+a {
+	text-decoration: none;
+	color: #3498db;
+}
 tr:nth-of-type(odd) {
 	background: #eee;
 }

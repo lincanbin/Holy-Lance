@@ -4,7 +4,8 @@ if (!defined('HOLY_LANCE_PASSWORD')) {
 	define('HOLY_LANCE_PASSWORD', '');
 }
 
-function convert_boolean($value) {
+function convert_boolean($value)
+{
 	if (is_bool($value) || in_array($value, array('true', 'false', '1', '0', 1, 0), true)) {
 		return $value ? '√' : '×';
 	} else {
@@ -43,10 +44,9 @@ function format_number($number)
 function check_permission($file_name)
 {
 	$fp = @fopen($file_name, 'w');
-	if(!$fp) {
+	if (!$fp) {
 		return false;
-	}
-	else {
+	} else {
 		fclose($fp);
 		@unlink($file_name);
 		return true;
@@ -76,7 +76,8 @@ function get_mem_info_map($mem_info)
 	return $result;
 }
 
-function convert_timestamp_2_string($timestamp) {
+function convert_timestamp_2_string($timestamp)
+{
 	$timestamp = intval($timestamp);
 	return intval($timestamp / 86400) . ":"
 		. sprintf("%02d", $timestamp % 86400 / 3600) . ":"
@@ -84,11 +85,34 @@ function convert_timestamp_2_string($timestamp) {
 		. sprintf("%02d", $timestamp % 60);
 }
 
-function check_password(){
+function check_password()
+{
 	if (HOLY_LANCE_PASSWORD !== '' && (!isset($_POST['password']) || $_POST['password'] !== HOLY_LANCE_PASSWORD)) {
 		echo '{"status":false}';
 		exit(1);
 	}
 	return true;
 }
+
+
+function ping($host)
+{
+	$protocolNumber = getprotobyname('icmp');
+	$socket = socket_create(AF_INET, SOCK_RAW, $protocolNumber);
+	socket_set_block($socket);
+	socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 1, 'usec' => 0));
+	socket_connect($socket, $host, 0);
+	$package = "\x08\x00\x19\x2f\x00\x00\x00\x00\x70\x69\x6e\x67";
+	socket_send($socket, $package, strlen($package), 0);
+	$ts1 = microtime(true);
+	if (socket_read($socket, 255) !== false) {
+		$ts2 = microtime(true);
+		$result = round(($ts2 - $ts1) * 1000, 2) . ' ms';
+	} else {
+		$result = socket_strerror(socket_last_error($socket));
+	}
+	socket_close($socket);
+	return $result;
+}
+
 ?>

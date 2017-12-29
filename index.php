@@ -26,7 +26,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="robots" content="noarchive">
-	<title>Holy Lance v1.2.0</title>
+	<title>Holy Lance v1.3.0</title>
 	<link href="static/css/style.css" rel="stylesheet"/>
 	<script src="static/js/jquery.min.js" type="text/javascript"></script>
 	<script src="static/js/easyResponsiveTabs.js" type="text/javascript"></script>
@@ -414,24 +414,29 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 
                     <div class="info">
                         <span class="info-label">磁盘连续读取速度</span>
-                        <span class="info-content" id="disk_read_512k">0 MB/s</span>
+                        <span class="info-content" id="disk_read_512k"><a href="javascript:" onclick="diskTest()">Run</a></span>
                     </div>
                     <div class="info">
                         <span class="info-label">磁盘连续写入速度</span>
-                        <span class="info-content" id="disk_write_512k">0 MB/s</span>
+                        <span class="info-content" id="disk_write_512k"><a href="javascript:" onclick="diskTest()">Run</a></span>
                     </div>
                     <div class="info">
                         <span class="info-label">磁盘4k读取速度</span>
-                        <span class="info-content" id="disk_read_4k">0 MB/s</span>
+                        <span class="info-content" id="disk_read_4k"><a href="javascript:" onclick="diskTest()">Run</a></span>
                     </div>
                     <div class="info">
                         <span class="info-label">磁盘4k写入速度</span>
-                        <span class="info-content" id="disk_write_4k">0 MB/s</span>
+                        <span class="info-content" id="disk_write_4k"><a href="javascript:" onclick="diskTest()">Run</a></span>
                     </div>
 
                     <div class="info-clear"></div>
 
+                    <div class="info">
+                        <span class="info-label">Ping Baidu</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'111.13.101.208')">Run</a></span>
+                    </div>
 
+                    <div class="info-clear"></div>
                 </div>
                 <div class="info_block">
 
