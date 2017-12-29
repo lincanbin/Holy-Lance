@@ -448,7 +448,18 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         <span class="info-label">Ping Baidu</span>
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.baidu.com')">Run</a></span>
                     </div>
-
+                    <div class="info">
+                        <span class="info-label">Ping Google</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.google.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping Youtube</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.youtube.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 114</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
+                    </div>
                     <div class="info-clear"></div>
                 </div>
                 <div class="info_block">
