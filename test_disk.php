@@ -4,6 +4,8 @@ set_time_limit(0);
 if (defined('HAS_BEEN_COMPILED') === false) {
 	require __DIR__ . '/common.php';
 }
+header('Content-type: application/json');
+check_password();
 
 $file_name = 'disk_speedtest' . md5(time());
 
@@ -13,10 +15,10 @@ if (!check_permission($file_name)) {
 	"status": false,
 	"message": "chown -R www ./",
 	"result": {
-		"disk_write_512k" :"",
-		"disk_read_512k" :"",
-		"disk_write_4k" :"",
-		"disk_read_4k" :""
+		"disk_write_512k" :"×",
+		"disk_read_512k" :"×",
+		"disk_write_4k" :"×",
+		"disk_read_4k" :"×"
 	}
 }
 <?php
