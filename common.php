@@ -95,11 +95,12 @@ function check_password()
 }
 
 
+// 创建row socket 需要root权限，所以用root账户在CLI下运行可以成功，用www用户在fpm下运行可能会失败，但是不会报错
+// 需要root权限运行则要php-fpm -R运行
 function ping($host)
 {
 	$protocolNumber = getprotobyname('icmp');
 	$socket = socket_create(AF_INET, SOCK_RAW, $protocolNumber);
-	socket_set_block($socket);
 	socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 1, 'usec' => 0));
 	socket_connect($socket, $host, 0);
 	$package = "\x08\x00\x19\x2f\x00\x00\x00\x00\x70\x69\x6e\x67";
