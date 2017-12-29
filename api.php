@@ -47,7 +47,7 @@ $uptime = array();
 exec("cat /proc/uptime | awk '{print $1}'", $uptime);
 if (!empty($uptime)){
 	$uptime[0] = intval($uptime[0]);
-	$system_info['uptime'] = intval($uptime[0] / 86400) . ":" . sprintf("%02d", $uptime[0] % 86400 / 3600) . ":" . sprintf("%02d", $uptime[0] % 3600 / 60) . ":" . sprintf("%02d", $uptime[0] % 60);
+    $system_info['uptime'] = convert_timestamp_2_string($uptime[0]);
 }
 unset($uptime);
 

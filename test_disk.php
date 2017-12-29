@@ -1,30 +1,24 @@
 <?php
 set_time_limit(0);
-function check_permission($file_name)
-{
-	$fp = @fopen($file_name, 'w');
-	if(!$fp) {
-		return false;
-	}
-	else {
-		fclose($fp);
-		$rs = @unlink($file_name);
-		return true;
-	}
+
+if (defined('HAS_BEEN_COMPILED') === false) {
+	require __DIR__ . '/common.php';
 }
 
 $file_name = 'disk_speedtest' . md5(time());
 
 if (!check_permission($file_name)) {
 ?>
-	{
-		"status": false,
-		"message": "chown -R www ./",
+{
+	"status": false,
+	"message": "chown -R www ./",
+	"result": {
 		"disk_write_512k" :"",
 		"disk_read_512k" :"",
 		"disk_write_4k" :"",
 		"disk_read_4k" :""
 	}
+}
 <?php
 } else {
 	ob_start();
@@ -38,14 +32,16 @@ if (!check_permission($file_name)) {
 	unlink($file_name);
 	ob_end_clean();
 ?>
-	{
-		"status": true,
-		"message": "",
+{
+	"status": true,
+	"message": "",
+	"result": {
 		"disk_write_512k" :"<?php echo $disk_write_512k; ?>",
 		"disk_read_512k" :"<?php echo $disk_read_512k; ?>",
 		"disk_write_4k" :"<?php echo $disk_write_4k; ?>",
 		"disk_read_4k" :"<?php echo $disk_read_4k; ?>"
 	}
+}
 <?php
 }
 ?>

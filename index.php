@@ -14,39 +14,9 @@
 if (!function_exists("exec") || !function_exists("shell_exec")) {
 	exit("请启用exec()和shell_exec()函数，即禁用安全模式(safe_mode)");
 }
-function convert_boolean($value) {
-    if (is_bool($value) || in_array($value, array('true', 'false', '1', '0', 1, 0), true)) {
-        return $value ? '√' : '×';
-    } else {
-        return $value;
-    }
-}
 
-function get_config_value($varName)
-{
-    return convert_boolean(get_cfg_var($varName));
-}
-
-//格式化文件大小
-function format_bytes($size, $precision = 2)
-{
-    // https://www.zhihu.com/question/21578998/answer/86401223
-    // According to Metric prefix, IEEE 1541-2002.
-    $units = array(
-        ' Bytes',
-        ' KiB',
-        ' MiB',
-        ' GiB',
-        ' TiB'
-    );
-    for ($i = 0; $size >= 1024 && $i < 4; $i++)
-        $size /= 1024;
-    return round($size, $precision) . $units[$i];
-}
-
-function format_number($number)
-{
-    return number_format($number, '0', '.', ' ');
+if (defined('HAS_BEEN_COMPILED') === false) {
+    require __DIR__ . '/common.php';
 }
 ?>
 
@@ -303,10 +273,7 @@ function format_number($number)
                         $opcache_configuration = opcache_get_configuration();
                         if (!empty($opcache_status_info['opcache_statistics']['start_time'])) {
                             $opcache_uptime_second = $_SERVER['REQUEST_TIME'] - $opcache_status_info['opcache_statistics']['start_time'];
-                            $opcache_start_uptime = intval($opcache_uptime_second / 86400) . ":"
-                                . sprintf("%02d", $opcache_uptime_second % 86400 / 3600) . ":"
-                                . sprintf("%02d", $opcache_uptime_second % 3600 / 60) . ":"
-                                . sprintf("%02d", $opcache_uptime_second % 60);
+                            $opcache_start_uptime = convert_timestamp_2_string($opcache_uptime_second);
                         }
                     ?>
                         <div class="info">
@@ -353,7 +320,7 @@ function format_number($number)
                         endif;
                         ?>
                         <?php
-                        if (!empty($opcache_status_info['memory_usage']['free_memory'] && !empty($opcache_configuration['directives']['opcache.memory_consumption']))):
+                        if (!empty($opcache_status_info['memory_usage']['free_memory']) && !empty($opcache_configuration['directives']['opcache.memory_consumption'])):
                             ?>
                             <div class="info">
                                 <span class="info-label">OPCache内存占用</span>

@@ -11,28 +11,8 @@
  * 
  * A Linux Resource / Performance Monitor based on PHP. 
  */
-
-function get_cpu_info_map($cpu_info_val)
-{
-	$result = array();
-	foreach (explode("\n", $cpu_info_val) as $value) {
-		if ($value) {
-			$item = array_map("trim", explode(":", $value));
-			$result[str_replace(" ", "_", $item[0])] = $item[1];
-		}
-	}
-	return $result;
-}
-
-function get_mem_info_map($mem_info)
-{
-	$result = array();
-	foreach ($mem_info as $value) {
-		$value = str_ireplace(")", "", str_ireplace("(", "_", str_ireplace("kB", "", $value)));
-		$item = array_map("trim", explode(":", $value));
-		$result[str_replace(" ", "_", $item[0])] = $item[1];
-	}
-	return $result;
+if (defined('HAS_BEEN_COMPILED') === false) {
+	require __DIR__ . '/common.php';
 }
 
 header('Content-type: application/json');
