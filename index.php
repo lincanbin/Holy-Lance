@@ -478,7 +478,7 @@ SOFTWARE.
 	</div>
 </div>
 <script>
-    var passwordRequired = <?php echo empty(HOLY_LANCE_PASSWORD) ? 'false' : 'true'; ?>;
+    var passwordRequired = <?php echo HOLY_LANCE_PASSWORD === '' ? 'false' : 'true'; ?>;
 </script>
 <script src="static/js/common.js" type="text/javascript"></script>
 </body>
