@@ -436,7 +436,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         $_SERVER["HTTP_CLIENT_IP"] : (
                                 !empty($_SERVER['HTTP_X_FORWARDED_FOR'])
                                     ? $_SERVER['HTTP_X_FORWARDED_FOR']
-                                    : (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '')
+                                    : (!empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '')
                             );
                     if (!empty($client_ip)) :
                     ?>
