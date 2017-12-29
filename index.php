@@ -431,9 +431,19 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 
                     <div class="info-clear"></div>
 
+                    <?php
+                    if (!empty($_SERVER["HTTP_CLIENT_IP"])) :
+                    ?>
+                    <div class="info">
+                        <span class="info-label">Ping 客户端主机<?php echo $_SERVER["HTTP_CLIENT_IP"]; ?></span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'<?php echo $_SERVER["HTTP_CLIENT_IP"]; ?>')">Run</a></span>
+                    </div>
+                    <?php
+                    endif;
+                    ?>
                     <div class="info">
                         <span class="info-label">Ping Baidu</span>
-                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'111.13.101.208')">Run</a></span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.baidu.com')">Run</a></span>
                     </div>
 
                     <div class="info-clear"></div>

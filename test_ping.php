@@ -7,12 +7,20 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 header('Content-type: application/json');
 check_password();
 
-
-
+$ip = '';
 if (php_sapi_name() === "cli") {
 	$ip = '8.8.8.8';// For debug onlu
 } else {
-	$ip = (!empty($_REQUEST['ip']) && filter_var($_REQUEST['ip'], FILTER_VALIDATE_IP)) ? $_REQUEST['ip'] : '';
+	if (!empty($_REQUEST['ip'])) {
+		if (filter_var($_REQUEST['ip'], FILTER_VALIDATE_IP)) {
+			$ip = $_REQUEST['ip'];
+		} else {
+			$ip = gethostbyaddr($_REQUEST['ip']);
+			if ($ip = $_REQUEST['ip']) {
+				$ip = '';
+			}
+		}
+	}
 }
 if ($ip) {
 	echo json_encode(array('status' => true, 'ip' => $ip, 'result' => ping($ip)));
