@@ -34,5 +34,6 @@ script:
   - php-cgi -f holy_lance.php file=init.php
   - php-cgi -f holy_lance.php file=api.php
   - php-cgi -f holy_lance.php file=test_disk.php
+  - php-cgi -f holy_lance.php file=test_pi.php
   - php-cgi -f holy_lance.php file=test_ping.php ip=8.8.8.8
   - php-cgi -f holy_lance.php

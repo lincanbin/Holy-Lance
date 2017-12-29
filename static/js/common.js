@@ -858,6 +858,18 @@ function pingTest(_this, ip) {
     });
 }
 
+function pingPi(_this) {
+    _this.textContent="…";
+    $.ajax({
+        type: "POST",
+        url: "test_pi.php",
+        data: {password: password},
+        dataType: "json",
+        success: function(data){
+            _this.textContent=data.time;
+        }
+    });
+}
 
 $(document).ready(function () {
     if (passwordRequired) {

@@ -428,7 +428,12 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         <span class="info-label">磁盘4k写入速度</span>
                         <span class="info-content" id="disk_write_4k"><a href="javascript:" onclick="diskTest()">Run</a></span>
                     </div>
+                    <div class="info-clear"></div>
 
+                    <div class="info">
+                        <span class="info-label">计算PI</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingPi(this)">Run</a></span>
+                    </div>
                     <div class="info-clear"></div>
 
                     <?php
@@ -464,6 +469,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
                     </div>
                     <div class="info-clear"></div>
+
                 </div>
                 <div class="info_block">
 
