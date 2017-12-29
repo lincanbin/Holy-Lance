@@ -16,7 +16,7 @@ if (php_sapi_name() === "cli") {
 			$ip = $_REQUEST['ip'];
 		} else {
 			$ip = gethostbyname($_REQUEST['ip']);
-			if ($ip = $_REQUEST['ip']) {
+			if ($ip === $_REQUEST['ip']) {
 				$ip = '';
 			}
 		}
