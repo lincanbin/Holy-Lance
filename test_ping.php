@@ -12,7 +12,7 @@ if (php_sapi_name() === "cli") {
 	$ip = '8.8.8.8';// For debug onlu
 } else {
 	if (!empty($_REQUEST['ip'])) {
-		if (filter_var($_REQUEST['ip'], FILTER_VALIDATE_IP)) {
+		if (filter_var($_REQUEST['ip'], FILTER_VALIDATE_IP) !== false) {
 			$ip = $_REQUEST['ip'];
 		} else {
 			$ip = gethostbyaddr($_REQUEST['ip']);
