@@ -465,6 +465,10 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.youtube.com')">Run</a></span>
                     </div>
                     <div class="info">
+                        <span class="info-label">Ping GitHub</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.github.com')">Run</a></span>
+                    </div>
+                    <div class="info">
                         <span class="info-label">Ping 114</span>
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
                     </div>
