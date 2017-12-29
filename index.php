@@ -432,11 +432,14 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                     <div class="info-clear"></div>
 
                     <?php
-                    if (!empty($_SERVER["HTTP_CLIENT_IP"])) :
+                    $client_ip = !empty($_SERVER["HTTP_CLIENT_IP"]) ?
+                        $_SERVER["HTTP_CLIENT_IP"] :
+                        (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '');
+                    if (!empty($client_ip)) :
                     ?>
                     <div class="info">
-                        <span class="info-label">Ping 客户端主机<?php echo $_SERVER["HTTP_CLIENT_IP"]; ?></span>
-                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'<?php echo $_SERVER["HTTP_CLIENT_IP"]; ?>')">Run</a></span>
+                        <span class="info-label">Ping 客户端主机<?php echo $client_ip; ?></span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'<?php echo $client_ip; ?>')">Run</a></span>
                     </div>
                     <?php
                     endif;
