@@ -431,8 +431,20 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                     <div class="info-clear"></div>
 
                     <div class="info">
-                        <span class="info-label">计算PI</span>
-                        <span class="info-content"><a href="javascript:" onclick="pingPi(this)">Run</a></span>
+                        <span class="info-label">计算PI(5M)</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingPi(this, 50000000)">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">计算PI(10M)</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingPi(this, 100000000)">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">计算PI(50M)</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingPi(this, 500000000)">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">计算PI(100M)</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingPi(this, 1000000000)">Run</a></span>
                     </div>
                     <div class="info-clear"></div>
 
@@ -465,7 +477,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
                     </div>
                     <div class="info-clear"></div>
-                    
+
                     <div class="info">
                         <span class="info-label">Ping Google</span>
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.google.com')">Run</a></span>

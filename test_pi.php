@@ -17,7 +17,7 @@ $pi = 4;
 $top = 4;
 $bot = 3;
 $minus = true;
-$accuracy = 100000000;
+$accuracy = !empty($_REQUEST['accuracy']) ? intval($_REQUEST['accuracy']) : 100000000;
 
 for ($i = 0; $i < $accuracy; $i++) {
 	$pi += ($minus ? -($top / $bot) : ($top / $bot));

@@ -858,12 +858,12 @@ function pingTest(_this, ip) {
     });
 }
 
-function pingPi(_this) {
+function pingPi(_this, accuracy) {
     _this.textContent="…";
     $.ajax({
         type: "POST",
         url: "test_pi.php",
-        data: {password: password},
+        data: {password: password, accuracy:accuracy},
         dataType: "json",
         success: function(data){
             _this.textContent=data.time;
