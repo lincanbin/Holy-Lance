@@ -465,6 +465,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
                     </div>
                     <div class="info-clear"></div>
+                    
                     <div class="info">
                         <span class="info-label">Ping Google</span>
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.google.com')">Run</a></span>
@@ -487,6 +488,77 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                     </div>
                     <div class="info-clear"></div>
 
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云华北1青岛</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-cn-qingdao.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云华北2北京</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-cn-beijing.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云华北3张家口</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-cn-zhangjiakou.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云华北5呼和浩特</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-cn-huhehaote.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info-clear"></div>
+
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云华南1深圳</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-cn-shenzhen.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云华东1杭州</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-cn-hangzhou.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云华东2上海</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-cn-shanghai.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云香港</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-cn-hongkong.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info-clear"></div>
+
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云亚太东南1新加坡</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-ap-southeast-1.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云亚太东南2悉尼</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-ap-southeast-2.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云亚太东南3吉隆坡</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-ap-southeast-3.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云亚太东北1日本</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-ap-northeast-1.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info-clear"></div>
+
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云美西1硅谷</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-us-west-1.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云美东1弗吉尼亚</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-us-east-1.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云中欧1法兰克福</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-eu-central-1.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 阿里云中东1迪拜</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'oss-me-east-1.aliyuncs.com')">Run</a></span>
+                    </div>
+                    <div class="info-clear"></div>
                 </div>
                 <div class="info_block">
 
