@@ -457,6 +457,15 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.baidu.com')">Run</a></span>
                     </div>
                     <div class="info">
+                        <span class="info-label">Ping GitHub</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.github.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping 114</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
+                    </div>
+                    <div class="info-clear"></div>
+                    <div class="info">
                         <span class="info-label">Ping Google</span>
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.google.com')">Run</a></span>
                     </div>
@@ -465,12 +474,16 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                         <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.youtube.com')">Run</a></span>
                     </div>
                     <div class="info">
-                        <span class="info-label">Ping GitHub</span>
-                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.github.com')">Run</a></span>
+                        <span class="info-label">Ping Twitter</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.twitter.com')">Run</a></span>
                     </div>
                     <div class="info">
-                        <span class="info-label">Ping 114</span>
-                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
+                        <span class="info-label">Ping FaceBook</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.facebook.com')">Run</a></span>
+                    </div>
+                    <div class="info">
+                        <span class="info-label">Ping WikiPedia</span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'www.wikipedia.org')">Run</a></span>
                     </div>
                     <div class="info-clear"></div>
 
