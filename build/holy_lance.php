@@ -128,9 +128,12 @@ try {
 $err_no = null;
 $err_str = null;
 $ts1 = microtime(true);
-$fp = stream_socket_client("tcp://" . $host . ":" . $port, $err_no, $err_str, 1);
+$fp = stream_socket_client("tcp://" . $host . ":" . $port, $err_no, $err_str, 3);
 $ts2 = microtime(true);
 $result = round(($ts2 - $ts1) * 1000, 2) . ' ms';
+if ($fp === false) {
+$result = 'Timeout';
+}
 fclose($fp);
 } catch (Exception $exception) {
 $result = 'Timeout';
@@ -1547,12 +1550,13 @@ function diskTest() {
     });
 }
 
-function pingTest(_this, ip) {
+function pingTest(_this, ip, port) {
+    port = (typeof port === 'undefined') ? 80 : port;
     _this.textContent="…";
     $.ajax({
         type: "POST",
         url: "holy_lance.php?file=test_ping.php",
-        data: {password: password, ip: ip},
+        data: {password: password, ip: ip, port: port},
         dataType: "json",
         success: function(data){
             _this.textContent=data.result;
@@ -1974,6 +1978,7 @@ $port = intval($_REQUEST['port']);
 }
 if (php_sapi_name() === "cli") {
 $ip = '8.8.8.8';// For debug only
+$port = 53;
 } else {
 if (!empty($_REQUEST['ip'])) {
 if (filter_var($_REQUEST['ip'], FILTER_VALIDATE_IP) !== false) {
@@ -2470,7 +2475,7 @@ endif;
                     </div>
                     <div class="info">
                         <span class="info-label">Ping 114</span>
-                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114',53)">Run</a></span>
                     </div>
                     <div class="info-clear"></div>
 

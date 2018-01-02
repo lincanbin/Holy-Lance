@@ -126,9 +126,12 @@ function ping_without_root($host, $port)
 		$err_no = null;
 		$err_str = null;
 		$ts1 = microtime(true);
-		$fp = stream_socket_client("tcp://" . $host . ":" . $port, $err_no, $err_str, 1);
+		$fp = stream_socket_client("tcp://" . $host . ":" . $port, $err_no, $err_str, 3);
 		$ts2 = microtime(true);
 		$result = round(($ts2 - $ts1) * 1000, 2) . ' ms';
+		if ($fp === false) {
+			$result = 'Timeout';
+		}
 		fclose($fp);
 	} catch (Exception $exception) {
 		$result = 'Timeout';
