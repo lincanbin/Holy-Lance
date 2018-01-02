@@ -8,8 +8,13 @@ header('Content-type: application/json');
 check_password();
 
 $ip = '';
+$port = 80;
+if (!empty($_REQUEST['port'])) {
+	$port = intval($_REQUEST['port']);
+}
 if (php_sapi_name() === "cli") {
-	$ip = '8.8.8.8';// For debug onlu
+	$ip = '8.8.8.8';// For debug only
+	$port = 53;
 } else {
 	if (!empty($_REQUEST['ip'])) {
 		if (filter_var($_REQUEST['ip'], FILTER_VALIDATE_IP) !== false) {
@@ -23,7 +28,7 @@ if (php_sapi_name() === "cli") {
 	}
 }
 if ($ip) {
-	echo json_encode(array('status' => true, 'ip' => $ip, 'result' => ping($ip)));
+	echo json_encode(array('status' => true, 'ip' => $ip, 'result' => ping($ip, $port)));
 } else {
 	echo json_encode(array('status' => false, 'result' => 'Invalid IP'));
 }

@@ -474,7 +474,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
                     </div>
                     <div class="info">
                         <span class="info-label">Ping 114</span>
-                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114')">Run</a></span>
+                        <span class="info-content"><a href="javascript:" onclick="pingTest(this,'114.114.114.114',53)">Run</a></span>
                     </div>
                     <div class="info-clear"></div>
 

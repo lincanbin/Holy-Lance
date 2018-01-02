@@ -99,10 +99,14 @@ return true;
 
 // 创建row socket 需要root权限，所以用root账户在CLI下运行可以成功，用www用户在fpm下运行可能会失败，但是不会报错
 // 需要root权限运行则要php-fpm -R运行
-function ping($host)
+// 目前针对没有root权限做了一套临时的兼容方案
+function ping($host, $port = 80)
 {
 $protocolNumber = getprotobyname('icmp');
 $socket = socket_create(AF_INET, SOCK_RAW, $protocolNumber);
+if ($socket === false) {// 没有Root权限，开启Raw socket失败，用TCP协议ping
+return ping_without_root($host, $port);
+}
 socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 1, 'usec' => 0));
 socket_connect($socket, $host, 0);
 $package = "\x08\x00\x19\x2f\x00\x00\x00\x00\x70\x69\x6e\x67";
@@ -118,6 +122,21 @@ socket_close($socket);
 return $result;
 }
 
+function ping_without_root($host, $port)
+{
+try {
+$err_no = null;
+$err_str = null;
+$ts1 = microtime(true);
+$fp = stream_socket_client("tcp://" . $host . ":" . $port, $err_no, $err_str, 1);
+$ts2 = microtime(true);
+$result = round(($ts2 - $ts1) * 1000, 2) . ' ms';
+fclose($fp);
+} catch (Exception $exception) {
+$result = 'Timeout';
+}
+return $result;
+}
 ?><?php
 if (!empty($_GET["file"]) && $_GET["file"] == "api.php"):
 ?><?php
@@ -1949,8 +1968,12 @@ header('Content-type: application/json');
 check_password();
 
 $ip = '';
+$port = 80;
+if (!empty($_REQUEST['port'])) {
+$port = intval($_REQUEST['port']);
+}
 if (php_sapi_name() === "cli") {
-$ip = '8.8.8.8';// For debug onlu
+$ip = '8.8.8.8';// For debug only
 } else {
 if (!empty($_REQUEST['ip'])) {
 if (filter_var($_REQUEST['ip'], FILTER_VALIDATE_IP) !== false) {
@@ -1964,7 +1987,7 @@ $ip = '';
 }
 }
 if ($ip) {
-echo json_encode(array('status' => true, 'ip' => $ip, 'result' => ping($ip)));
+echo json_encode(array('status' => true, 'ip' => $ip, 'result' => ping($ip, $port)));
 } else {
 echo json_encode(array('status' => false, 'result' => 'Invalid IP'));
 }

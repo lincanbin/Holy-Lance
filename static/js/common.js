@@ -845,12 +845,13 @@ function diskTest() {
     });
 }
 
-function pingTest(_this, ip) {
+function pingTest(_this, ip, port) {
+    port = (typeof port === 'undefined') ? 80 : port;
     _this.textContent="…";
     $.ajax({
         type: "POST",
         url: "test_ping.php",
-        data: {password: password, ip: ip},
+        data: {password: password, ip: ip, port: port},
         dataType: "json",
         success: function(data){
             _this.textContent=data.result;
