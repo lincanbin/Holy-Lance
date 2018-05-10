@@ -46,6 +46,8 @@ If you want to modify the file name, you must rebuild it:
 
 ![Network](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339435898.png)
 
+![Test](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1479270760349.png)
+
 ![Process](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339450668.png)
 
 ![Information](https://raw.githubusercontent.com/lincanbin/Holy-Lance/master/screenshot/screencapture-ipv4-94cb-Holy-Lance-1474339466029.png)
