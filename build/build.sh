@@ -1,4 +1,7 @@
 #!/bin/bash
-echo Enter the file name of the Lance Holy you want: 
+echo Enter the file name of the Lance Holy you want(Default: holy_lance): 
 read file_name
-php build -n $file_name
+file_name=${file_name:-holy_lance}
+echo Enter the password of the Lance Holy you want(No password is required by default): 
+read pw
+php build -n $file_name -p $pw

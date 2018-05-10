@@ -11,8 +11,9 @@
  * 
  * A Linux environmental probe.
  */
-$args = getopt('n:');
-$build_file_name = trim(!empty($args['n']) ? $args['n'] : "");
+$args = getopt('n:p:');
+$build_file_name = trim(!empty($args['n']) ? trim($args['n']) : "");
+$password = trim(!empty($args['p']) ? trim($args['p']) : "");
 if (!empty($build_file_name)) {
 	define("BUILD_FILE_NAME", $build_file_name . ".php");
 } else {
@@ -94,6 +95,7 @@ if ($common_file === '') {
 fwrite($fp, '<?php
 define("HAS_BEEN_COMPILED", true);
 ?>');
+$common_file['content'] = str_replace("define('HOLY_LANCE_PASSWORD', '');", "define('HOLY_LANCE_PASSWORD', '" . $password . "');", $common_file['content']);
 fwrite($fp, $common_file['content']);
 unset($file_buffer[COMMON_FILE_NAME]);
 foreach ($file_buffer as $file_name => $file) {
@@ -113,7 +115,8 @@ exit();
 endif;
 ?>');
 }
+
 fwrite($fp, $entry_file['content']);
 fclose($fp);
 
-echo "\n\n" . BUILD_FILE_NAME . " has been generated! \n\n\n";
+echo "\n\n" . BUILD_FILE_NAME . " has been generated! \npssword: " . $password . "\n\n";
