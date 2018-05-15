@@ -148,7 +148,7 @@ if (!empty($process_list)) {
 	$process_map = array();
 	foreach ($process_list as $key => $value) {
 		$temp = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 11);
-        $temp[8] = convert_timestamp_2_string($current_timestamp - intval($temp[8]));
+        $temp[8] = convert_timestamp_2_string($temp[8]);
         $process_map[] = $temp;
 	}
 	$system_info['process'] = $process_map;
