@@ -41,7 +41,8 @@ $system_info = array(
 		'CLOSING' => 0,
 		'UNKNOWN' => 0
 	),
-	'process' => array()
+	'process' => array(),
+	'disk_free' => array()
 );
 $system_info['load'] = sys_getloadavg();
 
@@ -150,6 +151,19 @@ if (!empty($process_list)) {
 	$system_info['process'] = $process_map;
 }
 unset($process_list);
+
+// disk_free
+$disk_free_list = array();
+exec("df -T", $disk_free_list); //  --sort=time
+if (!empty($disk_free_list)) {
+	unset($disk_free_list[0]);
+	$disk_free_map = array();
+	foreach (array_reverse($disk_free_list) as $key => $value) {
+		$disk_free_map[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 7);
+	}
+	$system_info['disk_free'] = $disk_free_map;
+}
+unset($disk_free_list);
 
 // network service
 $temp_network_service_list = array();
