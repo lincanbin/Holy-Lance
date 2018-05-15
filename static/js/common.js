@@ -637,6 +637,29 @@ function drawProcessTable(processData, formatData) {
 	$("th:eq(" + window.processSortedBy + ")").attr("class", "selected-col-" + window.processOrder);
 }
 
+
+function drawDiskFreeTable(diskFreeData, formatData) {
+	// Process if ($("#cpu_usage").is(":visible")) {
+	$("#DiskFree").empty();
+	if (formatData) {
+		for (var key in diskFreeData) {
+			diskFreeData[key][2] = kibiBytesToSize(diskFreeData[key][2]);
+			diskFreeData[key][3] = kibiBytesToSize(diskFreeData[key][3]);
+			diskFreeData[key][4] = kibiBytesToSize(diskFreeData[key][4]);
+		}	
+	}
+	diskFreeData.unshift([
+		"文件系统",
+		"类型",
+		"容量",
+		"已用",
+		"可用",
+		"使用率",
+		"挂载点"
+	]);
+	$.jsontotable(diskFreeData, { id: '#DiskFree', header: true });
+}
+
 function drawChart(data) {
 	$("#cpu_usage_info").text(data.cpu_usage + "%");
 	$("#process_number").text(data.process_number);
@@ -804,6 +827,10 @@ function drawChart(data) {
 	// Process
 	if ($("#Process").is(":visible")) {
 		drawProcessTable(data.process, true);
+	}
+	// DiskFree
+	if ($("#DiskFree").is(":visible")) {
+		drawDiskFreeTable(data.disk_free, true);
 	}
 }
 function refreshChart() {

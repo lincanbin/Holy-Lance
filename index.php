@@ -40,6 +40,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 	<ul class="resp-tabs-list main">
 		<li>性能</li>
 		<li>进程</li>
+		<li>磁盘</li>
 		<li>环境</li>
 		<li>测试</li>
 		<li>关于</li>
@@ -230,6 +231,9 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 
 		</div>
 		<div id="Process">
+		</div>
+
+		<div id="DiskFree">
 		</div>
 
 		<div>
