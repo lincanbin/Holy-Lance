@@ -646,7 +646,6 @@ function drawDiskFreeTable(diskFreeData) {
 		diskFreeData[key][3] = kibiBytesToSize(diskFreeData[key][3]);
 		diskFreeData[key][4] = kibiBytesToSize(diskFreeData[key][4]);
 	}
-	diskFreeData.reverse();
 	diskFreeData.unshift([
 		"文件系统",
 		"类型",
