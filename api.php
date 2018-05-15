@@ -145,7 +145,7 @@ exec("ps auxw", $process_list); //  --sort=time
 if (!empty($process_list)) {
 	unset($process_list[0]);
 	$process_map = array();
-	foreach (array_reverse($process_list) as $key => $value) {
+	foreach ($process_list as $key => $value) {
 		$process_map[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 11);
 	}
 	$system_info['process'] = $process_map;
@@ -158,7 +158,7 @@ exec("df -T", $disk_free_list); //  --sort=time
 if (!empty($disk_free_list)) {
 	unset($disk_free_list[0]);
 	$disk_free_map = array();
-	foreach (array_reverse($disk_free_list) as $key => $value) {
+	foreach ($disk_free_list as $key => $value) {
 		$disk_free_map[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 7);
 	}
 	$system_info['disk_free'] = $disk_free_map;

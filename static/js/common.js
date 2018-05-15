@@ -638,16 +638,15 @@ function drawProcessTable(processData, formatData) {
 }
 
 
-function drawDiskFreeTable(diskFreeData, formatData) {
+function drawDiskFreeTable(diskFreeData) {
 	// Process if ($("#cpu_usage").is(":visible")) {
 	$("#DiskFree").empty();
-	if (formatData) {
-		for (var key in diskFreeData) {
-			diskFreeData[key][2] = kibiBytesToSize(diskFreeData[key][2]);
-			diskFreeData[key][3] = kibiBytesToSize(diskFreeData[key][3]);
-			diskFreeData[key][4] = kibiBytesToSize(diskFreeData[key][4]);
-		}	
+	for (var key in diskFreeData) {
+		diskFreeData[key][2] = kibiBytesToSize(diskFreeData[key][2]);
+		diskFreeData[key][3] = kibiBytesToSize(diskFreeData[key][3]);
+		diskFreeData[key][4] = kibiBytesToSize(diskFreeData[key][4]);
 	}
+	diskFreeData.reverse();
 	diskFreeData.unshift([
 		"文件系统",
 		"类型",
@@ -825,12 +824,12 @@ function drawChart(data) {
 		}
 	}
 	// Process
-	if ($("#Process").is(":visible")) {
+	if ($("#Process").is(":visible") || $("#Process").children().length === 0) {
 		drawProcessTable(data.process, true);
 	}
 	// DiskFree
-	if ($("#DiskFree").is(":visible")) {
-		drawDiskFreeTable(data.disk_free, true);
+	if ($("#DiskFree").is(":visible") || $("#DiskFree").children().length === 0) {
+		drawDiskFreeTable(data.disk_free);
 	}
 }
 function refreshChart() {
