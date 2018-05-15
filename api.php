@@ -141,12 +141,14 @@ $system_info['process_number'] = $process_number[0];
 unset($process_number);
 
 $process_list = array();
-exec("ps auxw", $process_list); //  --sort=time
+exec("ps --no-headers -eo user,pid,%cpu,%mem,vsz,rss,tty,stat,etimes,cputime,cmd", $process_list); //  --sort=time
 if (!empty($process_list)) {
-	unset($process_list[0]);
+    $current_timestamp = time();
+	//unset($process_list[0]);
 	$process_map = array();
 	foreach ($process_list as $key => $value) {
 		$process_map[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 11);
+        $process_map[8] = convert_timestamp_2_string($current_timestamp - intval($process_map[8]));
 	}
 	$system_info['process'] = $process_map;
 }
