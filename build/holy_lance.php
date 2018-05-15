@@ -185,7 +185,8 @@ $system_info = array(
 'CLOSING' => 0,
 'UNKNOWN' => 0
 ),
-'process' => array()
+'process' => array(),
+'disk_free' => array()
 );
 $system_info['load'] = sys_getloadavg();
 
@@ -288,12 +289,25 @@ exec("ps auxw", $process_list); //  --sort=time
 if (!empty($process_list)) {
 unset($process_list[0]);
 $process_map = array();
-foreach (array_reverse($process_list) as $key => $value) {
+foreach ($process_list as $key => $value) {
 $process_map[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 11);
 }
 $system_info['process'] = $process_map;
 }
 unset($process_list);
+
+// disk_free
+$disk_free_list = array();
+exec("df -T", $disk_free_list); //  --sort=time
+if (!empty($disk_free_list)) {
+unset($disk_free_list[0]);
+$disk_free_map = array();
+foreach ($disk_free_list as $key => $value) {
+$disk_free_map[] = explode(" ", preg_replace("/\s(?=\s)/","\\1", $value), 7);
+}
+$system_info['disk_free'] = $disk_free_map;
+}
+unset($disk_free_list);
 
 // network service
 $temp_network_service_list = array();
@@ -1342,6 +1356,28 @@ drawProcessTable(processData ,false);
 $("th:eq(" + window.processSortedBy + ")").attr("class", "selected-col-" + window.processOrder);
 }
 
+
+function drawDiskFreeTable(diskFreeData) {
+// Process if ($("#cpu_usage").is(":visible")) {
+$("#DiskFree").empty();
+for (var key in diskFreeData) {
+diskFreeData[key][2] = kibiBytesToSize(diskFreeData[key][2]);
+diskFreeData[key][3] = kibiBytesToSize(diskFreeData[key][3]);
+diskFreeData[key][4] = kibiBytesToSize(diskFreeData[key][4]);
+}
+diskFreeData.reverse();
+diskFreeData.unshift([
+"文件系统",
+"类型",
+"容量",
+"已用",
+"可用",
+"使用率",
+"挂载点"
+]);
+$.jsontotable(diskFreeData, { id: '#DiskFree', header: true });
+}
+
 function drawChart(data) {
 $("#cpu_usage_info").text(data.cpu_usage + "%");
 $("#process_number").text(data.process_number);
@@ -1507,8 +1543,12 @@ window.networkUsageChart[window.env.network[eth]].setOption(networkUsageChartopt
 }
 }
 // Process
-if ($("#Process").is(":visible")) {
+if ($("#Process").is(":visible") || $("#Process").children().length === 0) {
 drawProcessTable(data.process, true);
+}
+// DiskFree
+if ($("#DiskFree").is(":visible") || $("#DiskFree").children().length === 0) {
+drawDiskFreeTable(data.disk_free);
 }
 }
 function refreshChart() {
@@ -2041,6 +2081,7 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 <ul class="resp-tabs-list main">
 <li>性能</li>
 <li>进程</li>
+<li>磁盘</li>
 <li>环境</li>
 <li>测试</li>
 <li>关于</li>
@@ -2231,6 +2272,9 @@ if (defined('HAS_BEEN_COMPILED') === false) {
 
 </div>
 <div id="Process">
+</div>
+
+<div id="DiskFree">
 </div>
 
 <div>
